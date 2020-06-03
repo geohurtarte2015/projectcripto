@@ -1247,11 +1247,7 @@
 	               },
 	           	success: function (json) {
 	          	
-     				
-	           	
-	           	    //$('#logoutModal').modal('hide');
-	           
-
+     				//oculta spinner y habilita el scroll
 	           		$('#spinner').modal('hide');
 	           		$('.modal').css('overflow-y', 'auto');
 	           		
@@ -1283,16 +1279,13 @@
 	           		lastGlobal = json.apellido;
 	         		
 	           	
-	           		
+	           	 //remueve lo restante del modal oculto	
           	     $('#spinner').removeClass('show');	
-	           	 $('#viewUserModal').modal('show');  
+	           	 
+	           	 //muestra el modal
+	             $('#viewUserModal').modal('show');
+	        
 	   
-	           	
- 	           	$('#viewUserModal').on('show.bs.modal', function () {
- 	           		$('#spinner').removeClass('show');	           		
-	           	})
-	         
-	        	
 	           	    
 	               }
 	       	 });
@@ -1301,14 +1294,17 @@
     } );
 	    
 	    $("#cancelarUsuario").click(function(){
-	        $('#spinner').modal('hide');
-	    	$('#spinner').removeClass('show');
-	    	$('#viewUserModal').modal('hide');
-	    	$('#viewUserModal').removeClass('show');
+			closeModal(); 
+	   }); 
+	    
+	   function closeModal(){
+	        $('.modal').modal('hide'); //oculta los modal
+	    	$('.modal').removeClass('show');  //oculta los modal con visualizacion 
 	    	$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
 	    	$('.modal-backdrop').remove();//eliminamos el backdrop del modal    
-	    }); 
-	    
+	   }
+	   
+
 	
 	    
 
