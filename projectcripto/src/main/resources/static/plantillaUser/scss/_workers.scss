@@ -1,0 +1,84 @@
+/* Our Workers Area css
+============================================================================================ */
+.our_workers_area{
+    background: #f1f1f1;
+    .section_title{
+        
+    }
+}
+.workers_item{
+    text-align: center;
+    .workers_img{
+        position: relative;
+        z-index: 2;
+        height: 182px;
+        width: 182px;
+        border-radius: 50%;
+        margin: auto;
+        &:before{
+            content: "";
+            background: rgba(0, 0, 0, .60);
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            height: 182px;
+            width: 182px;
+            border-radius: 50%;
+            z-index: 1;
+            opacity: 0;
+            @include transition;
+        }
+        ul{
+            position: absolute;
+            left: 0px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            width: 100%;
+            z-index: 2;
+            opacity: 0;
+            @include transition;
+            li{
+                display: inline-block;
+                margin-right: 16px;
+                a{
+                    color: #fff; 
+                    font-size: 20px;
+                }
+                &:last-child{
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+    h4{
+        font-size: 14px;
+        color: $dip;
+        font-family: $mon;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 25px 0px 8px 0px;
+        @include transition;
+    }
+    h6{
+        font-size: 15px;
+        font-family: $pop;
+        font-weight: bold;
+        letter-spacing: .45px;
+    }
+    &:hover{
+        h4{
+            color: $baseColor;
+        }
+        .workers_img{
+            &:before{
+               opacity: 1;
+            }  
+            ul{
+                opacity: 1; 
+            }
+        }
+    }    
+}
+/* End Our Workers Area css
+============================================================================================ */

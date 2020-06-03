@@ -1,0 +1,33 @@
+/*font Variables*/
+$mon: 'Montserrat', sans-serif;
+$pop: 'Poppins', sans-serif;
+$open: 'Open Sans', sans-serif;
+/*Color Variables*/
+
+$baseColor: #fab915;
+$dip: #242424;
+//$gray: #757575;
+$pfont: #848484;
+
+
+
+// Mixins
+@mixin transition($property: all, $duration: 400ms, $animate: linear, $delay:0s){
+    transition: $property $duration $animate $delay; 
+}
+
+// Placeholder Mixins
+@mixin placeholder {
+  &.placeholder { @content; }
+  &:-moz-placeholder { @content; }
+  &::-moz-placeholder { @content; }
+  &::-webkit-input-placeholder { @content; }
+}
+
+// Font family link
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700|Open+Sans:300,400,600,700|Poppins:300,400,500,600,700');
+
+//@font-face {
+//    font-family: "ralH";
+//    src: url(../fonts/theme-font/Arial.ttf.woff);
+//}

@@ -1,0 +1,172 @@
+/* Team Area css
+============================================================================================ */
+.team_area{
+    
+}
+.team_slider{
+    .owl-dots{
+        text-align: center;
+        margin-top: 50px;
+        .owl-dot{
+            height: 15px;
+            width: 15px;
+            border: 1px solid $baseColor;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            &:last-child{
+                margin-right: 0px;
+            }
+            &.active{
+                background: $baseColor;
+            }
+        }
+    }
+}
+.team_item{
+    overflow: hidden;
+    position: relative;
+    &:before{
+        content: "";
+        left: 0px;
+        bottom: 0px;
+        width: 100%;
+        height: 0;
+        background: rgba(0, 0, 0, .5);
+        position: absolute;
+        transition: all 600ms linear;
+    }
+    .team_hover{
+        text-align: center;
+        position: absolute;
+        left: 0px;
+        bottom: -39px;
+        width: 100%;
+        padding: 15px 0px;
+        background: $baseColor;
+        transition: all 200ms ease-out;
+        h3{
+            color: $dip;
+            font-family: $mon;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        p{
+            color: #fff;
+            font-size: 14px;
+            font-family: $mon;
+            padding: 5px 0px 5px 0px;
+            opacity: 0;
+            transition: all 600ms linear;
+        }
+        ul{
+            li{
+                display: inline-block;
+                margin-right: 3px;
+                a{
+                    height: 30px;
+                    width: 30px;
+                    border: 1px solid #fff;
+                    text-align: center;
+                    line-height: 20px;
+                    border-radius: 50%;
+                    display: inline-block;
+                    line-height: 29px;
+                    color: $dip;
+                }
+                &:last-child{
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+    .team_social{
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 42%;
+        left: 0px;
+        transform: scale(0);
+        margin-top: -25px;
+        opacity: 0;
+        ul{
+            li{
+                display: inline-block;
+                margin-right: 10px;
+                &:last-child{
+                    margin-right: 0px;
+                }
+                a{
+                    color: #fff;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+    &:hover{
+        .team_hover{
+            bottom: 0px;
+            p{
+                opacity: 1;
+            }
+        }
+        .team_social{
+            transform: scale(1);
+            opacity: 1;
+            transition: all 700ms linear;
+        }
+        &:before{
+            height: 100%;
+        }
+    }
+}
+
+/* End Team Area css
+============================================================================================ */
+
+/* About Team area css
+============================================================================================ */
+.about_team_area{
+    background: #f0f0f0;
+    padding: 75px 0px 80px 0px;
+}
+.about_team_inner{
+    .about_team_img{
+        @include transition;
+        img{
+            width: 100%;
+            @include transition;
+        }
+    }
+    .team_detail{
+        background: #fff;
+        text-align: center;
+        padding: 20px 0px;
+        @include transition;
+        h3{
+            font-size: 16px;
+            font-family: $mon;
+            color: #000;
+            padding-bottom: 6px;
+        }
+        h4{
+            font-size: 12px;
+            font-family: $pop;
+            color: $baseColor;
+        }
+    }
+    &:hover{
+        .team_detail{
+            background: $baseColor;
+            h3{
+                color: #fff;
+            }
+            h4{
+                color: #fff;
+            }
+        }
+    }
+}
+/* End About Team area css
+============================================================================================ */

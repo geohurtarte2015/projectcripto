@@ -1,0 +1,157 @@
+/* Coin Calculato Area css
+============================================================================================ */
+.coin_calculator{
+	max-width: 500px;
+	position: relative;
+	margin-top: 60px;
+	.HS1mainContainer{
+		tbody{
+			tr{
+				position: relative;
+				&:last-child{
+					display: none;
+				}
+				td{
+					&.HS1label{
+						display: none;
+						width: 0px !important;
+					}
+					&:nth-child(2){
+						position: absolute;
+						right: 0px;
+						top: 0px;
+						opacity: 1;
+						width: 42%;
+						.nice-select.HS1selectBox{
+							border-radius: 0px;
+							border: none;
+							.current{
+								padding-left: 10px;
+								font-size: 16px;
+								font-family: $mon;
+								position: relative;
+								top: 1px;
+							}
+							.list{
+								max-height: 300px;
+								overflow-y: scroll;
+							}
+						}
+					}
+					&:nth-child(3){
+						position: absolute;
+						left: 0px;
+						top: 0px;
+						width: 20%;
+						.HS1textarea{
+							width: 100% !important;
+							display: block;
+							text-align: center;
+							box-shadow: none;
+							height: 40px;
+							border: 1px solid #fff;
+							background: transparent;
+							padding: 0px 15px;
+							outline: none;
+							font-size: 18px;
+							color: $dip !important;
+							font-family: $mon;
+							@include placeholder{
+								font-size: 18px;
+								color: $dip;
+								font-family: $mon;
+							}
+						}
+					}
+					&:nth-child(4){
+						position: absolute;
+						left: 20.6%;
+						top: 0px;
+						width: 4%;
+						&:before{
+							content: "=";
+							color: #fff;
+							font-family: $mon;
+							position: relative;
+							top: 6px;
+							font-size: 20px;
+							font-weight: 300;
+						}
+						.HS1label{
+							display: none;
+						}
+					}
+					&:nth-child(5){
+						position: absolute;
+						left: 25%;
+						top: 0px;
+						width: 32%;
+						.HS1textarea{
+							width: 100% !important;
+							display: block;
+							text-align: center;
+							box-shadow: none;
+							height: 40px;
+							border: 1px solid #fff;
+							background: transparent;
+							padding: 0px 15px;
+							outline: none;
+							resize: none;
+							line-height: 40px;
+							font-size: 18px;
+							color: $dip !important;
+							font-family: $mon;
+							@include placeholder{
+								font-size: 18px;
+								color: $dip !important;
+								font-family: $mon;
+							}
+						}
+					}
+					&:last-child{
+						display: none;
+					}
+				}
+			}
+		}
+	}
+}
+/* End Coin Calculato Area css
+============================================================================================ */
+
+/* Price Chart Area css
+============================================================================================ */
+.price_chart_area{
+	.ccc-widget.ccc-chart-v3{
+		.tabContainer{
+			.cryptocompare-logo{
+				display: none;
+			}
+		}
+	}
+}
+
+.bitcoin_table_area{
+	padding-bottom: 100px;
+	.ccc-widget.ccc-histo-week{
+		.histoRow{
+			border-bottom: none;
+			&:nth-child(2){
+				background: $baseColor !important;
+				color: #fff;
+			}
+			&:nth-child(even){
+				background: #cbcbcb59;
+			}
+		}
+	}
+}
+
+.bitcoin_table_area{
+	.btcwdgt-chart{
+		max-width: 100% !important;
+	}
+}
+
+/* End Price Chart Area css
+============================================================================================ */

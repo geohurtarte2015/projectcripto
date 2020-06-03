@@ -1,0 +1,783 @@
+/* Small Feature Area css
+============================================================================================ */
+.small_feature_area{
+    
+}
+.small_feature_inner{
+    .media{
+        .d-flex{
+            padding-right: 30px;
+            h3{
+                color: $dip;
+                font-family: $mon;
+                font-weight: 600;
+                font-size: 48px;
+                position: relative;
+                &:before{
+                    content: "";
+                    height: 30px;
+                    width: 2px;
+                    background: $baseColor;
+                    position: absolute;
+                    right: -16px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+            }
+        }
+        .media-body{
+            align-self: center;
+            vertical-align: middle;
+            p{
+                font-family: $open;
+                font-size: 20px;
+                color: $pfont;
+                line-height: 28px;
+            }
+        }
+    }
+}
+
+/* End Small Feature Area css
+============================================================================================ */
+
+/* End Small Feature Area css
+============================================================================================ */
+.choose_bitcoin_area{
+    background: #f5f5f5;
+}
+.choose_bit_inner{
+    margin-bottom: -30px;
+}
+.choose_botcoin_item{
+    background: #fff;
+    text-align: center;
+    padding: 50px 30px;
+    position: relative;
+    margin-bottom: 30px;
+    &:before{
+        content: "";
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 120px 120px 0;
+        border-color: transparent #f5f5f5 transparent transparent;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+    }
+    i{
+        font-size: 60px;
+        line-height: 90px;
+        color: $baseColor;
+        &:before{
+            font-size: 60px;
+        }
+    }
+    h4{
+        padding: 20px 0px 10px 0px;
+        color: $dip;
+        font-family: $mon;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        @include transition;
+        &:hover{
+            color: $baseColor;
+        }
+    }
+    p{
+        font-size: 14px;
+        font-family: $open;
+        line-height: 26px;
+        color: $pfont;
+    }
+}
+
+/* End Small Feature Area css
+============================================================================================ */
+
+/* End Small Feature Area css
+============================================================================================ */
+.bitcoin_about_area{
+    
+}
+.bitcoin_about_img{
+    height: 100%;
+    width: 100%;
+}
+.bit_about_text{
+    padding-left: 30px;
+    p{
+        font-size: 14px;
+        font-family: $open;
+        line-height: 26px;
+        color: $pfont;
+        padding-top: 30px;
+    }
+}
+.our_skill_inner{
+    margin-top: 40px;
+    .single_skill{
+        margin-bottom: 20px;
+        h3{
+            font-size: 16px;
+            color: $dip;
+            font-weight: bold;
+            font-family: $mon;
+            padding-bottom: 10px;
+        }
+        .progress{
+            border-radius: 0px;
+            height: 20px;
+            .progress-bar{
+                background: $baseColor;
+                .progress_parcent{
+                    font-size: 16px;
+                    font-family: $mon;
+                }
+            }
+        }
+        &:last-child{
+            margin-bottom: 0px;
+        }
+    }
+}
+
+.count_countries_area{
+    overflow: hidden;
+    margin-top: 50px;
+    .count_countries_item{
+        width: calc(100% / 3);
+        float: left;
+        overflow: hidden;
+        text-align: center;
+        i{
+            font-size: 60px;
+            color: $baseColor;
+        }
+        h3{
+            font-size: 16px;
+            font-family: $mon;
+            font-weight: bold;
+            color: $dip;
+            padding: 20px 0px 10px 0px;
+        }
+        h4{
+            font-size: 24px;
+            font-family: $mon;
+            font-weight: bold;
+            color: $dip;
+        }
+    }
+}
+
+
+
+.bitcion_feature_area{
+    background: #f5f5f5;
+}
+.bit_feature_inner{
+    margin-bottom: -50px;
+    .media{
+        margin-bottom: 50px;
+        .d-flex{
+            padding-right: 20px;
+            i{
+                font-size: 50px;
+                color: $baseColor;
+				line-height: 50px;
+				&:before{
+					font-size: 50px;
+				}
+            }
+        }
+        .media-body{
+            h4{
+                font-size: 16px;
+                text-transform: uppercase;
+                font-family: $mon;
+                font-weight: bold;
+                color: $dip;
+                padding-bottom: 12px;
+            }
+            p{
+                color: $pfont;
+                font-family: $open;
+                font-size: 14px;
+                line-height: 26px;
+            }
+        }
+    }
+}
+
+/* End Small Feature Area css
+============================================================================================ */
+
+/* Gain Coin Area css
+============================================================================================ */
+.why_gain_bitcoin{
+    background: #f5f5f5;
+    overflow: hidden;
+}
+.gain_coin_inner{
+    
+}
+.gain_coin_round{
+    min-height: 580px;
+    width: 100%;
+    border-radius: 50%;
+    background: $baseColor;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    .g_coin_r_item{
+        position: absolute;
+        top: 50%;
+        left: 0px;
+        width: 100%;
+        opacity: 0;
+        transform: translateY(-50%);
+        z-index: 1;
+        @include transition;
+        background: $baseColor;
+        &:first-child{
+            opacity: 1;
+        }
+        h4{
+            color: #fff;
+            font-family: $mon;
+            font-size: 28px;
+            font-weight: bold;
+            padding-bottom: 15px;
+        }
+        p{
+            max-width: 300px;
+            margin: auto;
+            font-size: 14px;
+            line-height: 26px;
+            color: $dip;
+        }
+        &.visible{
+            opacity: 1;
+            z-index: 3;
+        }
+    } 
+}
+.gain_coin_item{
+    cursor: pointer;
+    &:first-child{
+        margin-bottom: 350px;
+    }
+    .media{
+        .media-body{
+            h4{
+                font-size: 15px;
+                color: $dip;
+                font-family: $mon;
+                font-weight: bold;
+                padding-bottom: 10px;
+            }
+            p{
+                
+            }
+        }
+        .d-flex{
+            padding-right: 20px;
+            i{
+                font-size: 60px;
+                color: $baseColor;
+                position: relative;
+				line-height: 60px;
+				&:before{
+					font-size: 60px;
+				}
+//                &:after{
+//                    content: '';
+//                    position: absolute;
+//                    border: rgba(191, 54, 84, .5) solid 6px;
+//                    top: -12px;
+//                    right: -12px;
+//                    bottom: -12px;
+//                    left: -12px;
+//                    opacity: 0;
+//                    -webkit-animation-duration: 1s;
+//                    animation-duration: 1s;
+//                    border-radius: 50%;
+//                }
+            }
+        }
+    }
+    &.coint_right{
+        .media{
+            .media-body{
+                text-align: right;
+                h4{
+
+                }
+                p{
+
+                }
+            }
+            .d-flex{
+                padding-right: 0px;
+                padding-left: 20px;
+            }
+        }
+    }
+}   
+
+
+.clients_slider_area{
+    background: #f5f5f5;
+    padding: 60px 0px;
+    .clients_slider{
+        .item{
+            line-height: 120px;
+            img{
+                line-height: 120px;
+                display: inline-block;
+                opacity: .5;
+                @include transition;
+                cursor: pointer;
+            }
+            &:hover{
+                img{
+                    opacity: 1;
+                }
+            }    
+        }
+    }
+}
+
+/* End Gain Coin Area css
+============================================================================================ */
+
+/* End Gain Coin Area css
+============================================================================================ */
+.bitcoin_calculater_area{
+    background: $baseColor;
+}
+.calculater_left_text{
+    p{
+        font-size: 14px;
+        font-family: $open;
+        color: $dip;
+        padding-right: 30px;
+        padding-bottom: 20px;
+        & + p{
+            padding-bottom: 0px;
+        }
+    }
+}
+/* End Gain Coin Area css
+============================================================================================ */
+
+/* End Gain Coin Area css
+============================================================================================ */
+.counter_area{
+    background: #f5f5f5;
+}
+.counter_item{
+    text-align: center;
+    h3{
+        font-size: 60px;
+        font-family: $mon;
+        font-weight: bold;
+    }
+    p{
+        font-size: 14px;
+        font-family: $mon;
+        font-weight: 500;
+    }
+}
+/* End Gain Coin Area css
+============================================================================================ */
+
+/* Service Area css
+============================================================================================ */
+.service_area{
+    
+}
+.service_inner{
+    margin-bottom: -30px;
+}
+.service_item{
+    margin-bottom: 30px;
+    .service_img{
+        a{
+            display: block;
+        }
+    }
+    .service_text{
+        border: 1px solid #f1f1f1;
+        border-top: 0px;
+        padding: 30px 20px 0px 20px;
+        h4{
+            font-size: 24px;
+            font-weight: 600;
+            font-family: $mon;
+            color: $dip;
+            padding-bottom: 15px;
+            @include transition;
+            &:hover{
+                color: $baseColor;
+            }
+        }
+        p{
+            font-size: 14px;
+            line-height: 26px;
+            color: $pfont;
+            font-family: $open;
+            padding-bottom: 30px;
+        }
+        ul{
+            overflow: hidden;
+            border-top: 1px solid #f1f1f1;
+            li{
+                overflow: hidden;
+                a{
+                    font-size: 14px;
+                    font-family: $pop;
+                    color: $dip;
+                    display: block;
+                    line-height: 50px;
+                    i{
+                        color: $baseColor;
+                        padding-right: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+/* End Service Area css
+============================================================================================ */
+
+/* Error Area css
+============================================================================================ */
+.error_area{
+    
+}
+.error_content{
+    text-align: center;
+    h3{
+        font-size: 150px;
+        color: $baseColor;
+        font-weight: bold;
+        font-family: $pop;
+    }
+    h4{
+        font-family: $pop;
+        font-weight: 600;
+        color: $dip;
+        font-size: 24px;
+    }
+    p{
+        font-size: 14px;
+        line-height: 26px;
+        color: $pfont;
+        font-family: $open;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px 0px;
+    }
+}
+/* End Error Area css
+============================================================================================ */
+
+/* Own Trending Area css
+============================================================================================ */
+.own_trending_area{
+	.col-lg-6{
+		display: flex;
+	}
+	.trending_img{
+		display: flex;
+		img{
+			align-self: center;
+			vertical-align: middle;
+		}
+	}	
+}
+.trending_list{
+    .media{
+        margin-bottom: 20px;
+        .d-flex{
+            padding-right: 20px;
+            i{
+                height: 60px;
+                width: 60px;
+                background: $baseColor;
+                border-radius: 50%;
+                text-align: center;
+                line-height: 60px;
+                font-size: 28px;
+                color: #fff;
+            }
+        }
+        .media-body{
+            vertical-align: middle;
+            align-self: center;
+            h4{
+                font-size: 18px;
+                font-weight: bold;
+                font-family: $mon;
+                color: $dip;
+                padding-bottom: 6px;
+                @include transition;
+                &:hover{
+                    color: $baseColor;
+                }
+            }
+            p{
+                font-size: 14px;
+                font-style: italic;
+                color: $pfont;
+                font-family: $open; 
+            }
+        }
+        &:last-child{
+            margin-bottom: 0px;
+        }
+    }
+}
+/* End Own Trading Area css
+============================================================================================ */
+
+/* About Area css
+============================================================================================ */
+.our_vision_area{
+	background: $baseColor;
+	display: flex;
+	flex-wrap: wrap;
+	.left_vision{
+		flex: 0 0 50%;
+		max-width: 50%;
+		overflow: hidden;
+	}
+	.right_vision{
+		flex: 0 0 50%;
+		max-width: 50%;
+		display: flex;
+		.vision_right_text{
+			vertical-align: middle;
+			align-self: center;
+			max-width: 570px;
+			padding-left: 60px;
+			h4{
+				color: #fff;
+				font-family: $mon;
+				font-weight: bold;
+				text-transform: uppercase;
+				font-size: 28px; 
+				padding-bottom: 25px;
+			}
+			h5{
+				font-family: $pop;
+				font-style: italic;
+				font-size: 18px;
+				line-height: 28px;
+				color: $dip;
+				padding-bottom: 20px;
+			}
+			p{
+				font-size: 14px;
+				font-family: $open;
+				line-height: 26px;
+				color: $dip;
+				padding-bottom: 20px;
+				& + p{
+					padding-bottom: 0px;
+				}
+			}
+		}
+	}
+}
+/* End About Area css
+============================================================================================ */
+
+/* Wallet Page Area css
+============================================================================================ */
+.free_wallet_area{
+}
+.wallet_text{
+	max-width: 340px;
+	margin: auto;
+	text-align: center;
+	position: relative;
+	padding-bottom: 12px;
+	&:before{
+        content: "";
+        width: 50px;
+        height: 2px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0px;
+        background: $baseColor;
+    }
+	h5{
+		font-size: 16px;
+		font-family: $mon;
+		color: $pfont;
+		padding-bottom: 10px;
+	}
+	h2{
+		font-size: 20px;
+		font-family: $mon;
+		line-height: 28px;
+		color: $dip;
+	}
+}
+.wallet_email_box{
+	.input-group{
+		max-width: 350px;
+		margin: 40px auto 40px;
+		input{
+			border: none;
+			box-shadow: none;
+			background: #f6f6f6;
+			border-radius: 0px;
+			padding: 0px 15px;
+			height: 45px;
+			font-size: 16px;
+			font-family: $mon;
+			color: #959595;
+			@include placeholder{
+				font-size: 16px;
+				font-family: $mon;
+				color: #959595;
+			}
+		}
+		.input-group-append{
+			.btn-outline-secondary{
+				margin-left: 0px;
+				border: none;
+				background: $baseColor;
+				height: 45px;
+				padding: 0px;
+				width: 95px;
+				border-radius: 0px;
+				box-shadow: none;
+				outline: none !important;
+				color: #fff;
+				font-size: 16px;
+				font-family: $mon;
+			}
+		}
+	}
+}
+.wallet_item_inner{
+	.wallet_item{
+		h4{
+			font-size: 18px;
+			font-family: $mon;
+			color: $dip;
+			font-weight: bold;
+			padding-bottom: 20px;
+		}
+		p{
+			font-size: 14px;
+			font-family: $mon;
+			font-weight: 300;
+			line-height: 26px;
+			color: $pfont;
+		}
+	}
+}
+
+.bitcoin_exchange_area{
+	.exchange_rate{
+		width: 100%;
+	}
+}
+.exchange_inner{
+	.col-lg-6{
+		display: flex;
+	}
+	.exchange_text{
+		vertical-align: middle;
+		align-self: center;
+		h4{
+			font-size: 24px;
+			color: $dip;
+			font-family: $mon;
+			padding-bottom: 25px;
+		}
+		p{
+			font-size: 14px;
+			font-family: $mon;
+			line-height: 26px;
+			color: $pfont;
+			padding-bottom: 10px;
+			max-width: 380px;
+			&:last-child{
+				padding-bottom: 0px
+			}
+		}
+	}
+}
+
+.mobile_exchange_area{
+	padding-bottom: 80px;
+	padding-top: 50px;
+	.m_exchange_inner{
+		.col-lg-6{
+			display: flex;
+		}
+		.m_exchange_img{
+			text-align: center;
+		}
+		.m_exchange_text{
+			vertical-align: middle;
+			align-self: center; 
+			h4{
+				font-size: 24px;
+				color: $dip;
+				font-family: $mon;
+				padding-bottom: 25px;
+			}
+			p{
+				font-size: 14px;
+				font-family: $mon;
+				line-height: 26px;
+				color: $pfont;
+				padding-bottom: 10px;
+				max-width: 380px;
+				&:last-child{
+					padding-bottom: 0px
+				}
+			}
+			a{
+				margin-top: 20px;
+				display: inline-block;
+				& + a{
+					margin-left: 10px;
+				}
+			}
+		}	
+	}
+}
+
+.by_citcoin_area{
+	text-align: center;
+	background: #fbfbfb;
+	padding: 55px 0px;
+	h4{
+		font-size: 24px;
+		font-family: $mon;
+		color: $dip;
+		padding-bottom: 15px;
+	}
+	p{
+		font-size: 14px;
+		font-family: $mon;
+		color: $dip;
+		padding-bottom: 40px;
+	}
+}
+
+/* End Wallet Page Area css
+============================================================================================ */
