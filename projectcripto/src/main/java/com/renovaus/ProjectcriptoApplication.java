@@ -30,6 +30,7 @@ import com.renovaus.pojo.Estado;
 import com.renovaus.pojo.User;
 
 
+
 @SpringBootApplication
 public class ProjectcriptoApplication extends SpringBootServletInitializer implements CommandLineRunner {
 	
