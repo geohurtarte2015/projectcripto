@@ -151,7 +151,7 @@ public class ProjectcriptoApplication extends SpringBootServletInitializer imple
 		
 		
 	    log.info("[FINALIZADO]");
-
+	    log.info("[EXIT]");
 		
 	}
 
