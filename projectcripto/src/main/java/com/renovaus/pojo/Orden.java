@@ -18,13 +18,17 @@ public class Orden {
 	private String tipoCuentaBancaria;
 	private String cuentaBancaria;
 	private int nombreBanco;
+	private int billetera;
 	
 	
 
 
 	
+
+
 	public Orden(TipoPago tipoPago, TipoNegocio tipoNegocio, Blob imagenVoucher, BigDecimal fiat,
-			BigDecimal cripto, User user, EstadoOrden estadoOrden,String tipoCuentaBancaria, String cuentaBancaria, int nombreBanco) {
+			BigDecimal cripto, User user, EstadoOrden estadoOrden,String tipoCuentaBancaria, 
+			String cuentaBancaria, int nombreBanco, int billetera) {
 		super();
 		this.tipoPago = tipoPago;
 		this.tipoNegocio = tipoNegocio;
@@ -36,11 +40,14 @@ public class Orden {
 		this.tipoCuentaBancaria = tipoCuentaBancaria;
 		this.cuentaBancaria = cuentaBancaria;
 		this.nombreBanco =  nombreBanco;
+		this.billetera = billetera;
+	
+
 		
 	}
 	
 	public Orden(int id,TipoPago tipoPago, TipoNegocio tipoNegocio, Blob imagenVoucher, BigDecimal fiat,
-			BigDecimal cripto, User user, Date fecha, EstadoOrden estadoOrden,String tipoCuentaBancaria, String cuentaBancaria, int nombreBanco) {
+			BigDecimal cripto, User user, Date fecha, EstadoOrden estadoOrden,String tipoCuentaBancaria, String cuentaBancaria, int nombreBanco, int billetera) {
 		super();
 		this.id = id;
 		this.tipoPago = tipoPago;
@@ -54,6 +61,7 @@ public class Orden {
 		this.tipoCuentaBancaria = tipoCuentaBancaria;
 		this.cuentaBancaria = cuentaBancaria;
 		this.nombreBanco =  nombreBanco;
+		this.billetera = billetera;
 	}
 	
 	
@@ -171,6 +179,13 @@ public class Orden {
 		this.id = id;
 	}
 	
+	public int getBilletera() {
+		return billetera;
+	}
+
+	public void setBilletera(int billetera) {
+		this.billetera = billetera;
+	}
 
 
 	

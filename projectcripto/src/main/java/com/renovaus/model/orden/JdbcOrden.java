@@ -69,7 +69,8 @@ public class JdbcOrden implements IOrden {
 						    new EstadoOrden(rs.getInt("id_estado_orden")),
 						    rs.getString("cuenta_bancaria"),
 							rs.getString("tipo_cuenta_bancaria"),
-							rs.getInt("id_banco"))
+							rs.getInt("id_banco"),
+							rs.getInt("billetera"))
 							);
 	}
 
@@ -91,7 +92,8 @@ public class JdbcOrden implements IOrden {
 						    new EstadoOrden(rs.getInt("id_estado_orden")),
 						    rs.getString("cuenta_bancaria"),
 							rs.getString("tipo_cuenta_bancaria"),
-							rs.getInt("id_banco"))			
+							rs.getInt("id_banco"),
+							rs.getInt("billtera"))			
 							);
 	}
 
@@ -113,7 +115,8 @@ public class JdbcOrden implements IOrden {
 						    new EstadoOrden(rs.getInt("id_estado_orden")),
 						    rs.getString("cuenta_bancaria"),
 							rs.getString("tipo_cuenta_bancaria"),
-							rs.getInt("id_banco"))			
+							rs.getInt("id_banco"),
+							rs.getInt("billetera"))			
 							);
 	}
 
@@ -135,7 +138,8 @@ public class JdbcOrden implements IOrden {
 						    new EstadoOrden(rs.getInt("id_estado_orden")),
 						    rs.getString("cuenta_bancaria"),
 							rs.getString("tipo_cuenta_bancaria"),
-							rs.getInt("id_banco"))			
+							rs.getInt("id_banco"),
+							rs.getInt("billetera"))				
 							);
 	}
 

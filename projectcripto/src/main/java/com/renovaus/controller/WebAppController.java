@@ -112,6 +112,45 @@ public class WebAppController {
 		    }
 		    
 		    
+		    @RequestMapping("/buyCripto")
+	    	public String buyCripto(Model model, HttpSession session){
+		    @SuppressWarnings("unchecked")
+		    String nombreCompleto = (String) session.getAttribute("nombre");
+			
+				if (nombreCompleto == null) {
+					nombreCompleto = new String();
+				}
+		
+				model.addAttribute("nombre", nombreCompleto);
+				model.addAttribute("datetime", new Date());
+				model.addAttribute("username", "Giovanni Hurtarte");
+				model.addAttribute("mode", appMode);
+				model.addAttribute("userLogin", new UserLogin());
+				return "plantillaAdmin/buyCripto";
+
+		    }
+		    
+		    
+		    
+			 @RequestMapping("/sellCripto")
+		    	public String sellCripto(Model model, HttpSession session){
+			    @SuppressWarnings("unchecked")
+			    String nombreCompleto = (String) session.getAttribute("nombre");
+					
+				
+				if (nombreCompleto == null) {
+				    nombreCompleto = new String();
+				}	
+			
+			model.addAttribute("nombre", nombreCompleto);		
+	        model.addAttribute("datetime", new Date());
+	        model.addAttribute("username", "Giovanni Hurtarte");
+	        model.addAttribute("mode", appMode);
+	        model.addAttribute("userLogin", new UserLogin());
+	        return "plantillaAdmin/sellCripto";
+		    }
+		    
+		    
 		    @RequestMapping("/logout")
 	    	public String logout(Model model, HttpSession session){
 		    @SuppressWarnings("unchecked")
