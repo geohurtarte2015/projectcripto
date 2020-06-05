@@ -8,7 +8,9 @@ import com.renovaus.pojo.Rol;
 
 public interface IOrden {
 	
-	   int save(Orden orden);
+	   int saveBuy(Orden orden);
+	   int saveSell(Orden orden);
+	   
 	   int updateEstado(int idEstado, int idOrden);
 	   int deleteById(int id);
 	   List <Orden> findAll();
@@ -19,6 +21,7 @@ public interface IOrden {
 	   
 	   //para uso de la vista de dataTable * for use DataTable view *
 	   List<String[]> dataTableFindByUserSell(int id);
+	   
 	   
 	   //para uso de la vista de dataTable * for use DataTable view *
 	   List<String[]> dataTableFindByUserBuy(int id);

@@ -25,7 +25,7 @@ public class JdbcOrden implements IOrden {
     
 
 	@Override
-	public int save(Orden orden) {
+	public int saveBuy(Orden orden) {
 		return jdbcTemplate.update("insert into orden "
 				+ "(id_tipo_pago,"
 				+ " id_tipo_negocio, "
@@ -36,19 +36,47 @@ public class JdbcOrden implements IOrden {
 				+ "id_moneda_fiat, "
 				+ "id_moneda_cripto, "
 				+ "cuenta_bancaria, "
-				+ "tipo_cuenta_bancaria, "
-				+ "id_banco, "
-				+ "id_user) values (?,?,?,?,?,?,?,?,?,?,?,?)",
+				+ "tipo_cuenta_bancaria, "	
+				+ "id_user, "
+				+  "id_billetera) values (?,?,?,?,?,?,?,?,?,?,?,?)",
 				orden.getTipoPago().getId(),
 				orden.getTipoNegocio().getId(),
 				orden.getImagenVoucher(),
 				orden.getEstadoOrden().getId(),
 				orden.getFiat(),
-				orden.getCripto(),
+				orden.getCripto(),	
+				orden.getMonedaFiat(),
+				orden.getMonedaCripto(),
+				orden.getCuentaBancaria(),
+				orden.getTipoCuentaBancaria(),			
+				orden.getUser().getId(),
+				orden.getBilletera()
+				);
+	}
+	
+	@Override
+	public int saveSell(Orden orden) {
+		return jdbcTemplate.update("insert into orden "
+				+ "(id_tipo_pago,"
+				+ "id_estado_orden, "
+				+ "valor_fiat, "
+				+ "valor_cripto, "	
+				+ "id_moneda_fiat, "
+				+ "id_moneda_cripto, "
+				+ "cuenta_bancaria, "
+				+ "tipo_cuenta_bancaria, "
+				+ "id_banco, "
+				+ "id_user ) values (?,?,?,?,?,?,?,?,?,?)",	
+				orden.getTipoNegocio().getId(),	
+				orden.getEstadoOrden().getId(),
+				orden.getFiat(),
+				orden.getCripto(),	
+				orden.getMonedaFiat(),
+				orden.getMonedaCripto(),
 				orden.getCuentaBancaria(),
 				orden.getTipoCuentaBancaria(),
 				orden.getBanco(),
-				orden.getUser().getId()
+				orden.getUser().getId()				
 				);
 	}
 
@@ -61,7 +89,7 @@ public class JdbcOrden implements IOrden {
 							rs.getInt("id"),
 							new TipoPago(rs.getInt("id_tipo_pago")),
 							new TipoNegocio(rs.getInt("id_tipo_negocio")),
-							rs.getBlob("imagen_voucher"),						
+							rs.getBytes("imagen_voucher"),						
 							(rs.getBigDecimal("valor_fiat")),
 							(rs.getBigDecimal("valor_cripto")),
 							new User(rs.getInt("id_user")),
@@ -84,7 +112,7 @@ public class JdbcOrden implements IOrden {
 							rs.getInt("id"),
 							new TipoPago(rs.getInt("id_tipo_pago")),
 							new TipoNegocio(rs.getInt("id_tipo_negocio")),
-							rs.getBlob("imagen_voucher"),						
+							rs.getBytes("imagen_voucher"),						
 							(rs.getBigDecimal("valor_fiat")),
 							(rs.getBigDecimal("valor_cripto")),
 							new User(rs.getInt("id_user")),
@@ -107,7 +135,7 @@ public class JdbcOrden implements IOrden {
 							rs.getInt("id"),
 							new TipoPago(rs.getInt("id_tipo_pago")),
 							new TipoNegocio(rs.getInt("id_tipo_negocio")),
-							rs.getBlob("imagen_voucher"),						
+							rs.getBytes("imagen_voucher"),						
 							(rs.getBigDecimal("valor_fiat")),
 							(rs.getBigDecimal("valor_cripto")),
 							new User(rs.getInt("id_user")),
@@ -130,7 +158,7 @@ public class JdbcOrden implements IOrden {
 							rs.getInt("id"),
 							new TipoPago(rs.getInt("id_tipo_pago")),
 							new TipoNegocio(rs.getInt("id_tipo_negocio")),
-							rs.getBlob("imagen_voucher"),						
+							rs.getBytes("imagen_voucher"),						
 							(rs.getBigDecimal("valor_fiat")),
 							(rs.getBigDecimal("valor_cripto")),
 							new User(rs.getInt("id_user")),

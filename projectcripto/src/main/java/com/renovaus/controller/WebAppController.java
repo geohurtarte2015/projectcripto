@@ -5,6 +5,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.file.Paths;
 import java.sql.Blob;
@@ -41,10 +43,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.renovaus.ProjectcriptoApplication;
+import com.renovaus.model.billetera.IBilletera;
 import com.renovaus.model.orden.IOrden;
 import com.renovaus.model.user.IUser;
 import com.renovaus.pojo.Admin;
+import com.renovaus.pojo.Billetera;
 import com.renovaus.pojo.Estado;
+import com.renovaus.pojo.EstadoOrden;
+import com.renovaus.pojo.Orden;
+import com.renovaus.pojo.TipoNegocio;
+import com.renovaus.pojo.TipoPago;
 import com.renovaus.pojo.User;
 import com.renovaus.pojo.UserLogin;
 import com.renovaus.services.PasswordGenerator;
@@ -59,6 +67,10 @@ public class WebAppController {
 	  private String appMode;
 	  
 	  private static final Logger log = LoggerFactory.getLogger(ProjectcriptoApplication.class);
+	  
+			@Autowired
+	  		private IBilletera iBilletera;
+	  		
 	  
 	  		@Autowired
 	  		private IUser iUser;
@@ -120,10 +132,13 @@ public class WebAppController {
 				if (nombreCompleto == null) {
 					nombreCompleto = new String();
 				}
+				
+				List<Billetera> billeteras = iBilletera.findByUser(3);
 		
 				model.addAttribute("nombre", nombreCompleto);
 				model.addAttribute("datetime", new Date());
 				model.addAttribute("username", "Giovanni Hurtarte");
+				model.addAttribute("billeteras",billeteras);
 				model.addAttribute("mode", appMode);
 				model.addAttribute("userLogin", new UserLogin());
 				return "plantillaAdmin/buyCripto";
@@ -131,9 +146,8 @@ public class WebAppController {
 		    }
 		    
 		    
-		    
-			 @RequestMapping("/sellCripto")
-		    	public String sellCripto(Model model, HttpSession session){
+			@RequestMapping("/sellCripto")
+		    public String sellCripto(Model model, HttpSession session){
 			    @SuppressWarnings("unchecked")
 			    String nombreCompleto = (String) session.getAttribute("nombre");
 					
@@ -142,11 +156,11 @@ public class WebAppController {
 				    nombreCompleto = new String();
 				}	
 			
-			model.addAttribute("nombre", nombreCompleto);		
-	        model.addAttribute("datetime", new Date());
-	        model.addAttribute("username", "Giovanni Hurtarte");
-	        model.addAttribute("mode", appMode);
-	        model.addAttribute("userLogin", new UserLogin());
+				model.addAttribute("nombre", nombreCompleto);		
+				model.addAttribute("datetime", new Date());
+				model.addAttribute("username", "Giovanni Hurtarte");
+				model.addAttribute("mode", appMode);
+				model.addAttribute("userLogin", new UserLogin());
 	        return "plantillaAdmin/sellCripto";
 		    }
 		    
@@ -256,6 +270,134 @@ public class WebAppController {
 		      
 		      return "Datos Cargados correctamente";
 		    } 
+		    
+		    @RequestMapping(value = "/uploadFileBuy", method = RequestMethod.POST,produces = MediaType.TEXT_HTML_VALUE)
+		    @ResponseBody
+		    public String uploadFileBuy(
+			    	@RequestParam String valorFiat,
+	    			@RequestParam String monedaFiat,
+	    			@RequestParam String tipoPago,
+	    			@RequestParam String numTarjetaCredito,
+	    			@RequestParam String codigoCvv,
+	    			@RequestParam String fechaVencimiento,
+		    		@RequestParam String numBilletera,	
+		    		@RequestParam String monedaCripto,	  
+		    		@RequestParam String tipoNegocio,	
+		    		@RequestParam String idUser,	
+			        @RequestParam("voucher") MultipartFile voucher) 
+			    	{
+			    
+		    	
+		    	 byte[] blobVoucher = null;
+		    	 String datoTarjetaCredito = "";
+		    	 
+		    	 if(!numTarjetaCredito.isEmpty()) {
+		    	 datoTarjetaCredito = numTarjetaCredito + "|" + codigoCvv + "|" + fechaVencimiento;
+		    	 }
+		    	 
+		    	if(voucher.getOriginalFilename().isEmpty()) {
+		    		log.warn("[IMAGE LOAD IS NULL]");
+		    		
+		    	}else {		    		
+		    		try {
+						blobVoucher = InputStreamConvert.readBytesFromFile(voucher);
+					} catch (IOException e) {
+						log.error("[ERROR READ IMAGE]"+" "+e);
+					}
+				       
+		    		
+		    	}
+		    	
+			      try {
+			    	  
+			    	 System.out.println(valorFiat+" "+monedaFiat+" "+tipoPago+" "+numTarjetaCredito+" "+codigoCvv+" "+fechaVencimiento+" "
+			    			           +numBilletera+" "+voucher.getOriginalFilename());
+			    	 
+			    	  BigDecimal valorFiatBig = new BigDecimal(valorFiat); 
+			    	  BigDecimal valorCriptoBig = new BigDecimal("0"); 
+			    	 // Integer bank = new Integer(null);
+			    	 
+			    	 iOrden.saveBuy(
+			    			 new Orden(
+			    					 new TipoPago(Integer.valueOf(tipoPago)),
+			    					 new TipoNegocio(Integer.valueOf(tipoNegocio)),
+			    					 blobVoucher,
+			    					 valorFiatBig,
+			    					 valorCriptoBig,
+			    					 new User(Integer.valueOf(idUser)),
+			    					 new EstadoOrden(1),
+			    					 null,
+			    					 datoTarjetaCredito,			    			
+			    					 Integer.valueOf(numBilletera),
+			    					 Integer.valueOf(monedaFiat),
+			    					 Integer.valueOf(monedaCripto)
+			    					 )
+			    					 );
+			    					 
+			    			 
+			    			 
+			    
+			  
+			      }
+			      catch (Exception e) {
+			        System.out.println(e.getMessage());
+			        return "Error en carga de datos";
+			      }
+			      
+			      return "Datos Cargados correctamente";
+			    } 
+		    
+		    @RequestMapping(value = "/uploadFileSell", method = RequestMethod.POST,produces = MediaType.TEXT_HTML_VALUE)
+		    @ResponseBody
+		    public String uploadFileSell(
+			    	@RequestParam String valorCripto,
+	    			@RequestParam String tipoCripto,
+	    			@RequestParam String numeroCuenta,
+	    			@RequestParam String tipoCuenta,
+	    			@RequestParam String banco,
+	    			@RequestParam String tipoFiat,		  
+		    		@RequestParam String tipoNegocio,	
+		    		@RequestParam String idUser)		    
+			    	{
+			    
+		    
+		    	
+			      try {
+			    	  
+			    	 System.out.println(valorCripto+" "+tipoCripto+" "+numeroCuenta+" "+tipoCuenta+" "+banco+" "+tipoFiat+" "
+			    			           +tipoNegocio+" "+idUser);
+			    	 
+			    	  BigDecimal valorFiatBig = new BigDecimal("0"); 
+			    	  BigDecimal valorCriptoBig = new BigDecimal(valorCripto); 
+			    	 // Integer bank = new Integer(null);
+			    	 
+			    	 iOrden.saveSell(
+			    			 new Orden(			    			
+			    					 new TipoNegocio(Integer.valueOf(tipoNegocio)),			    				
+			    					 valorFiatBig,
+			    					 valorCriptoBig,
+			    					 new User(Integer.valueOf(idUser)),
+			    					 new EstadoOrden(1),
+			    					 tipoCuenta,
+			    					 numeroCuenta,		
+			    					 Integer.valueOf(banco),			    				
+			    					 Integer.valueOf(tipoFiat),
+			    					 Integer.valueOf(tipoCripto)
+			    					 )
+			    					 );
+			    					 
+			    			 
+			    			 
+			    
+			  
+			      }
+			      catch (Exception e) {
+			        System.out.println(e.getMessage());
+			        return "Error en carga de datos";
+			      }
+			      
+			      return "Solicitud enviada correctamente";
+			    } 
 
 		    
 		    @RequestMapping("/register")
@@ -329,9 +471,7 @@ public class WebAppController {
 		     return  "plantillaAdmin/index"; 
 		     }
 		    
-		    
-		
-		    
+		    		    
 		    @RequestMapping(value = "/validate", method = RequestMethod.POST,produces = MediaType.TEXT_HTML_VALUE)
 		    @ResponseBody
 		    public String validateLogin(@RequestParam String user,@RequestParam String password,HttpServletRequest request) {
@@ -402,6 +542,17 @@ public class WebAppController {
 		    }
 		    
 		    
+		    @RequestMapping(value = "/listCriptoAddress", method = RequestMethod.POST)
+		    @ResponseBody
+		    public String listCriptoAddress() {
+		    	String response = null;
+		    	GetJson getJson= new GetJson();		   
+		    	response = getJson.getJsonDataTable(iBilletera.dataTableFindByUser(3));
+		    	return response;
+		    }
+		    
+		    
+		    
 		    @RequestMapping(value = "/listOrderBuy", method = RequestMethod.POST)
 		    @ResponseBody
 		    public String listOrderBuy() {
@@ -411,6 +562,15 @@ public class WebAppController {
 		    	return response;
 		    }
 		    
+		    
+		    @RequestMapping(value = "/saveWallet", method = RequestMethod.POST)
+		    @ResponseBody
+		    public String saveWallet(@RequestParam String descripcion,@RequestParam String direccion ) {
+		    			    	
+		    	int res = iBilletera.save(new Billetera(direccion,descripcion,3));
+		    	
+		    	return "Registrado";
+		    }
 		    
 		    
 		    @RequestMapping(value = "/positiveValidation", method = RequestMethod.POST)
@@ -429,6 +589,8 @@ public class WebAppController {
 		    	" y tu contraseña es:  "+password);
 		    	return "Enviando respuesta";
 		    }
+		    
+		    
 		    
 		    @RequestMapping(value = "/negativeValidation", method = RequestMethod.POST)
 		    @ResponseBody

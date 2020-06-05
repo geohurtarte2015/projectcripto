@@ -9,7 +9,7 @@ public class Orden {
 	private int id;
 	private TipoPago tipoPago;
 	private TipoNegocio tipoNegocio;
-	private Blob imagenVoucher;	
+	private byte[] imagenVoucher;
 	private BigDecimal fiat;
 	private BigDecimal cripto;
 	private User user;
@@ -19,16 +19,38 @@ public class Orden {
 	private String cuentaBancaria;
 	private int nombreBanco;
 	private int billetera;
+	private int monedaFiat;
+	private int monedaCripto;
 	
 	
-
-
 	
-
-
-	public Orden(TipoPago tipoPago, TipoNegocio tipoNegocio, Blob imagenVoucher, BigDecimal fiat,
+	
+	
+	
+	public Orden(TipoNegocio tipoNegocio, BigDecimal fiat,
 			BigDecimal cripto, User user, EstadoOrden estadoOrden,String tipoCuentaBancaria, 
-			String cuentaBancaria, int nombreBanco, int billetera) {
+			String cuentaBancaria, int nombreBanco, int monedaFiat, int monedaCripto) {
+		super();	
+		this.tipoNegocio = tipoNegocio;	
+		this.fiat = fiat;
+		this.cripto = cripto;
+		this.user = user;
+		this.estadoOrden = estadoOrden;
+		this.tipoCuentaBancaria = tipoCuentaBancaria;
+		this.cuentaBancaria = cuentaBancaria;
+		this.nombreBanco =  nombreBanco;	
+		this.monedaFiat = monedaFiat;
+		this.monedaCripto = monedaCripto;			
+	}
+	
+
+
+	
+
+
+	public Orden(TipoPago tipoPago, TipoNegocio tipoNegocio, byte[] imagenVoucher, BigDecimal fiat,
+			BigDecimal cripto, User user, EstadoOrden estadoOrden,String tipoCuentaBancaria, 
+			String cuentaBancaria, int nombreBanco, int billetera, int monedaFiat, int monedaCripto) {
 		super();
 		this.tipoPago = tipoPago;
 		this.tipoNegocio = tipoNegocio;
@@ -41,13 +63,37 @@ public class Orden {
 		this.cuentaBancaria = cuentaBancaria;
 		this.nombreBanco =  nombreBanco;
 		this.billetera = billetera;
-	
+		this.monedaFiat = monedaFiat;
+		this.monedaCripto = monedaCripto;	
 
 		
 	}
 	
-	public Orden(int id,TipoPago tipoPago, TipoNegocio tipoNegocio, Blob imagenVoucher, BigDecimal fiat,
-			BigDecimal cripto, User user, Date fecha, EstadoOrden estadoOrden,String tipoCuentaBancaria, String cuentaBancaria, int nombreBanco, int billetera) {
+	
+	
+	public Orden(TipoPago tipoPago, TipoNegocio tipoNegocio, byte[] imagenVoucher, BigDecimal fiat,
+			BigDecimal cripto, User user, EstadoOrden estadoOrden,String tipoCuentaBancaria, 
+			String cuentaBancaria, int billetera, int monedaFiat, int monedaCripto) {
+		super();
+		this.tipoPago = tipoPago;
+		this.tipoNegocio = tipoNegocio;
+		this.imagenVoucher = imagenVoucher;
+		this.fiat = fiat;
+		this.cripto = cripto;
+		this.user = user;
+		this.estadoOrden = estadoOrden;
+		this.tipoCuentaBancaria = tipoCuentaBancaria;
+		this.cuentaBancaria = cuentaBancaria;
+		this.billetera = billetera;
+		this.monedaFiat = monedaFiat;
+		this.monedaCripto = monedaCripto;	
+
+		
+	}
+	
+	public Orden(int id,TipoPago tipoPago, TipoNegocio tipoNegocio, byte[] imagenVoucher, BigDecimal fiat,
+			BigDecimal cripto, User user, Date fecha, EstadoOrden estadoOrden,String tipoCuentaBancaria, 
+			String cuentaBancaria, int nombreBanco, int billetera) {
 		super();
 		this.id = id;
 		this.tipoPago = tipoPago;
@@ -63,6 +109,9 @@ public class Orden {
 		this.nombreBanco =  nombreBanco;
 		this.billetera = billetera;
 	}
+	
+	
+	
 	
 	
 	public int getId() {
@@ -82,13 +131,7 @@ public class Orden {
 	}
 	public void setTipoNegocio(TipoNegocio tipoNegocio) {
 		this.tipoNegocio = tipoNegocio;
-	}
-	public Blob getImagenVoucher() {
-		return imagenVoucher;
-	}
-	public void setImagenVoucher(Blob imagenVoucher) {
-		this.imagenVoucher = imagenVoucher;
-	}
+	}	
 	public BigDecimal getFiat() {
 		return fiat;
 	}
@@ -187,6 +230,29 @@ public class Orden {
 		this.billetera = billetera;
 	}
 
+	public int getMonedaFiat() {
+		return monedaFiat;
+	}
+
+	public void setMonedaFiat(int monedaFiat) {
+		this.monedaFiat = monedaFiat;
+	}
+
+	public int getMonedaCripto() {
+		return monedaCripto;
+	}
+
+	public void setMonedaCripto(int monedaCripto) {
+		this.monedaCripto = monedaCripto;
+	}
+	
+	public byte[] getImagenVoucher() {
+		return imagenVoucher;
+	}
+
+	public void setImagenVoucher(byte[] imagenVoucher) {
+		this.imagenVoucher = imagenVoucher;
+	}
 
 	
 	

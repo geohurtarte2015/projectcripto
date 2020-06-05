@@ -1054,268 +1054,265 @@
 
 
 
-	  $("#rechazarUsuario").click(function(){
+			$("#rechazarUsuario").click(function() {
 
-		  var message ="";
-		  message = $("#message").val().trim();
+									var message = "";
+									message = $("#message").val().trim();
 
-		  if (message==null){
-      message = "";
-		  }
+									if (message == null) {
+										message = "";
+									}
 
-		   $.ajax({
-      type:"post",
-		          url: "negativeValidation",
-		          dataType:"text",
-		          data: {
-      idUser: idUser,
-		                  email: emailGlobal,
-		                  first: firstGlobal,
-		                  last: lastGlobal,
-		                  message: message
-		              },
-		          	success: function (data) {
-      alert(data);
-		          		$("#viewUserModal").modal('hide');
+									$.ajax({
+										type : "post",
+										url : "negativeValidation",
+										dataType : "text",
+										data : {
+											idUser : idUser,
+											email : emailGlobal,
+											first : firstGlobal,
+											last : lastGlobal,
+											message : message
+										},
+										success : function(data) {
+											alert(data);
+											$("#viewUserModal").modal('hide');
 
-		              }
-		      	 });
+										}
+									});
 
-
-
-		});
-
-
-
-
-
-
-
-
-
-
-	  $("#rostro").click(function(){
-		  //console.log(urlImageRostro);
-		 if(window.navigator.msSaveBlob){
-      window.navigator.msSaveBlob(urlImageRostro, "rostro.png");
-
-		 }else{
-			 const a = document.createElement("a");
-			 document.body.appendChild(a);
-			 a.href = urlImageRostro;
-			 a.download = "rostro.jpg";
-			 a.click();
-			 document.body.removeChild(a);
-		 }
-		});
-
-
-
-
-
-
-
-
-
-	  $("#dpiFrontal").click(function(){
-		  //console.log(urlImageRostro);
-		 if(window.navigator.msSaveBlob){
-      window.navigator.msSaveBlob(urlImageDpiFrontal, "dpiFrontal.png");
-
-		 }else{
-			 const a = document.createElement("a");
-			 document.body.appendChild(a);
-			 a.href = urlImageDpiFrontal;
-			 a.download = "dpiFrontal.jpg";
-			 a.click();
-			 document.body.removeChild(a);
+								});
 			
-		 }
-		});
+			
+			
 
+								$("#rostro").click(
+										function() {
+											//console.log(urlImageRostro);
+											if (window.navigator.msSaveBlob) {
+												window.navigator.msSaveBlob(
+														urlImageRostro,
+														"rostro.png");
 
+											} else {
+												const a = document
+														.createElement("a");
+												document.body.appendChild(a);
+												a.href = urlImageRostro;
+												a.download = "rostro.jpg";
+												a.click();
+												document.body.removeChild(a);
+											}
+										});
 
-    
+								$("#dpiFrontal").click(
+										function() {
+											//console.log(urlImageRostro);
+											if (window.navigator.msSaveBlob) {
+												window.navigator.msSaveBlob(
+														urlImageDpiFrontal,
+														"dpiFrontal.png");
 
+											} else {
+												const a = document
+														.createElement("a");
+												document.body.appendChild(a);
+												a.href = urlImageDpiFrontal;
+												a.download = "dpiFrontal.jpg";
+												a.click();
+												document.body.removeChild(a);
 
+											}
+										});
 
+								$("#dpiReverso").click(
+										function() {
+											//console.log(urlImageRostro);
+											if (window.navigator.msSaveBlob) {
+												window.navigator.msSaveBlob(
+														urlImageDpiReverso,
+														"dpiReverso.png");
 
+											} else {
+												const a = document
+														.createElement("a");
+												document.body.appendChild(a);
+												a.href = urlImageDpiReverso;
+												a.download = "dpiReverso.jpg";
+												a.click();
+												document.body.removeChild(a);
+											}
+										});
 
-	  $("#dpiReverso").click(function(){
-		  //console.log(urlImageRostro);
-		 if(window.navigator.msSaveBlob){
-      window.navigator.msSaveBlob(urlImageDpiReverso, "dpiReverso.png");
+								var table = $('#usersTable')
+										.DataTable(
+												{
+													"ajax" : {
+														"url" : "listUserPrincipalAdmin",
+														"type" : "POST"
+													},
+													"dataType" : "json",
+													"responsive" : "true",
+													"columnDefs" : [
+															{
+																"targets" : [ 0 ],
+																"visible" : false
+															},
+															{
+																"targets" : [ 2 ],
+																"visible" : true,
+																"className" : "all"
+															},
+															{
+																"targets" : [ 1 ],
+																"visible" : true,
+																"className" : "all"
+															},
+															{
+																"targets" : 5,
+																"data" : null,
+																"defaultContent" : "<button type='button' id='btnValidacion' class='btn btn-warning'>Validación</button>"
+															},
 
-		 }else{
-			 const a = document.createElement("a");
-			 document.body.appendChild(a);
-			 a.href = urlImageDpiReverso;
-			 a.download = "dpiReverso.jpg";
-			 a.click();
-			 document.body.removeChild(a);
-		 }
-		});
+													],
 
+													"columns" : [ {
+														"title" : "Id"
+													}, {
+														"title" : "Nombre"
+													}, {
+														"title" : "Apellido"
+													}, {
+														"title" : "Estado"
+													}, {
+														"title" : "Date"
+													}, {
+														"title" : "Aprobacion"
+													}
 
+													]
 
+												});
 
+								$('#usersTable tbody')
+										.on(
+												'click',
+												'#btnValidacion',
+												function(e) {
 
+													$('#spinner').modal('show');
 
+													var currentRow = $(this)
+															.closest("tr");
 
+													if (currentRow
+															.hasClass('child')) {//Check if the current row is a child row
+														currentRow = currentRow
+																.prev();//If it is, then point to the row before it (its 'parent')
+														console
+																.log('child exist')
+													}
+													var data = table.row(
+															currentRow).data();
 
+													idUser = data[0];
 
+													$
+															.ajax({
+																type : "post",
+																url : "getUser",
+																data : {
+																	idUser : idUser
+																},
+																success : function(
+																		json) {
 
+																	//oculta spinner y habilita el scroll
+																	$(
+																			'#spinner')
+																			.modal(
+																					'hide');
+																	$('.modal')
+																			.css(
+																					'overflow-y',
+																					'auto');
 
+																	var rostro = document
+																			.getElementById("rostro");
+																	var dpiFrontal = document
+																			.getElementById("dpiFrontal");
+																	var dpiReverso = document
+																			.getElementById("dpiReverso");
 
+																	rostro.innerHTML = " <img class='thumbnail zoom' id='idRostro' src='data:image/jpg;base64,"+json.imgRostro+"' width='180' height='225' /> ";
+																	dpiFrontal.innerHTML = " <img class='thumbnail zoom' id='idDpiFrontal' src='data:image/jpg;base64,"+json.imgDpiFrontal+"' width='180' height='225' /> ";
+																	dpiReverso.innerHTML = " <img class='thumbnail zoom' id='idDpiReverso' src='data:image/jpg;base64,"+json.imgDpiReverso+"' width='180' height='225' /> ";
 
+																	urlImageRostro = "data:image/jpg;base64,"
+																			+ json.imgRostro;
+																	urlImageDpiFrontal = "data:image/jpg;base64,"
+																			+ json.imgDpiFrontal;
+																	urlImageDpiReverso = "data:image/jpg;base64,"
+																			+ json.imgDpiReverso;
 
-	    var table= $('#usersTable').DataTable( {
-      "ajax" : {
-      "url": "listUserPrincipalAdmin",
-            "type": "POST"
-            },
-            "dataType" : "json",
-            "responsive": "true",
-             "columnDefs":
-            	 [
-                           {
-      "targets": [0],
-                               "visible": false
-                           },
-                           {
-      "targets": [2],
-                               "visible": true,
-                               "className":"all"
-                           },
-                           {
-      "targets": [1],
-                               "visible": true,
-                               "className":"all"
-                           },
-                           {
-      "targets": 5,
-                               "data": null,
-                               "defaultContent": "<button type='button' id='btnValidacion' class='btn btn-warning'>Validación</button>"
-                           },
+																	$("#nombre")
+																			.text(
+																					json.nombre);
+																	$(
+																			"#apellido")
+																			.text(
+																					json.apellido);
+																	$("#nit")
+																			.text(
+																					json.nit);
+																	$("#correo")
+																			.text(
+																					json.correo);
+																	$("#dpi")
+																			.text(
+																					json.dpi);
+																	$(
+																			"#telefono")
+																			.text(
+																					json.telefono);
+																	$("#genero")
+																			.text(
+																					json.genero);
 
-                   ],
+																	emailGlobal = json.correo;
+																	firstGlobal = json.nombre;
+																	lastGlobal = json.apellido;
 
-            "columns" : [
-                    {"title": "Id" },
-                    {"title": "Nombre"},
-                    {"title": "Apellido"},
-                    {"title": "Estado"},
-                    {"title": "Date"},
-                    {"title": "Aprobacion"}
+																	//remueve lo restante del modal oculto	
+																	$(
+																			'#spinner')
+																			.removeClass(
+																					'show');
 
-            ]
+																	//muestra el modal
+																	$(
+																			'#viewUserModal')
+																			.modal(
+																					'show');
 
-        });
+																}
+															});
 
+												});
 
+								$("#cancelarUsuario").click(function() {
+									closeModal();
+								});
 
+								function closeModal() {
+									$('.modal').modal('hide'); //oculta los modal
+									$('.modal').removeClass('show'); //oculta los modal con visualizacion 
+									$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+									$('.modal-backdrop').remove();//eliminamos el backdrop del modal    
+								}
 
-
-
-
-
-
-
-
-	    $('#usersTable tbody').on('click', '#btnValidacion', function (e) {
-
-      
-
-	    	  $('#spinner').modal('show');
-
-
-	    	var currentRow = $(this).closest("tr");
-
-	    	if (currentRow.hasClass('child')) {//Check if the current row is a child row
-      currentRow = currentRow.prev();//If it is, then point to the row before it (its 'parent')
-	            console.log('child exist')
-	        }
-	    	var data = table.row(currentRow).data();
-
-	        idUser=data[0];
-
-	       $.ajax({
-      type:"post",
-	           url: "getUser",
-	           data: {
-      idUser: idUser
-	               },
-	           	success: function (json) {
-	          	
-     				//oculta spinner y habilita el scroll
-	           		$('#spinner').modal('hide');
-	           		$('.modal').css('overflow-y', 'auto');
-	           		
-
-	           		 var rostro = document.getElementById("rostro");
-	           		 var dpiFrontal = document.getElementById("dpiFrontal");
-	           		 var dpiReverso = document.getElementById("dpiReverso");
-
-
-	           		 rostro.innerHTML=" <img class='thumbnail zoom' id='idRostro' src='data:image/jpg;base64,"+json.imgRostro+"' width='180' height='225' /> ";
-	           	     dpiFrontal.innerHTML=" <img class='thumbnail zoom' id='idDpiFrontal' src='data:image/jpg;base64,"+json.imgDpiFrontal+"' width='180' height='225' /> ";
-	           	     dpiReverso.innerHTML=" <img class='thumbnail zoom' id='idDpiReverso' src='data:image/jpg;base64,"+json.imgDpiReverso+"' width='180' height='225' /> ";
-
-	           	     urlImageRostro = "data:image/jpg;base64,"+json.imgRostro;
-	           	   	 urlImageDpiFrontal = "data:image/jpg;base64,"+json.imgDpiFrontal;
-	           	 	 urlImageDpiReverso = "data:image/jpg;base64,"+json.imgDpiReverso;
-
-
-	           		$("#nombre").text(json.nombre);
-	           		$("#apellido").text(json.apellido);
-	           		$("#nit").text(json.nit);
-	           		$("#correo").text(json.correo);
-	           		$("#dpi").text(json.dpi);
-	           		$("#telefono").text(json.telefono);
-	           		$("#genero").text(json.genero);
-
-	           		emailGlobal = json.correo;
-	           		firstGlobal = json.nombre;
-	           		lastGlobal = json.apellido;
-	         		
-	           	
-	           	 //remueve lo restante del modal oculto	
-          	     $('#spinner').removeClass('show');	
-	           	 
-	           	 //muestra el modal
-	             $('#viewUserModal').modal('show');
-	        
-	   
-	           	    
-	               }
-	       	 });
-	       
-	
-    } );
-	    
-	    $("#cancelarUsuario").click(function(){
-			closeModal(); 
-	   }); 
-	    
-	   function closeModal(){
-	        $('.modal').modal('hide'); //oculta los modal
-	    	$('.modal').removeClass('show');  //oculta los modal con visualizacion 
-	    	$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
-	    	$('.modal-backdrop').remove();//eliminamos el backdrop del modal    
-	   }
-	   
-
-	
-	    
-
-
-
-	    
-	
-	} );
-	    
-  
-  </script>
+							});
+		</script>
 
 </body>
 

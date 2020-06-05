@@ -1,218 +1,268 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-
-<title>Registro de Cuenta</title>
-
-
-<!-- Custom fonts for this template-->
-<link
-	th:href="@{/plantillaAdmin/vendor/fontawesome-free/css/all.min.css}"
-	rel="stylesheet" type="text/css" />
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-
-<!-- Custom styles for this template-->
-<link th:href="@{/plantillaAdmin/css/sb-admin-2.min.css}"
-	rel="stylesheet" />
-
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Solicitud de criptomonedas</title>
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/plantillaAdmin/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link th:href="@{/plantillaAdmin/css/sb-admin-2.min.css}" rel="stylesheet" />
 </head>
 
 <body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Solicitud de compra de criptomonedas</h1>
+                            </div>
+                            <form id="upload-voucher-form" class="user">
+                                <div class="form-group row">
+                                	<div class="col-sm-5">
+                                        <label for="sel1">Valor fiat:</label>
+                                        <input type="text" class="form-control form-control-user" id="valorFiat" placeholder="Valor">
+                                    </div>
+                                         <div class="col-sm-3">
+                                        <label for="sel1">Moneda:</label>
+                                        <select id="monedaFiat" class="custom-select mb-3">
+                                            <option value="0" selected>Seleccionar</option>
+                                            <option value="1">Quetzales</option>
+                                            <option value="2">Dolares</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="sel1">Tipo de Pago:</label>
+                                        <select onchange="showPay()"  id="tipoPago" class="custom-select mb-3">
+                                            <option value="0" selected>Seleccionar</option>
+                                            <option value="1">Tarjeta de Credito</option>
+                                            <option value="2">Transferencia de otros Bancos</option>
+                                            <option value="3">Transferencia Bancaria BAC</option>
+                                        </select>
+                                    </div>
+                                 
+                               
+                                </div>
+                                <div id="bank">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <div class="card">
+                                            <h5 class="card-header">Información para deposito bancario</h5>
+                                            <div class="card-body">
+                                                <h5 class="card-title">BAC Reformador</h5>
+                                                <p class="card-text">A nombre de: Novamining S.A. <br> Deposito Monetario Quetzales: 903473619 <br> Deposito Monetario Dolares: 902734615 </p>
+                                                <a href="#" class="btn btn-primary">Copiar información</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                
+                                <div id="voucherImage">
+                                    <div class="form-group row">
+                                        <div class="col-sm-10">
+                                            <p>Cargar imagen del voucher en caso de deposito bancario:</p>
+                                            <div class="custom-file mb-3">
+                                                <input type="file" class="custom-file-input" id="voucher" name="voucher"> <label class="custom-file-label" for="voucher">Cargar imagen</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                  <div id="creditCard">
+                                    <div class="form-group row">
+                                   
+                                            <div class="col-sm-4">
+                                        <label for="sel1">Numero tarjeta de credito:</label>
+                                        <input type="text" class="form-control form-control-user" id="numTarjetaCredito"  placeholder="xxxx xxxx xxxx xxxx">
+                                   			 </div>
+                                  
+                                   
+                                            <div class="col-sm-3">
+                                        <label for="sel1">Codigo CVV:</label>
+                                        <input type="text" class="form-control form-control-user" id="codigoCvv"  placeholder="CVV">
+                                   			 </div>
+                                
+                                   
+                                            <div class="col-sm-4">
+                                        <label for="sel1">Fecha de vencimiento:</label>
+                                        <input type="text" class="form-control form-control-user" id="fechaVencimiento"  placeholder="mes/año">
+                                   			 </div>
+                                 
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label for="sel1">Dirección de billetera:</label>
+                                          <select  id="numBilletera"  class="custom-select mb-3">
+                                            <option  value="0" selected>Tipo Criptomoneda</option>
+                                            <option th:each="billetera : ${billeteras}" th:value="${billetera.id}" th:text="${billetera.descripcion}"></option>
+                   
+                                        </select>
+                                        
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="sel1">Criptomoneda a comprar:</label>
+                                        <select  id="monedaCripto" class="custom-select mb-3">
+                                            <option value="0" selected>Seleccionar</option>
+                                            <option value="1">Bitcoin</option>
+                                            <option value="2">Etherum</option>
+                                        </select>
+                                      
+                                    </div>
+                                </div>
+                                
+                                <div id="address">
+                                    <div class="form-group row">
+                                        <div class="col-sm-8">
+                                            <label for="sel1">Dirección seleccionada:</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                       
+                                
+                                <br>
 
-	<div class="container">
 
-		<div class="card o-hidden border-0 shadow-lg my-5">
-			<div class="card-body p-0">
-				<!-- Nested Row within Card Body -->
-				<div class="row">
-					<div class="col-lg-2"></div>
-					<div class="col-lg-8">
-						<div class="p-5">
-							<div class="text-center">
-								<h1 class="h4 text-gray-900 mb-4">Solicitud de creación de
-									cuenta</h1>
-							</div>
-							<form id="upload-file-form" class="user">
-								<div class="form-group row">
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<input type="text" class="form-control form-control-user"
-											id="nombre" placeholder="Nombre">
-									</div>
-									<div class="col-sm-6">
-										<input type="text" class="form-control form-control-user"
-											id="apellido" placeholder="Apellido">
-									</div>
-								</div>
+								<div class="text-center">
 
-
-								<div class="form-group row">
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<input type="text" class="form-control form-control-user"
-											id="telefono" placeholder="Telefono">
-									</div>
-									<div class="col-sm-6">
-										<input type="text" class="form-control form-control-user"
-											id="email" placeholder="Email">
-									</div>
-								</div>
-
-
-								<div class="form-group row">
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<input type="text" class="form-control form-control-user"
-											id="nit" placeholder="Nit">
-									</div>
-									<div class="col-sm-6">
-										<input type="text" class="form-control form-control-user"
-											id="dpi" placeholder="Dpi">
-									</div>
-								</div>
-
-								<div class="form-group row">
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<label for="sel1">Genero:</label> <select name="genero"
-											id="genero" class="custom-select mb-3">
-											<option value="0" selected>Seleccionar</option>
-											<option value="1">Masculino</option>
-											<option value="2">Femenino</option>
-										</select>
-									</div>
-								</div>
-
-								<div class="form-group row">
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<p>Cargar fotografia personal del rostro:</p>
-										<div class="custom-file mb-3">
-											<input type="file" class="custom-file-input" id="rostro"
-												name="rostro"> <label class="custom-file-label"
-												for="rostro">Cargar imagen</label>
+									<div class="col-sm-12">
+										<div class="btn-group" role="group" aria-label="Basic example">								
+											  <button id="uploadButton" type="button" class="btn btn-primary btn-lg">Solicitar</button>
+											   <a href="inicio"  class="btn btn-secondary btn-lg">Cancelar</a>
 										</div>
 									</div>
-									
-									<div class="col-sm-6">
-										<p>Cargar imagen del DPI, lado frontal:</p>
-										<div class="custom-file mb-3">
-											<input type="file" class="custom-file-input" id="dpifrontal"
-												name="dpifrontal"> <label class="custom-file-label"
-												for="dpifrontal">Cargar Imagen</label>
-										</div>
-									</div>
-									
-									<div class="col-sm-6">
-										<p>Cargar imagen del DPI, lado reverso:</p>
-										<div class="custom-file mb-3">
-											<input type="file" class="custom-file-input" id="dpireverso"
-												name="dpireverso"> <label class="custom-file-label"
-												for="dpireverso">Cargar Imagen</label>
-										</div>
-									</div>
-									
-									
-								
-									
-								</div>
-
-
-
-								<button id=uploadButton type="button" class="btn btn-primary btn-lg
-								">Solicitar</button>
-								
-								
-							
-							</form>
 						
-							<hr>
-							<div class="text-center">
-								<a class="small" href="forgot-password.html">Forgot
-									Password?</a>
-							</div>
-							<div class="text-center">
-								<a class="small" href="login">Iniciar sesión con cuenta
-									existente</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+								
+								</div>
 
-	</div>
 
-	<!-- Bootstrap core JavaScript-->
-	<script th:src="@{/plantillaAdmin/vendor/jquery/jquery.min.js}"></script>
-	<script
-		th:src="@{/plantillaAdmin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
-	<!-- Core plugin JavaScript-->
-	<script
-		th:src="@{/plantillaAdmin/vendor/jquery-easing/jquery.easing.min.js}"></script>
-
-	<!-- Custom scripts for all pages-->
-	<script th:src="@{/plantillaAdmin/js/sb-admin-2.min.js}"></script>
-
-	<script>
-  $(".custom-file-input").on("change", function() {
-	  var fileName = $(this).val().split("\\").pop();
-	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-	});
-  
+							</form>
+                       
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="forgot-password.html">¿Necesita ayuda?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="login">Cerrar sesión</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script th:src="@{/plantillaAdmin/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/plantillaAdmin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <!-- Core plugin JavaScript-->
+    <script th:src="@{/plantillaAdmin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+    <!-- Custom scripts for all pages-->
+    <script th:src="@{/plantillaAdmin/js/sb-admin-2.min.js}"></script>
+    <script>
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+        $(document).ready(function() {
+        	
+        	 $("#creditCard").hide();
+        	 $("#voucherImage").hide();
+        	 $("#address").hide();
+        	 $("#bank").hide();
+        	 
+        	
+        	
+            //$("#upload-file-input").on("change", uploadFile);
+            $("#uploadButton").click(function() {
+                uploadFile();
+            });
+        });
+        /**
+         * Upload the file sending it via Ajax at the Spring Boot server.
+         */
+         
+        function showPay(){
+          var option = 	document.getElementById("tipoPago").value;
+         	
+          if(option>1){
+        	  $("#bank").show();
+        	  $("#voucherImage").show();
+        	  $("#creditCard").hide();
+          }
+          
+          if(option==1){
+        	  $("#creditCard").show();
+        	  $("#bank").hide();        
+              $("#voucherImage").hide();	  
+          }
+          
+          if(option==0){
+        	  $("#creditCard").hide();
+        	  $("#bank").hide();  
+        	  $("#voucherImage").hide();
+          }
+        	
+         }
+         
+        function uploadFile() {
+            var form = $("#upload-voucher-form")[0];
+            var data = new FormData(form);
+            
+            data.append("valorFiat", $("#valorFiat").val());
+            data.append("monedaFiat", $("#monedaFiat").val());
+            data.append("tipoPago", $("#tipoPago option:selected").val());
+            data.append("numTarjetaCredito", $("#numTarjetaCredito").val());
+            data.append("codigoCvv", $("#codigoCvv").val());
+            data.append("fechaVencimiento", $("#fechaVencimiento").val());            
+            data.append("numBilletera", $("#numBilletera option:selected").val());
+            data.append("monedaCripto", $("#monedaCripto option:selected").val());
+            data.append("tipoNegocio", 1);
+            data.append("idUser", 3);
  
-	  $(document).ready(function(){
-		
-		//$("#upload-file-input").on("change", uploadFile);
-
-			$("#uploadButton").click(function() {
-
-				uploadFile();
-			});
-		});
-
-		/**
-		 * Upload the file sending it via Ajax at the Spring Boot server.
-		 */
-		function uploadFile() {
-			var form = $("#upload-file-form")[0];
-		
-			var data = new FormData(form);
-			data.append("nombre",$( "#nombre" ).val());
-			data.append("apellido",$( "#apellido" ).val());
-			data.append("telefono",$( "#telefono" ).val());
-			data.append("email",$( "#email" ).val());
-			data.append("nit",$( "#nit" ).val());
-			data.append("dpi",$( "#dpi" ).val());
-			data.append("genero",$("#genero option:selected").text());
-			
-			$.ajax({
-				url : "/uploadFile",
-				type : "POST",
-				data : data,
-				enctype : 'multipart/form-data',
-				processData : false,
-				contentType : false,
-				cache : false,
-				success : function(data) {
-					alert(data);
-				},
-				error : function() {
-					
-				}
-			});
-		}
-
-
-	</script>
-
+            
+            $.ajax({
+                url: "/uploadFileBuy",
+                type: "POST",
+                data: data,
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(data) {
+                    alert(data);
+                    $("#valorFiat").val('');
+                    $("#monedaFiat").val(0);
+                    $("#tipoPago").val(0);
+                    $("#numTarjetaCredito").val('');
+                    $("#codigoCvv").val('');
+                    $("#fechaVencimiento").val('');
+                    $("#numBilletera").val(0);
+                    $("#monedaCripto").val(0);
+                    
+                    $("#creditCard").hide();
+              	    $("#bank").hide();  
+              	    $("#voucherImage").hide();
+                    
+                },
+                error: function() {}
+            });
+            
+        }
+    </script>
 </body>
 
 </html>
