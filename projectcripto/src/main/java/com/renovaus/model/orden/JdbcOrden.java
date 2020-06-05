@@ -57,7 +57,7 @@ public class JdbcOrden implements IOrden {
 	@Override
 	public int saveSell(Orden orden) {
 		return jdbcTemplate.update("insert into orden "
-				+ "(id_tipo_pago,"
+				+ "(id_tipo_negocio,"
 				+ "id_estado_orden, "
 				+ "valor_fiat, "
 				+ "valor_cripto, "	
@@ -209,9 +209,9 @@ public class JdbcOrden implements IOrden {
 						new String[] {
 								String.valueOf(rs.getInt("orden")),
 								String.valueOf(rs.getString("estado")),
-								String.valueOf(rs.getBigDecimal("fiat").toString()),
+								String.valueOf(rs.getBigDecimal("fiat").toPlainString()),
 								String.valueOf(rs.getString("moneda_fiat")),						
-								String.valueOf(rs.getBigDecimal("recibido_criptomonedas").toString()),
+								String.valueOf(rs.getBigDecimal("recibido_criptomonedas").toPlainString()),
 								String.valueOf(rs.getString("moneda_cripto")),
 								String.valueOf(rs.getString("tipo_pago")),
 								String.valueOf(rs.getString("date"))
@@ -242,9 +242,9 @@ public class JdbcOrden implements IOrden {
 						new String[] {
 								String.valueOf(rs.getInt("orden")),
 								String.valueOf(rs.getString("estado")),
-								String.valueOf(rs.getBigDecimal("recibido_fiat").toString()),
+								String.valueOf(rs.getBigDecimal("recibido_fiat").toPlainString()),
 								String.valueOf(rs.getString("moneda_fiat")),
-								String.valueOf(rs.getBigDecimal("recibido_criptomonedas").toString()),
+								String.valueOf(rs.getBigDecimal("recibido_criptomonedas").toPlainString()),
 								String.valueOf(rs.getString("moneda_cripto")),
 								String.valueOf(rs.getString("cuenta_bancaria")),
 								String.valueOf(rs.getString("tipo_cuenta_bancaria")),							

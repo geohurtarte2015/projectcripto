@@ -51,6 +51,7 @@ import com.renovaus.model.user.IUser;
 import com.renovaus.pojo.Admin;
 import com.renovaus.pojo.Banco;
 import com.renovaus.pojo.Billetera;
+import com.renovaus.pojo.BilleteraExchange;
 import com.renovaus.pojo.Estado;
 import com.renovaus.pojo.EstadoOrden;
 import com.renovaus.pojo.Orden;
@@ -535,6 +536,27 @@ public class WebAppController {
 		        map.put("imgDpiReverso",imgDpiReverso);
 		        return map;
 		    }
+		    
+		    
+		    
+		    @RequestMapping(value = "/getAddressQr", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+		    @ResponseBody
+		    public Map<String, String> getAddressQr(@RequestParam int idCripto,HttpServletRequest request) {		    	
+		    	  BilleteraExchange billteraExchange = new BilleteraExchange();	
+		    	  
+		    	HashMap<String, String> map = new HashMap<>();
+		    	
+		    	
+		 	   billteraExchange = iBilleteraExchange.findByBilleteraExchange(idCripto);
+		       
+		        map.put("direccion", String.valueOf(billteraExchange.getDireccion()));
+		        map.put("imagen", String.valueOf(billteraExchange.getImagen()));
+		 
+		
+
+		        return map;
+		    }
+		    
 		    
 		    
 		    @RequestMapping(value = "/listUserPrincipalAdmin", method = RequestMethod.POST)

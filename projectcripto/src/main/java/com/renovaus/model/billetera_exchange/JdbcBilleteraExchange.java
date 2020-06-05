@@ -26,7 +26,8 @@ public class JdbcBilleteraExchange implements IBilleteraExchange {
 						rs.getInt("id"),
 						rs.getString("descripcion"),
 						rs.getInt("id_tipo_cripto"),
-						rs.getString("direccion"))	
+						rs.getString("direccion"),
+						rs.getString("imagen_qr"))	
 				);
 		return billeteraExchange; 
 	}

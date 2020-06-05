@@ -5,23 +5,28 @@ public class BilleteraExchange {
 	private int id;
 	private String descripcion;
 	private String direccion;
+	private String imagen;
 	private int tipoCripto;
 	
+	public BilleteraExchange() {}
 	
-	public BilleteraExchange(String descripcion,int tipoCripto, String direccion) {
+	
+	public BilleteraExchange(String descripcion,int tipoCripto, String direccion, String imagen) {
 		
 		this.descripcion = descripcion;
 		this.tipoCripto = tipoCripto;
 		this.direccion = direccion;
+		this.imagen = imagen;
 	}
 	
 	
 	
-	public BilleteraExchange(int id ,String descripcion,int tipoCripto, String direccion) {
+	public BilleteraExchange(int id ,String descripcion,int tipoCripto, String direccion, String imagen) {
 		this.id = id;
 		this.descripcion = descripcion;
 		this.tipoCripto = tipoCripto;
 		this.direccion = direccion;
+		this.imagen = imagen;
 	}
 	
 	
@@ -48,6 +53,13 @@ public class BilleteraExchange {
 	}
 	public void setTipoCripto(int tipoCripto) {
 		this.tipoCripto = tipoCripto;
+	}
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 	
