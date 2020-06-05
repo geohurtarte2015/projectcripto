@@ -48,9 +48,29 @@
                                     </div>
                                 </div>
                                 <br>
+                                <div id="addressWallet">
+                                    <div class="card text-center">
+										  <div class="card-header">
+										    Depositar a billetera en la siguiente dirección
+										  </div>
+										    <img th:src="@{/plantillaUser/img/bitcoinqr.jpg}" class="card-img-top" alt=""/>
+										    
+										  <div class="card-body">
+										    <h5 class="card-title">Dirección de deposito</h5>
+										    <p class="card-text">x0mfjka442kkcj3kljfkl665llxc0845ea6f5</p>
+										    <a href="#" class="btn btn-primary">Copiar dirección</a>
+										  </div>
+										  <div class="card-footer text-muted">
+										    Coincaex
+										  </div>
+									</div>
+								</div>
+                                <br>
                                 <div class="card">
                                     <div class="card-header"> Datos de cuenta bancaria </div>
                                     <div class="card-body">
+                                    
+                                    
                                         <div class="form-group row">
                                             <div class="col-sm-4">
                                                 <label for="sel1">Cuenta:</label>
@@ -68,8 +88,7 @@
                                                 <label for="sel1">Banco:</label>
                                                 <select id="banco" class="custom-select mb-3">
                                                     <option value="0" selected>Seleccionar</option>
-                                                    <option value="1">Bac Credomatic</option>
-                                                    <option value="2">Banco Industrial</option>
+                                                     <option th:each="banco : ${bancos}" th:value="${banco.id}" th:text="${banco.descripcion}"></option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
@@ -80,6 +99,8 @@
                                                     <option value="2">Dolares</option>
                                                 </select>
                                             </div>
+                                            
+                                            
                                         </div>
                                     </div>
                                 </div>

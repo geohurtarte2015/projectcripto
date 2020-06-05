@@ -43,10 +43,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.renovaus.ProjectcriptoApplication;
+import com.renovaus.bancos.IBanco;
 import com.renovaus.model.billetera.IBilletera;
+import com.renovaus.model.billetera_exchange.IBilleteraExchange;
 import com.renovaus.model.orden.IOrden;
 import com.renovaus.model.user.IUser;
 import com.renovaus.pojo.Admin;
+import com.renovaus.pojo.Banco;
 import com.renovaus.pojo.Billetera;
 import com.renovaus.pojo.Estado;
 import com.renovaus.pojo.EstadoOrden;
@@ -70,6 +73,12 @@ public class WebAppController {
 	  
 			@Autowired
 	  		private IBilletera iBilletera;
+			
+			@Autowired
+	  		private IBanco iBanco;
+			
+			@Autowired
+	  		private IBilleteraExchange iBilleteraExchange;
 	  		
 	  
 	  		@Autowired
@@ -155,10 +164,14 @@ public class WebAppController {
 				if (nombreCompleto == null) {
 				    nombreCompleto = new String();
 				}	
+				
+				List<Banco> bancos = iBanco.findAll();
+				
 			
 				model.addAttribute("nombre", nombreCompleto);		
 				model.addAttribute("datetime", new Date());
 				model.addAttribute("username", "Giovanni Hurtarte");
+				model.addAttribute("bancos",bancos);
 				model.addAttribute("mode", appMode);
 				model.addAttribute("userLogin", new UserLogin());
 	        return "plantillaAdmin/sellCripto";
@@ -271,6 +284,7 @@ public class WebAppController {
 		      return "Datos Cargados correctamente";
 		    } 
 		    
+		    
 		    @RequestMapping(value = "/uploadFileBuy", method = RequestMethod.POST,produces = MediaType.TEXT_HTML_VALUE)
 		    @ResponseBody
 		    public String uploadFileBuy(
@@ -347,6 +361,7 @@ public class WebAppController {
 			      return "Datos Cargados correctamente";
 			    } 
 		    
+		    		    
 		    @RequestMapping(value = "/uploadFileSell", method = RequestMethod.POST,produces = MediaType.TEXT_HTML_VALUE)
 		    @ResponseBody
 		    public String uploadFileSell(
@@ -433,6 +448,7 @@ public class WebAppController {
 			       // return "plantillaAdmin/index";
 			        return "plantillaAdmin/indexUser";
 		    }
+		    
 		    
 		    @RequestMapping("/inicioAdmin")
 	    	public String adminAdmin(Model model, HttpSession session){

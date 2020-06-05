@@ -4,16 +4,16 @@ public class Banco {
 	
 	private int id;
 	private String descripcion;
-	private String moneda;
+	private int moneda;
 	
 	
-	public Banco(int id, String descripcion, String moneda) {
+	public Banco(int id, String descripcion, int moneda) {
 		this.id = id;
 		this.descripcion = descripcion;
 		this.moneda = moneda;		
 	}
 	
-	public Banco(String descripcion, String moneda) {		
+	public Banco(String descripcion, int moneda) {		
 		this.descripcion = descripcion;
 		this.moneda = moneda;		
 	}
@@ -31,10 +31,10 @@ public class Banco {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getMoneda() {
+	public int getMoneda() {
 		return moneda;
 	}
-	public void setMoneda(String moneda) {
+	public void setMoneda(int moneda) {
 		this.moneda = moneda;
 	}
 
