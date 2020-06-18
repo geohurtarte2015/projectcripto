@@ -19,6 +19,18 @@ public class Persona {
 	
 	public Persona() {}
 	
+	public Persona(String nombre, String apellido) {
+		this.nombre = nombre;
+		this.apellido = apellido;
+	}
+	
+	public Persona(String nombre, String apellido, String correo) {
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.correo = correo;
+	}
+	
+	
 	public java.sql.Date getFecha() {
 		return fecha;
 	}

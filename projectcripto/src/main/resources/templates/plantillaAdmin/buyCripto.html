@@ -173,6 +173,17 @@
     <!-- Custom scripts for all pages-->
     <script th:src="@{/plantillaAdmin/js/sb-admin-2.min.js}"></script>
     <script>
+    
+    /*<![CDATA[*/
+
+
+    var nameUser ="[[${nombre}]]";
+    var idUser = [[${idUserSession}]];
+
+  
+ 	/*]]>*/
+    
+    
         $(".custom-file-input").on("change", function() {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -231,7 +242,7 @@
             data.append("numBilletera", $("#numBilletera option:selected").val());
             data.append("monedaCripto", $("#monedaCripto option:selected").val());
             data.append("tipoNegocio", 1);
-            data.append("idUser", 3);
+            data.append("idUser", idUser);
  
             
             $.ajax({
@@ -251,8 +262,7 @@
                     $("#codigoCvv").val('');
                     $("#fechaVencimiento").val('');
                     $("#numBilletera").val(0);
-                    $("#monedaCripto").val(0);
-                    
+                    $("#monedaCripto").val(0);                    
                     $("#creditCard").hide();
               	    $("#bank").hide();  
               	    $("#voucherImage").hide();

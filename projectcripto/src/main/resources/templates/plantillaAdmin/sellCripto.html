@@ -68,7 +68,7 @@
                                     
                                         <div class="form-group row">
                                             <div class="col-sm-4">
-                                                <label for="sel1">Cuenta:</label>
+                                                <label for="sel1">No.Cuenta:</label>
                                                 <input type="text" class="form-control" id="numeroCuenta" placeholder="Cuenta Bancaria">
                                             </div>
                                             <div class="col-sm-3">
@@ -93,6 +93,10 @@
                                                     <option value="1">Quetzales</option>
                                                     <option value="2">Dolares</option>
                                                 </select>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <label for="sel1">Nombre de la cuenta :</label>
+                                                <input type="text" class="form-control" id="nombreCuenta" placeholder="Nombre de Cuenta Bancaria">
                                             </div>
                                             
                                             
@@ -130,6 +134,16 @@
     <!-- Custom scripts for all pages-->
     <script th:src="@{/plantillaAdmin/js/sb-admin-2.min.js}"></script>
     <script>
+    
+    /*<![CDATA[*/
+
+
+    var nameUser ="[[${nombre}]]";
+    var idUser = [[${idUserSession}]];
+
+  
+ 	/*]]>*/
+    
         $(".custom-file-input").on("change", function() {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -155,11 +169,12 @@
             data.append("valorCripto", $("#valorCripto").val());
             data.append("tipoCripto", $("#tipoCripto").val());
             data.append("numeroCuenta", $("#numeroCuenta").val());
-            data.append("tipoCuenta", $("#tipoCuenta").val());
+            data.append("nombreCuenta", $("#nombreCuenta").val());
+            data.append("tipoCuenta", $("#tipoCuenta option:selected").text());
             data.append("banco", $("#banco").val());
             data.append("tipoFiat", $("#tipoFiat").val());
             data.append("tipoNegocio", 2);
-            data.append("idUser", 3);
+            data.append("idUser", idUser);
             
             $.ajax({
                 url: "/uploadFileSell",
@@ -172,6 +187,7 @@
                 success: function(data) {
                     alert(data);
                     $("#valorCripto").val('');
+                    $("#nombreCuenta").val('');
                     $("#tipoCripto").val(0);            
                     $("#numeroCuenta").val('');              
                     $("#tipoCuenta").val(0);

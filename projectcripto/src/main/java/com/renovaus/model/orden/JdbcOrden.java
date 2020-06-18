@@ -9,8 +9,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.lob.LobHandler;
 import org.springframework.stereotype.Repository;
 
-
+import com.renovaus.pojo.Banco;
+import com.renovaus.pojo.Billetera;
 import com.renovaus.pojo.EstadoOrden;
+import com.renovaus.pojo.MonedaCripto;
+import com.renovaus.pojo.MonedaFiat;
 import com.renovaus.pojo.Orden;
 import com.renovaus.pojo.Rol;
 import com.renovaus.pojo.TipoNegocio;
@@ -66,7 +69,8 @@ public class JdbcOrden implements IOrden {
 				+ "cuenta_bancaria, "
 				+ "tipo_cuenta_bancaria, "
 				+ "id_banco, "
-				+ "id_user ) values (?,?,?,?,?,?,?,?,?,?)",	
+				+ "id_user, "
+				+ "nombre_cuenta_bancaria) values (?,?,?,?,?,?,?,?,?,?,?)",	
 				orden.getTipoNegocio().getId(),	
 				orden.getEstadoOrden().getId(),
 				orden.getFiat(),
@@ -75,8 +79,9 @@ public class JdbcOrden implements IOrden {
 				orden.getMonedaCripto(),
 				orden.getCuentaBancaria(),
 				orden.getTipoCuentaBancaria(),
-				orden.getBanco(),
-				orden.getUser().getId()				
+				orden.getNombreBanco(),
+				orden.getUser().getId(),
+				orden.getNombreCuentaBancaria()
 				);
 	}
 
@@ -253,5 +258,213 @@ public class JdbcOrden implements IOrden {
 				);	
 		
 	}
+
+	@Override
+	public Orden findByOrder(int id) {
+		return jdbcTemplate.queryForObject("select \r\n" + 
+				"orden.id,\r\n" + 
+				"orden.valor_fiat,\r\n" + 
+				"tipo_moneda_fiat.descripcion as tipo_moneda_fiat,\r\n" + 
+				"orden.valor_cripto,\r\n" + 
+				"tipo_moneda_cripto.descripcion as tipo_moneda_cripto,\r\n" + 
+				"orden.imagen_voucher, \r\n" + 
+				"tipo_pago.descripcion as tipo_pago,\r\n" + 
+				"orden.cuenta_bancaria,\r\n" + 
+				"orden.tipo_cuenta_bancaria,\r\n" + 
+				"banco.descripcion as banco,\r\n" + 
+				"orden.date,\r\n" + 
+				"orden.id_estado_orden,\r\n" + 
+				"orden.id_tipo_negocio,\r\n" + 
+				"billetera.direccion as billetera,\r\n" + 
+				"user.nombre,\r\n" + 
+				"user.apellido,\r\n" + 
+				"user.correo\r\n" + 
+				"from orden\r\n" + 
+				"inner join user on orden.id_user=user.id\r\n" + 
+				"inner join  tipo_moneda_fiat on orden.id_moneda_fiat=tipo_moneda_fiat.id \r\n" + 
+				"inner join  tipo_moneda_cripto on orden.id_moneda_cripto=tipo_moneda_cripto.id \r\n" + 
+				"inner join  billetera on orden.id_billetera=billetera.id\r\n" + 
+				"inner join  tipo_pago on orden.id_tipo_pago=tipo_pago.id\r\n" + 
+				"inner join  banco on orden.id_banco=banco.id\r\n" + 
+				"where orden.id=?" + 
+				"",
+				new Object[]{id},				
+				(rs, rowum) ->
+					new Orden(							
+							new TipoPago(rs.getString("tipo_pago")),
+							new TipoNegocio(rs.getInt("id_tipo_negocio")),
+							rs.getBytes("imagen_voucher"),						
+							(rs.getBigDecimal("valor_fiat")),
+							(rs.getBigDecimal("valor_cripto")),	
+							new User(rs.getString("nombre"),rs.getString("apellido"),rs.getString("correo")),
+						    new EstadoOrden(rs.getInt("id_estado_orden")),						   
+							rs.getString("tipo_cuenta_bancaria"),
+							 rs.getString("cuenta_bancaria"),
+							new Banco(rs.getString("banco")),
+							new Billetera(rs.getString("billetera")),
+							new MonedaFiat(rs.getString("tipo_moneda_fiat")),
+							new MonedaCripto(rs.getString("tipo_moneda_cripto")))				
+							);
+	}
+	
+	@Override
+	public Orden findByOrderBuy(int id) {
+		return jdbcTemplate.queryForObject("select \r\n" + 
+				"orden.id,\r\n" + 
+				"orden.valor_fiat,\r\n" + 
+				"tipo_moneda_fiat.descripcion as tipo_moneda_fiat,\r\n" + 
+				"orden.valor_cripto,\r\n" + 
+				"tipo_moneda_cripto.descripcion as tipo_moneda_cripto,\r\n" + 
+				"orden.imagen_voucher, \r\n" + 				
+				"orden.date,\r\n" + 
+				"orden.id_estado_orden,\r\n" + 
+				"orden.id_tipo_negocio,\r\n" + 
+				"billetera.direccion as billetera,\r\n" + 
+				"user.nombre,\r\n" + 
+				"user.apellido,\r\n" + 
+				"user.correo\r\n" + 
+				"from orden\r\n" + 
+				"inner join user on orden.id_user=user.id\r\n" + 
+				"inner join  tipo_moneda_fiat on orden.id_moneda_fiat=tipo_moneda_fiat.id \r\n" + 
+				"inner join  tipo_moneda_cripto on orden.id_moneda_cripto=tipo_moneda_cripto.id \r\n" + 
+				"inner join  billetera on orden.id_billetera=billetera.id\r\n" + 						
+				"where orden.id=?" + 
+				"",
+				new Object[]{id},				
+				(rs, rowum) ->
+					new Orden(
+							new TipoNegocio(rs.getInt("id_tipo_negocio")),
+							rs.getBytes("imagen_voucher"),						
+							(rs.getBigDecimal("valor_fiat")),
+							(rs.getBigDecimal("valor_cripto")),	
+							new User(rs.getString("nombre"),rs.getString("apellido"),rs.getString("correo")),
+						    new EstadoOrden(rs.getInt("id_estado_orden")),
+						    new Billetera(rs.getString("billetera")),
+							new MonedaFiat(rs.getString("tipo_moneda_fiat")),
+							new MonedaCripto(rs.getString("tipo_moneda_cripto")))				
+							);
+	}
+	
+	@Override
+	public Orden findByOrderSell(int id) {
+		return jdbcTemplate.queryForObject("select \r\n" + 
+				"				orden.id,\r\n" + 
+				"				orden.valor_fiat,\r\n" + 
+				"				tipo_moneda_fiat.descripcion as tipo_moneda_fiat,\r\n" + 
+				"				orden.valor_cripto,\r\n" + 
+				"				tipo_moneda_cripto.descripcion as tipo_moneda_cripto,	\r\n" + 
+				"				orden.cuenta_bancaria,\r\n" + 
+				"				orden.tipo_cuenta_bancaria,\r\n" + 
+				"				banco.descripcion as banco,		\r\n" + 
+				"				orden.id_estado_orden,			\r\n" + 
+				"				user.nombre,\r\n" + 
+				"				user.apellido,\r\n" +
+				"				user.correo,\r\n" +
+				"				orden.nombre_cuenta_bancaria\r\n" +				
+				"				from orden\r\n" + 
+				"				inner join user on orden.id_user=user.id\r\n" + 
+				"				inner join  tipo_moneda_fiat on orden.id_moneda_fiat=tipo_moneda_fiat.id \r\n" + 
+				"				inner join  tipo_moneda_cripto on orden.id_moneda_cripto=tipo_moneda_cripto.id\r\n" + 
+				"				inner join  banco on orden.id_banco=banco.id\r\n" + 
+				"                where orden.id = ?" + 
+				"",
+				new Object[]{id},				
+				(rs, rowum) ->
+					new Orden(							
+							(rs.getBigDecimal("valor_fiat")),
+							(rs.getBigDecimal("valor_cripto")),	
+							new User(rs.getString("nombre"),rs.getString("apellido"),rs.getString("correo")),
+						    new EstadoOrden(rs.getInt("id_estado_orden")),						   
+							rs.getString("tipo_cuenta_bancaria"),
+							 rs.getString("cuenta_bancaria"),
+							new Banco(rs.getString("banco")),						
+							new MonedaFiat(rs.getString("tipo_moneda_fiat")),
+							new MonedaCripto(rs.getString("tipo_moneda_cripto")),
+							rs.getString("nombre_cuenta_bancaria"))				
+							);
+	}
+
+	@Override
+	public int updateFiat(BigDecimal valorFiat, int idOrden) {
+		   return jdbcTemplate.update(
+	                "update orden set valor_fiat = ? where id =?",
+	                valorFiat, idOrden);			
+	}
+	
+	@Override
+	public int updateCripto(BigDecimal valorCripto, int idOrden) {
+		   return jdbcTemplate.update(
+	                "update orden set valor_cripto = ? where id =?",
+	                valorCripto, idOrden);			
+	}
+
+	
+	
+	@Override
+	public List<String[]> dataTableFindByUserSellAdmin() {
+		return jdbcTemplate.query("SELECT \r\n" + 
+				"orden.id as orden, \r\n" + 
+				"estados_orden.descripcion as estado,\r\n" + 
+				"orden.valor_fiat as fiat, \r\n" + 
+				"tipo_moneda_fiat.descripcion as moneda_fiat, \r\n" + 
+				"orden.valor_cripto as recibido_criptomonedas, \r\n" + 
+				"tipo_moneda_cripto.descripcion as moneda_cripto, \r\n" + 
+				"tipo_pago.descripcion as tipo_pago,\r\n" + 
+				"date FROM  orden \r\n" + 
+				"inner join tipo_moneda_cripto on orden.id_moneda_cripto=tipo_moneda_cripto.id\r\n" + 
+				"inner join tipo_moneda_fiat on orden.id_moneda_fiat=tipo_moneda_fiat.id\r\n" + 
+				"inner join tipo_pago on orden.id_tipo_pago=tipo_pago.id\r\n" + 
+				"inner join estados_orden on orden.id_estado_orden=estados_orden.id\r\n" + 
+				"where id_tipo_negocio=1",		
+				(rs, rowum) ->
+						new String[] {
+								String.valueOf(rs.getInt("orden")),
+								String.valueOf(rs.getString("estado")),
+								String.valueOf(rs.getBigDecimal("fiat").toPlainString()),
+								String.valueOf(rs.getString("moneda_fiat")),						
+								String.valueOf(rs.getBigDecimal("recibido_criptomonedas").toPlainString()),
+								String.valueOf(rs.getString("moneda_cripto")),
+								String.valueOf(rs.getString("tipo_pago")),
+								String.valueOf(rs.getString("date"))
+								
+						}
+				);	
+	}
+
+	
+	
+	@Override
+	public List<String[]> dataTableFindByUserBuyAdmin() {
+		return jdbcTemplate.query("SELECT \r\n" + 
+				"orden.id as orden, \r\n" + 
+				"estados_orden.descripcion as estado,\r\n" + 
+				"orden.valor_fiat as recibido_fiat, \r\n" + 
+				"tipo_moneda_fiat.descripcion as moneda_fiat, \r\n" + 
+				"orden.valor_cripto as recibido_criptomonedas, \r\n" + 
+				"tipo_moneda_cripto.descripcion as moneda_cripto, \r\n" + 
+				"orden.cuenta_bancaria as cuenta_bancaria,\r\n" + 
+				"orden.tipo_cuenta_bancaria as tipo_cuenta_bancaria,\r\n" + 
+				"date FROM  orden \r\n" + 
+				"inner join tipo_moneda_cripto on orden.id_moneda_cripto=tipo_moneda_cripto.id\r\n" + 
+				"inner join tipo_moneda_fiat on orden.id_moneda_fiat=tipo_moneda_fiat.id\r\n" + 
+				"inner join estados_orden on orden.id_estado_orden=estados_orden.id\r\n" + 
+				"where id_tipo_negocio=2",				
+				(rs, rowum) ->
+						new String[] {
+								String.valueOf(rs.getInt("orden")),
+								String.valueOf(rs.getString("estado")),
+								String.valueOf(rs.getBigDecimal("recibido_fiat").toPlainString()),
+								String.valueOf(rs.getString("moneda_fiat")),
+								String.valueOf(rs.getBigDecimal("recibido_criptomonedas").toPlainString()),
+								String.valueOf(rs.getString("moneda_cripto")),
+								String.valueOf(rs.getString("cuenta_bancaria")),
+								String.valueOf(rs.getString("tipo_cuenta_bancaria")),							
+								String.valueOf(rs.getString("date"))
+						}
+				);	
+	}
+	
+	
+	
 
 }

@@ -18,6 +18,10 @@ public class Banco {
 		this.moneda = moneda;		
 	}
 	
+	public Banco(String descripcion) {		
+		this.descripcion = descripcion;			
+	}
+	
 	
 	public int getId() {
 		return id;

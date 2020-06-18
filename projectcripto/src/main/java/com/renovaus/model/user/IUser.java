@@ -15,6 +15,8 @@ public interface IUser {
 	  
 	  int updateUser(int idUser);
 	  
+	  int updateEstado(int idUser, int idEstado);
+	  
 	  int updateUserNameAndPassword(String username,String password,int idUser);
 	  
 	  User findByUser(String user, String password);

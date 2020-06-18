@@ -14,6 +14,15 @@ public class User extends Persona {
 	private Admin admin;
 	
 	
+	public User(String nombre, String apellido) {
+		super(nombre, apellido);
+	}
+	
+	public User(String nombre, String apellido, String correo) {
+		super(nombre, apellido,correo);
+	}
+	
+	
 	public User(String nombre, String apellido, String genero, int telefono, String usuario,
 			String password, Estado estado, String nit, BigInteger dpi, byte[] imgDpiRostro, byte[] imgDpiFrontal,
 			byte[] imgDpiReverso, Admin admin, String correo) {

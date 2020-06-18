@@ -21,6 +21,10 @@ public class Billetera {
 		this.direccion = direccion;
 	}
 	
+	public Billetera(String direccion) {
+		this.direccion = direccion;
+	}
+	
 	public String getDireccion() {
 		return direccion;
 	}

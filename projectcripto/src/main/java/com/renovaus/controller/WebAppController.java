@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.renovaus.ProjectcriptoApplication;
-import com.renovaus.bancos.IBanco;
+import com.renovaus.model.bancos.IBanco;
 import com.renovaus.model.billetera.IBilletera;
 import com.renovaus.model.billetera_exchange.IBilleteraExchange;
 import com.renovaus.model.orden.IOrden;
@@ -138,14 +138,21 @@ public class WebAppController {
 	    	public String buyCripto(Model model, HttpSession session){
 		    @SuppressWarnings("unchecked")
 		    String nombreCompleto = (String) session.getAttribute("nombre");
+		    String idUserSession = (String) session.getAttribute("idUserSession");
 			
 				if (nombreCompleto == null) {
 					nombreCompleto = new String();
 				}
+
+				if (idUserSession == null) {
+					idUserSession = new String();
+				}
+				
 				
 				List<Billetera> billeteras = iBilletera.findByUser(3);
 		
 				model.addAttribute("nombre", nombreCompleto);
+				model.addAttribute("idUserSession", idUserSession);
 				model.addAttribute("datetime", new Date());
 				model.addAttribute("username", "Giovanni Hurtarte");
 				model.addAttribute("billeteras",billeteras);
@@ -160,16 +167,23 @@ public class WebAppController {
 		    public String sellCripto(Model model, HttpSession session){
 			    @SuppressWarnings("unchecked")
 			    String nombreCompleto = (String) session.getAttribute("nombre");
+			    String idUserSession = (String) session.getAttribute("idUserSession");
 					
 				
 				if (nombreCompleto == null) {
 				    nombreCompleto = new String();
 				}	
 				
+				if (idUserSession == null) {
+					idUserSession = new String();
+				}
+				
+				
 				List<Banco> bancos = iBanco.findAll();
 				
 			
-				model.addAttribute("nombre", nombreCompleto);		
+				model.addAttribute("nombre", nombreCompleto);	
+				model.addAttribute("idUserSession", idUserSession);
 				model.addAttribute("datetime", new Date());
 				model.addAttribute("username", "Giovanni Hurtarte");
 				model.addAttribute("bancos",bancos);
@@ -298,7 +312,7 @@ public class WebAppController {
 		    		@RequestParam String numBilletera,	
 		    		@RequestParam String monedaCripto,	  
 		    		@RequestParam String tipoNegocio,	
-		    		@RequestParam String idUser,	
+		    		@RequestParam String idUser,
 			        @RequestParam("voucher") MultipartFile voucher) 
 			    	{
 			    
@@ -345,7 +359,7 @@ public class WebAppController {
 			    					 datoTarjetaCredito,			    			
 			    					 Integer.valueOf(numBilletera),
 			    					 Integer.valueOf(monedaFiat),
-			    					 Integer.valueOf(monedaCripto)
+			    					 Integer.valueOf(monedaCripto)			    				
 			    					 )
 			    					 );
 			    					 
@@ -373,6 +387,7 @@ public class WebAppController {
 	    			@RequestParam String banco,
 	    			@RequestParam String tipoFiat,		  
 		    		@RequestParam String tipoNegocio,	
+		    		@RequestParam String nombreCuenta,
 		    		@RequestParam String idUser)		    
 			    	{
 			    
@@ -380,8 +395,9 @@ public class WebAppController {
 		    	
 			      try {
 			    	  
-			    	 System.out.println(valorCripto+" "+tipoCripto+" "+numeroCuenta+" "+tipoCuenta+" "+banco+" "+tipoFiat+" "
-			    			           +tipoNegocio+" "+idUser);
+			    	 System.out.println(" valor cripto: "+valorCripto+" tip cripto:"+tipoCripto+" numero Cuenta:"+numeroCuenta+
+			    			 			" tipo Cuenta:"+tipoCuenta+" Banco:"+banco+" Tipo Fiat:"+tipoFiat+
+			    			 			" tipo Negocio:"+tipoNegocio+" User:"+idUser+" Nombre Cuenta:"+nombreCuenta);
 			    	 
 			    	  BigDecimal valorFiatBig = new BigDecimal("0"); 
 			    	  BigDecimal valorCriptoBig = new BigDecimal(valorCripto); 
@@ -398,7 +414,8 @@ public class WebAppController {
 			    					 numeroCuenta,		
 			    					 Integer.valueOf(banco),			    				
 			    					 Integer.valueOf(tipoFiat),
-			    					 Integer.valueOf(tipoCripto)
+			    					 Integer.valueOf(tipoCripto),
+			    					 nombreCuenta
 			    					 )
 			    					 );
 			    					 
@@ -435,13 +452,16 @@ public class WebAppController {
 		    	   @SuppressWarnings("unchecked")
 			
 				    String nombreCompleto = (String) session.getAttribute("nombre");
-				    
+		    	   String idUserSession = (String) session.getAttribute("idUserSession");
+		    	   
 				    if (nombreCompleto == null) {
 				    	nombreCompleto = new String();
+				    	idUserSession = new String();
 					}	
 		    	
 		    	   
-				    model.addAttribute("nombre", nombreCompleto);				
+				    model.addAttribute("nombre", nombreCompleto);
+				    model.addAttribute("idUserSession", idUserSession);				
 			        model.addAttribute("datetime", new Date());
 			        model.addAttribute("username", "Giovanni Hurtarte");
 			        model.addAttribute("mode", appMode);
@@ -495,6 +515,7 @@ public class WebAppController {
 		    	
 		    	@SuppressWarnings("unchecked")		
 		    	String nombreCompleto = (String) request.getSession().getAttribute("nombre");
+		    	String idUserSession = (String) request.getSession().getAttribute("idUserSession");
 			
 				
 			   User userResult = new User();	
@@ -503,7 +524,10 @@ public class WebAppController {
 		       if (!(userResult==null)) {	        	 
 		             System.out.printf(userResult.getNombre().toString() + " "+userResult.getApellido().toString());
 		             nombreCompleto = userResult.getNombre()+" "+userResult.getApellido();
+		             idUserSession = String.valueOf(userResult.getId());
+		             
 		             request.getSession().setAttribute("nombre", nombreCompleto);
+		             request.getSession().setAttribute("idUserSession", idUserSession);
 		             return "ok";
 		        } else {
 		        	System.out.println("No encontrado");
@@ -530,12 +554,56 @@ public class WebAppController {
 		        map.put("dpi", String.valueOf(userResult.getDpi()));
 		        map.put("nit", String.valueOf(userResult.getDpi()));
 		        map.put("genero",userResult.getGenero());		      
-		        map.put("telefono",userResult.getGenero());
+		        map.put("telefono",String.valueOf(userResult.getTelefono()));
 		        map.put("imgRostro",imgRostro);
 		        map.put("imgDpiFrontal",imgDpiFrontal);
 		        map.put("imgDpiReverso",imgDpiReverso);
 		        return map;
 		    }
+		    
+		    @RequestMapping(value = "/getOrderBuy", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+		    @ResponseBody
+		    public Map<String, String> getOrderBuy(@RequestParam int idOrder, HttpServletRequest request) {		
+		    	
+		    	Orden orderResult = new Orden();	
+		    	HashMap<String, String> map = new HashMap<>();		    	
+		    	orderResult = iOrden.findByOrderBuy(idOrder);	    
+		 	   	String imgVoucher =  Base64.getEncoder().encodeToString(orderResult.getImagenVoucher());
+		 	   	
+		 	    
+		 	    map.put("nombre", orderResult.getUser().getNombre());
+		        map.put("apellido", orderResult.getUser().getApellido());
+		        map.put("correo", orderResult.getUser().getCorreo());
+		        map.put("fiat", String.valueOf(orderResult.getFiat()));
+		        map.put("moneda_fiat", orderResult.getMonedaFiatObject().getDescripcion());
+		        map.put("voucher", imgVoucher);
+		        map.put("billetera", orderResult.getBilleteraDireccion().getDireccion());
+		        map.put("criptomoneda", String.valueOf(orderResult.getCripto()));
+		        map.put("moneda_cripto",orderResult.getMonedaCriptoObject().getDescripcion());	 
+		        return map;
+		    }
+		    
+		    
+		    @RequestMapping(value = "/getOrderSell", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+		    @ResponseBody
+		    public Map<String, String> getOrderSell(@RequestParam int idOrder,HttpServletRequest request) {	
+		    	Orden orderResult = new Orden();	
+		    	HashMap<String, String> map = new HashMap<>();		    	
+		    	orderResult = iOrden.findByOrderSell(idOrder);	
+		 	    map.put("nombre", orderResult.getUser().getNombre());
+		        map.put("apellido", orderResult.getUser().getApellido());
+		        map.put("correo", orderResult.getUser().getCorreo());
+		        map.put("fiat", String.valueOf(orderResult.getFiat().toPlainString()));
+		        map.put("cuenta", orderResult.getCuentaBancaria());
+		        map.put("tipo_cuenta", orderResult.getTipoCuentaBancaria());
+		        map.put("moneda_fiat", orderResult.getMonedaFiatObject().getDescripcion());			
+		        map.put("cripto", String.valueOf(orderResult.getCripto().toPlainString()));
+		        map.put("moneda_cripto",orderResult.getMonedaCriptoObject().getDescripcion());	 
+		        map.put("banco", orderResult.getBanco().getDescripcion());
+		        map.put("nombre_cuenta", orderResult.getNombreCuentaBancaria());
+		        return map;
+		    }
+		    
 		    
 		    
 		    
@@ -570,22 +638,22 @@ public class WebAppController {
 		    }
 		    
 		    
-		    @RequestMapping(value = "/listOrderSale", method = RequestMethod.POST)
-		    @ResponseBody
-		    public String listOrderSale() {
-		    	String response = null;
-		    	GetJson getJson= new GetJson();		   
-		    	response = getJson.getJsonDataTable(iOrden.dataTableFindByUserSell(3));
-		    	return response;
-		    }
+		 
 		    
 		    
 		    @RequestMapping(value = "/listCriptoAddress", method = RequestMethod.POST)
 		    @ResponseBody
-		    public String listCriptoAddress() {
+		    public String listCriptoAddress(HttpSession session) {
+		    	
+		    	String idUserSession = (String) session.getAttribute("idUserSession");
+				
+				if (idUserSession == null) {
+					idUserSession = new String();
+				}
+		    	
 		    	String response = null;
 		    	GetJson getJson= new GetJson();		   
-		    	response = getJson.getJsonDataTable(iBilletera.dataTableFindByUser(3));
+		    	response = getJson.getJsonDataTable(iBilletera.dataTableFindByUser(Integer.parseInt(idUserSession)));
 		    	return response;
 		    }
 		    
@@ -593,19 +661,81 @@ public class WebAppController {
 		    
 		    @RequestMapping(value = "/listOrderBuy", method = RequestMethod.POST)
 		    @ResponseBody
-		    public String listOrderBuy() {
+		    public String listOrderBuy(HttpSession session) {
+		    	String idUserSession = (String) session.getAttribute("idUserSession");
+				
+				if (idUserSession == null) {
+					idUserSession = new String();
+				}
+		    	
 		    	String response = null;
 		    	GetJson getJson= new GetJson();		   
-		    	response = getJson.getJsonDataTable(iOrden.dataTableFindByUserBuy(3));
+		    	response = getJson.getJsonDataTable(iOrden.dataTableFindByUserBuy(Integer.parseInt(idUserSession)));
+		    	return response;
+		    }
+		    
+		    @RequestMapping(value = "/listOrderBuyAdmin", method = RequestMethod.POST)
+		    @ResponseBody
+		    public String listOrderBuyAdmin(HttpSession session) {
+		    	String idUserSession = (String) session.getAttribute("idUserSession");
+				
+				if (idUserSession == null) {
+					idUserSession = new String();
+				}
+		    	
+		    	String response = null;
+		    	GetJson getJson= new GetJson();		   
+		    	response = getJson.getJsonDataTable(iOrden.dataTableFindByUserBuyAdmin());
+		    	return response;
+		    }
+		    
+		    
+		    @RequestMapping(value = "/listOrderSale", method = RequestMethod.POST)
+		    @ResponseBody
+		    public String listOrderSale(HttpSession session) {
+		    	
+		  
+				String idUserSession = (String) session.getAttribute("idUserSession");
+				
+				if (idUserSession == null) {
+					idUserSession = new String();
+				}
+		    	
+		    	String response = null;
+		    	GetJson getJson= new GetJson();		   
+		    	response = getJson.getJsonDataTable(iOrden.dataTableFindByUserSell(Integer.parseInt(idUserSession)));
+		    	return response;
+		    }
+		    
+		    @RequestMapping(value = "/listOrderSaleAdmin", method = RequestMethod.POST)
+		    @ResponseBody
+		    public String listOrderSaleAdmin(HttpSession session) {
+		    	
+		  
+				String idUserSession = (String) session.getAttribute("idUserSession");
+				
+				if (idUserSession == null) {
+					idUserSession = new String();
+				}
+		    	
+		    	String response = null;
+		    	GetJson getJson= new GetJson();		   
+		    	response = getJson.getJsonDataTable(iOrden.dataTableFindByUserSellAdmin());
 		    	return response;
 		    }
 		    
 		    
 		    @RequestMapping(value = "/saveWallet", method = RequestMethod.POST)
 		    @ResponseBody
-		    public String saveWallet(@RequestParam String descripcion,@RequestParam String direccion ) {
-		    			    	
-		    	int res = iBilletera.save(new Billetera(direccion,descripcion,3));
+		    public String saveWallet(HttpSession session,@RequestParam String descripcion,@RequestParam String direccion ) {
+		    	String idUserSession = (String) session.getAttribute("idUserSession");
+				
+				if (idUserSession == null) {
+					idUserSession = new String();
+				}
+		    	
+		    	
+		    	int res = iBilletera.save(new Billetera(direccion,descripcion,Integer.parseInt(idUserSession)));
 		    	
 		    	return "Registrado";
 		    }
@@ -628,18 +758,85 @@ public class WebAppController {
 		    	return "Enviando respuesta";
 		    }
 		    
+		    @RequestMapping(value = "/positiveBuy", method = RequestMethod.POST)
+		    @ResponseBody
+		    public String positiveBuy(@RequestParam String monedaCripto,@RequestParam int idOrder,@RequestParam String cripto,@RequestParam String email,@RequestParam String first,@RequestParam String last ) {
+		    	if(cripto.isEmpty() || cripto==null) {
+		    		cripto="0.00";
+		    	}
+		    	
+		    	int respEstado = iOrden.updateEstado(3, idOrder);		    	
+		    	int respFiat = iOrden.updateCripto(new BigDecimal(cripto), idOrder);
+		    		    	
+		    	emailService.sendSimpleMessage(email, 
+		        "Respuesta sobre la solicitud de compra en Coincaex ", "Hola  "+first+" "+
+		    	"tu compra fue aprobada, recibiste . "+
+		    	"\n\n"+
+		        " "+cripto+" "+monedaCripto+"  en tu billetera registrada"+
+		        "\n\n"+
+		    	" gracias por tu compra.  ");
+		    	return "Enviando respuesta";
+		    }
+		    
+		    @RequestMapping(value = "/positiveSell", method = RequestMethod.POST)
+		    @ResponseBody
+		    public String positiveSell(@RequestParam String monedaFiat,@RequestParam int idOrder,@RequestParam String fiat,@RequestParam String email,@RequestParam String first,@RequestParam String last) {
+		    	int respEstado = iOrden.updateEstado(3, idOrder);		    	
+		    	int respFiat = iOrden.updateFiat(new BigDecimal(fiat), idOrder);
+		    		    	
+		    	emailService.sendSimpleMessage(email, 
+		        "Respuesta sobre la solicitud de venta en Coincaex ", "Hola  "+first+" "+
+		    	"tu solicitud de venta fue aprobada, recibiste . "+
+		    	"\n\n"+
+		        " "+fiat+" "+monedaFiat+"  en la cuenta bancaria registrada"+
+		        "\n\n"+
+		    	" puedes solicitar mas cuando desees.  ");
+		    	return "Enviando respuesta";
+		    }
+		    
 		    
 		    
 		    @RequestMapping(value = "/negativeValidation", method = RequestMethod.POST)
 		    @ResponseBody
 		    public String negativeValidation(@RequestParam int idUser,@RequestParam String email,@RequestParam String first,@RequestParam String last,@RequestParam String message) {
 		    	System.out.println("Rechazado");
+		    	iUser.updateEstado(idUser, 2);
 		    	emailService.sendSimpleMessage(email, 
 		        "Respuesta sobre la solicitud de usuario de Coincaex ", "Estimado  "+first+" :"+"\n\n"+
 		    	"El administrador le ha denegado la solicitud de la creación de usuario, "
 		    	+ "debido a que no cumple con los requisitos de los documentos solicitados o "
 		    	+ "bien, hay algún problema con sus datos personales. "+
 		    	"\n\n"+message);
+		    	
+		    	return "Enviando respuesta";
+		    }
+		    
+		    @RequestMapping(value = "/negativeBuy", method = RequestMethod.POST)
+		    @ResponseBody
+		    public String negativeBuy(@RequestParam String idOrder,@RequestParam String email,@RequestParam String first,@RequestParam String last,@RequestParam String message) {
+		    	System.out.println("Rechazado");
+		    	iOrden.updateEstado(3, Integer.parseInt(idOrder));
+		    	emailService.sendSimpleMessage(email, 
+		        "Respuesta sobre la solicitud de compra de criptoactivos en Coincaex ", "Estimado/a  "+first+" :"+"\n\n"+
+		    	"El administrador le ha denegado la solicitud de la compra de criptoactivos, "
+		    	+ "debido a que no cumple con los requisitos de la información solicitada o "
+		    	+ "bien, hay algún problema con sus datos personales. "+
+		    	"\n\n"+"*Observaciones:"+"\n"+message);
+		    	
+		    	return "Enviando respuesta";
+		    }
+		    
+		    @RequestMapping(value = "/negativeSell", method = RequestMethod.POST)
+		    @ResponseBody
+		    public String negativeSell(@RequestParam String idOrder,@RequestParam String email,@RequestParam String first,@RequestParam String last,@RequestParam String message) {
+		    	System.out.println("Rechazado");
+		    	iOrden.updateEstado(3, Integer.parseInt(idOrder));
+		    	emailService.sendSimpleMessage(email, 
+		    	"Respuesta sobre la solicitud de venta de criptoactivos en Coincaex ", "Estimado/a  "+first+" :"+"\n\n"+
+		    	"El administrador le ha denegado la solicitud de venta de criptoactivos, "
+		    	+ "debido a que no cumple con los requisitos de la información solicitada o "
+		    	+ "bien, hay algún problema con sus datos personales. "+
+		    	"\n\n"+"*Observaciones:"+"\n"+message);
 		    	
 		    	return "Enviando respuesta";
 		    }
