@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<style type="text/css">
+.imgBox {
+	width: 180px;
+	height: 225px;
+}
+
+.imgBox:hover {
+	-moz-box-shadow: 0 0 25px #ccc;
+	-webkit-box-shadow: 0 0 25px #ccc;
+	box-shadow: 0 0 25px #ccc;
+}
+</style>
+
+<style>
+<
+style>.modal-header, h4, .close {
+	background-color: #5cb85c;
+	color: white !important;
+	text-align: center;
+	font-size: 30px;
+}
+
+.modal-footer {
+	background-color: #f9f9f9;
+}
+</style>
+
+<style>
+.bd-example-modal-lg .modal-dialog {
+	display: table;
+	position: relative;
+	margin: 0 auto;
+	top: calc(50% - 24px);
+}
+
+.bd-example-modal-lg .modal-dialog .modal-content {
+	background-color: transparent;
+	border: none;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Gestiones Criptoactivos</title>
+
+<!-- Custom fonts for this template-->
+<link
+	th:href="@{/plantillaAdmin/vendor/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" type="text/css" />
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link th:href="@{/plantillaAdmin/css/sb-admin-2.min.css}"
+	rel="stylesheet" />
+
+<!-- Custom styles for this page -->
+<link
+	th:href="@{/plantillaAdmin/vendor/datatables/dataTables.bootstrap4.min.css}"
+	rel="stylesheet" />
+<link
+	th:href="@{/plantillaAdmin/vendor/datatables/responsive.bootstrap4.min.css}"
+	rel="stylesheet" />
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul
+			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+			id="accordionSidebar">
+
+			<!-- Sidebar - Brand -->
+			<a
+				class="sidebar-brand d-flex align-items-center justify-content-center"
+				href="/inicioAdmin">
+				<div class="sidebar-brand-icon rotate-n-15">
+					<i class="fas fa-comments-dollar"></i>
+				</div>
+				<div class="sidebar-brand-text mx-3">
+					Crypto Cuenta
+					<!--  <sup>2</sup> -->
+				</div>
+			</a>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider my-0">
+
+			<!-- Nav Item - Dashboard -->
+			<li class="nav-item active"><a class="nav-link"
+				href="index.html"> <i class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span></a>
+			</li>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider">
+
+		
+
+
+			
+
+
+
+
+
+			<!-- Sidebar Toggler (Sidebar) -->
+			<div class="text-center d-none d-md-inline">
+				<button class="rounded-circle border-0" id="sidebarToggle"></button>
+			</div>
+
+		</ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Topbar -->
+				<nav
+					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+					<!-- Sidebar Toggle (Topbar) -->
+					<button id="sidebarToggleTop"
+						class="btn btn-link d-md-none rounded-circle mr-3">
+						<i class="fa fa-bars"></i>
+					</button>
+
+					<!-- Topbar Search -->
+				
+
+					<!-- Topbar Navbar -->
+					<ul class="navbar-nav ml-auto">
+
+						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+						<li class="nav-item dropdown no-arrow d-sm-none"><a
+							class="nav-link dropdown-toggle" href="#" id="searchDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
+						</a> <!-- Dropdown - Messages -->
+							<div
+								class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+								aria-labelledby="searchDropdown">
+								<form class="form-inline mr-auto w-100 navbar-search">
+									<div class="input-group">
+										<input type="text"
+											class="form-control bg-light border-0 small"
+											placeholder="Search for..." aria-label="Search"
+											aria-describedby="basic-addon2">
+										<div class="input-group-append">
+											<button class="btn btn-primary" type="button">
+												<i class="fas fa-search fa-sm"></i>
+											</button>
+										</div>
+									</div>
+								</form>
+							</div></li>
+
+						<!-- Nav Item - Alerts -->
+						
+
+						<!-- Nav Item - Messages -->
+						
+
+						<div class="topbar-divider d-none d-sm-block"></div>
+
+						<!-- Nav Item - User Information -->
+						<li class="nav-item dropdown no-arrow"><a
+							class="nav-link dropdown-toggle" href="#" id="userDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> <span th:text="${nombre}"
+								class="mr-2 d-none d-lg-inline text-gray-600 small"></span> <img
+								class="img-profile rounded-circle"
+								th:src="@{/plantillaUser/img/logout.png}" alt=""/>
+							<!-- 	src="https://source.unsplash.com/QAB-WJcbgJk/60x60"> -->
+						</a> <!-- Dropdown - User Information -->
+							<div
+								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+								aria-labelledby="userDropdown">							
+							
+								<a class="dropdown-item" href="#" data-toggle="modal"
+									data-target="#logoutModal"> <i
+									class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+									Logout
+								</a>
+							</div></li>
+
+					</ul>
+
+				</nav>
+				<!-- End of Topbar -->
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+
+					<!-- Page Heading -->
+					<div
+						class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-0 text-gray-800">Administración Coincaex</h1>
+				
+					</div>
+
+					<!-- Content Row -->
+			
+
+
+
+
+
+					<!-- Page Heading -->
+					<!--  <h1 class="h3 mb-2 text-gray-800">Solicitud  de Usuarios</h1> -->
+					<!--  <p class="mb-4">Estado de usuarios </p> -->
+
+					<div class="x_content">
+						<!-- DataTales Example -->
+						<div class="card shadow mb-4">
+							<div class="card-header py-3">
+								<h6 class="m-0 font-weight-bold text-primary">Solicitud de
+									Usuarios</h6>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table
+										class="table table-striped table-bordered dt-responsive nowrap"
+										role="grid" id="usersTable" width="100%">
+										<thead>
+											<tr>
+												<th>Id</th>
+												<th>Nombre</th>
+												<th>Apellido</th>
+												<th>Estado</th>
+												<th>Date</th>
+												<th>Aprobación</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.container-fluid -->
+					
+					
+					
+					
+					<div class="row">
+						<div class="col-xl-13 col-lg-12">							
+							<ul class="nav nav-tabs" id="myTab" role="tablist">
+								<li class="nav-item">
+	    							<a class="nav-link active" id="home-tab" data-toggle="tab" href="#pill-compra" role="tab" aria-controls="home" aria-selected="true">Compra</a>
+	  							</li>
+	  							<li class="nav-item">
+	    							<a class="nav-link" id="profile-tab" data-toggle="tab" href="#pill-venta" role="tab" aria-controls="profile" aria-selected="false">Venta</a>
+	  							</li>
+    					
+  							</ul>
+  							
+							<div class="tab-content" id="myTabContent">
+							
+								<div class="tab-pane fade show active" id="pill-compra" role="tabpanel" aria-labelledby="home-tab">
+									
+									<div class="card shadow mb-4">
+										<div class="card-header py-3">
+											<h6 class="m-0 font-weight-bold text-primary">Aprobación de Compra</h6>
+										</div>
+										<div class="card-body">
+										<div class="table-responsive">
+											<table	class="table table-striped table-bordered dt-responsive nowrap"
+											role="grid" id="ordenCompra" width="100%">
+													<thead>
+														<tr>
+															<th>Orden</th>
+															<th>Estado</th>
+															<th>Fiat</th>
+															<th>Moneda Fiat</th>
+															<th>Recibido Criptomoneda</th>
+															<th>Criptomoneda</th>
+															<th>Tipo Pago</th>
+															<th>Fecha</th>				
+															<th>Atender</th>									
+														</tr>
+													</thead>
+												</table>
+											</div>
+										</div>
+									</div>
+			
+									
+									
+									
+								</div>
+
+
+								<div class="tab-pane fade" id="pill-venta" role="tabpanel" aria-labelledby="profile-tab">
+
+									<div class="card shadow mb-4">
+										<div class="card-header py-3">
+											<h6 class="m-0 font-weight-bold text-primary">Aprobación
+												de Venta</h6>
+										</div>
+										<div class="card-body">
+											<div class="table-responsive">
+												<table
+													class="table table-striped table-bordered dt-responsive nowrap"
+													role="grid" id="ordenVenta" width="100%">
+													<thead>
+														<tr>
+															<th>Orden</th>
+															<th>Estado</th>
+															<th>Enviado Fiat</th>
+															<th>Moneda Fiat</th>
+															<th>Recibido Criptomonedas</th>
+															<th>Criptomoneda</th>
+														    <th>Cuenta Bancaria</th>
+														    <th>Tipo Cuenta Bancaria</th>
+														    <th>Fecha Solicitud</th>
+														    <th>Atender</th>
+														    
+														</tr>
+													</thead>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+							
+
+							</div>
+						</div>
+						
+						
+									
+
+					</div>
+					
+					
+					
+					
+					
+					
+
+
+					<!-- Content Row -->
+
+					
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<footer class="sticky-footer bg-white">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto">
+						<span>Copyright &copy; Your Website 2019</span>
+					</div>
+				</div>
+			</footer>
+			<!-- End of Footer -->
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+
+
+
+	<!-- Spinner Modal-->
+	<div class="modal fade bd-example-modal-lg" id="spinner"
+		data-backdrop="static" data-keyboard="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content" style="width: 48px">
+				<span class="fa fa-spinner fa-spin fa-3x"></span>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">¿Desea cerrar la sesión?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">Seleccione logout para cerrar la
+					sesión.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="logoutAdmin">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Datos Personales Modal-->
+	<div class="modal fade" id="viewUserModal" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Datos
+						personales del solicitante</h5>					
+				</div>
+				<div class="modal-body">
+
+					<div class="form-group row">
+
+						<div class="col-sm-4">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Nombre</label>
+							<div class="col-sm-10">
+								<p id="nombre" class="form-control-static"></p>
+							</div>
+
+						</div>
+						<div class="col-sm-4">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Apellido</label>
+							<div class="col-sm-10">
+								<p id="apellido" class="form-control-static"></p>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Telefono</label>
+							<div class="col-sm-10">
+								<p id="telefono" class="form-control-static"></p>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div class="form-group row">
+						<div class="col-sm-4">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Correo</label>
+							<div class="col-sm-10">
+								<p id="correo" class="form-control-static"></p>
+							</div>
+						</div>
+
+						<div class="col-sm-4">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Nit</label>
+							<div class="col-sm-10">
+								<p id="nit" class="form-control-static"></p>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Dpi</label>
+							<div class="col-sm-10">
+								<p id="dpi" class="form-control-static"></p>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="form-group row">
+
+						<div class="col-sm-6 mb-3 mb-sm-0">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Genero</label>
+							<div class="col-sm-10">
+								<p id="genero" class="form-control-static"></p>
+							</div>
+						</div>
+
+					</div>
+
+
+
+					<div class="form-group row">
+
+						<div class="col-sm-4">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Rostro</label>
+							<div class="col-sm-10">
+								<div class="imgBox" id="rostro"></div>
+
+							</div>
+						</div>
+
+						<div class="col-sm-4">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Frontal</label>
+
+							<div class="col-sm-10">
+								<div class="imgBox" id="dpiFrontal"></div>
+
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Reverso</label>
+
+							<div class="col-sm-10">
+								<div class="imgBox" id="dpiReverso">
+
+									<canvas id="myCanvas" width="200" height="100"></canvas>
+
+
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+					<div class="form-group row">
+
+						<div class="col-sm-12">
+							<label style="font-weight: bold" class="col-sm-8 control-label">Enviar
+								Comentarios al solicitante por Email</label>
+							<div class="col-sm-12">
+								<textarea class="form-control" id="message" rows="3"></textarea>
+							</div>
+						</div>
+
+					</div>
+
+
+
+
+
+
+					
+					<div id="messageLogin"></div>
+			
+
+					<div class="modal-footer">
+						<button id="aceptarUsuario" class="btn btn-warning" type="button">Aceptar</button>
+						<button id="rechazarUsuario" class="btn btn-danger" type="button">Rechazar</button>
+						<button id="cancelarUsuario" class="btn btn-secondary"
+							type="button">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Termina Modal-->
+	
+	
+	
+	<!-- Aprovacion Peticion de Compra Modal-->
+	<div class="modal fade" id="viewBuyModal" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Petición orden de compra</h5>					
+				</div>
+				<div class="modal-body">
+
+					<div class="form-group row">
+
+						<div class="col-sm-3">
+							<label style="font-weight: bold" class="col-sm-3 control-label">Caso</label>
+							<div class="col-sm-10">
+								<p id="casoCompra" class="form-control-static"></p>
+							</div>
+						</div>					
+						<div class="col-sm-5">
+							<label style="font-weight: bold" class="col-sm-5 control-label">Nombre</label>
+							<div class="col-sm-10">
+								<p id="nombreCompra" class="form-control-static"></p>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<label style="font-weight: bold" class="col-sm-3 control-label">Correo</label>
+							<div class="col-sm-9">
+								<p id="correoCompra" class="form-control-static"></p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+					 <div class="col-sm-12">
+						<div class="card">
+							<h5 class="card-header">Fiat del solicitante</h5>
+							<div class="card-body">
+								<div class="row">
+								<div class="col-sm-5">
+									<label style="font-weight: bold" class="col-sm-5 control-label">Fiat</label>
+									<div class="col-sm-6">
+										<p id="fiatCompra" class="form-control-static"></p>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<label style="font-weight: bold" class="col-sm-4 control-label">Moneda</label>
+									<div class="col-sm-10">
+										<p id="monedaCompra" class="form-control-static"></p>
+									</div>
+								</div>
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+
+
+
+					<div class="form-group row">
+						<div class="col-sm-12">
+							<div class="card">
+								<h5 class="card-header">Criptomoneda Solicitada</h5>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-sm-7">
+											<label style="font-weight: bold"
+												class="col-sm-8 control-label">Billetera</label>
+											<div class="col-sm-7">
+												<p id="billeteraCompra" class="form-control-static"></p>
+											</div>
+										</div>
+
+										<div class="col-sm-4">
+											<label style="font-weight: bold"
+												class="col-sm-7 control-label">Criptomoneda</label>
+											<div class="col-sm-5">
+												<p id="criptoCompra" class="form-control-static"></p>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+
+
+					<div class="row">
+
+						<div class="col-sm-4">
+						
+						</div>
+						
+						<div class="col-sm-4">
+								<label style="font-weight: bold" class="col-sm-2 control-label">Voucher</label>
+								<div class="col-sm-">
+									<div class="imgBox" id="voucherCompra"></div>
+								</div>
+						</div>
+							
+						<div class="col-sm-4">
+							
+						</div>
+
+
+					</div>
+					
+					<br>
+					<br>
+					<div class="form-group row">
+						<div class="col-sm-6">
+								<label style="font-weight: bold" class="col-sm-10 control-label">Enviado a la billetera en criptomoneda</label>
+								<div class="col-sm-">
+									<input type="text" class="form-control" id="criptoEnviadoCompra" aria-describedby="emailHelp" placeholder="Criptomonedas enviadas">
+								</div>
+						</div>
+					</div>
+					
+					
+					<br>
+					
+					
+					<div class="form-group row">
+
+						<div class="col-sm-12">
+							<label style="font-weight: bold" class="col-sm-8 control-label">Enviar
+								Comentarios al solicitante por Email</label>
+							<div class="col-sm-12">
+								<textarea class="form-control" id="messageCompra" rows="3"></textarea>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="modal-footer">
+						<button id="aceptarCompra" class="btn btn-warning" type="button">Aceptar</button>
+						<button id="rechazarCompra" class="btn btn-danger" type="button">Rechazar</button>
+						<button id="cancelarCompra" class="btn btn-secondary"
+							type="button">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Termina Modal-->
+	
+	
+	
+	<!-- Aprovacion Peticion de Venta Modal-->
+	<div class="modal fade" id="viewSellModal" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Petición orden de venta</h5>					
+				</div>
+				<div class="modal-body">
+
+					<div class="form-group row">
+
+						<div class="col-sm-2">
+							<label style="font-weight: bold" class="col-sm-2 control-label">Caso</label>
+							<div class="col-sm-2">
+								<p id="casoVenta" class="form-control-static"></p>
+							</div>
+						</div>					
+						<div class="col-sm-3">
+							<label style="font-weight: bold" class="col-sm-3 control-label">Nombre</label>
+							<div class="col-sm-12">
+								<p id="nombreVenta" class="form-control-static"></p>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<label style="font-weight: bold" class="col-sm-12 control-label">Valor cripto</label>
+							<div class="col-sm-12">
+								<p id="criptoVenta" class="form-control-static"></p>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<label style="font-weight: bold" class="col-sm-3 control-label">Criptomoneda</label>
+							<div class="col-sm-3">
+								<p id="monedaCriptoVenta" class="form-control-static"></p>
+							</div>
+						</div>
+					</div>
+		
+
+
+
+					<div class="form-group row">
+						<div class="col-sm-12">
+							<div class="card">
+								<h5 class="card-header">Información bancaria</h5>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-sm-4">
+											<label style="font-weight: bold"
+												class="col-sm-5 control-label">Cuenta</label>
+											<div class="col-sm-7">
+												<p id="cuentaVenta" class="form-control-static"></p>
+											</div>
+										</div>
+
+										<div class="col-sm-4">
+											<label style="font-weight: bold"
+												class="col-sm-7 control-label">Tipo</label>
+											<div class="col-sm-6">
+												<p id="tipoCuentaVenta" class="form-control-static"></p>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<label style="font-weight: bold"
+												class="col-sm-7 control-label">Moneda</label>
+											<div class="col-sm-5">
+												<p id="monedaFiatVenta" class="form-control-static"></p>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-4">
+											<label style="font-weight: bold"
+												class="col-sm-4 control-label">Banco</label>
+											<div class="col-sm-10">
+												<p id="bancoVenta" class="form-control-static"></p>
+											</div>
+										</div>
+										
+											<div class="col-sm-6">
+											<label style="font-weight: bold"
+												class="col-sm-8 control-label">Nombre cuenta</label>
+											<div class="col-sm-8">
+												<p id="nombreCuentaVenta" class="form-control-static">Edgar Giovanni Hurtarte</p>
+											</div>
+										</div>
+									
+									
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+
+
+					<div class="row">
+
+				
+						
+						<div class="col-sm-6">
+								<label style="font-weight: bold" class="col-sm-10 control-label">Enviado al banco en Fiat</label>
+								<div class="col-sm-">
+									<input type="text" class="form-control" id="fiatEnviadoVenta" aria-describedby="emailHelp" placeholder="Fiat enviado">
+								</div>
+						</div>
+							
+					
+
+					</div>
+					<br>
+					<br>
+					
+					<div class="form-group row">
+
+						<div class="col-sm-12">
+							<label style="font-weight: bold" class="col-sm-8 control-label">Enviar
+								Comentarios al solicitante por Email</label>
+							<div class="col-sm-12">
+								<textarea class="form-control" id="messageVenta" rows="3"></textarea>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="modal-footer">
+						<button id="aceptarVenta" class="btn btn-warning" type="button">Aceptar</button>
+						<button id="rechazarVenta" class="btn btn-danger" type="button">Rechazar</button>
+						<button id="cancelarVenta" class="btn btn-secondary"
+							type="button">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+
+
+
+	<!-- Bootstrap core JavaScript-->
+	<script th:src="@{/plantillaAdmin/vendor/jquery/jquery.min.js}"></script>
+
+	<script th:src="@{/plantillaAdmin/vendor/bootstrap/js/bootstrap.js}">
+
+    <script th: src="@{/plantillaAdmin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script
+		th:src="@{/plantillaAdmin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/plantillaAdmin/js/sb-admin-2.min.js}"></script>
+
+	<!-- Page level plugins -->
+	<script th:src="@{/plantillaAdmin/vendor/chart.js/Chart.min.js}"></script>
+
+	<!-- Page level custom scripts -->
+	<script th:src="@{/plantillaAdmin/js/demo/chart-area-demo.js}"></script>
+	<script th:src="@{/plantillaAdmin/js/demo/chart-pie-demo.js}"></script>
+
+	<!-- Page level plugins -->
+
+	<script
+		th:src="@{/plantillaAdmin/vendor/datatables/jquery.dataTables.min.js}"></script>
+	<script
+		th:src="@{/plantillaAdmin/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+	<script
+		th:src="@{/plantillaAdmin/vendor/datatables/dataTables.responsive.min.js}"></script>
+	<script
+		th:src="@{/plantillaAdmin/vendor/datatables/responsive.bootstrap4.min.js}"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+	<!-- Page level custom scripts -->
+	<script th:src="@{/plantillaAdmin/js/demo/datatables-demo.js}"></script>
+
+
+
+
+
+
+	<script>
+
+    var urlImageRostro = "";
+    var urlImageDpiFrontal =  "";
+    var urlImageDpiReverso =  "";
+    var urlImageVoucher = "";
+    var dataTable = null;
+    var idUser=null;
+    var idOrder=null;
+    var emailGlobal = null;
+    var firstGlobal = null;
+    var lastGlobal = null;
+    var fiatGlobal = null;
+    var criptoGlobal = null;
+    var monedaFiatGlobal = null;    
+    var monedaCriptoGlobal = null;
+    
+    
+
+  $(document).ready(function() {
+
+	  
+
+    const myCanvas = document.querySelector("#myCanvas");
+
+
+	  $("#aceptarUsuario").click(function(){
+		  
+			var messageLoading = "<div class='alert alert-info alert-dismissible fade show'> <strong>Info!</strong> Enviando respuesta al correo, espere un momento.. <button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+			var messageSuccesful = "<div class='alert alert-success alert-dismissible fade show'><strong>Success!</strong>Finalizado.<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+			
+			$("#messageLogin").append(messageLoading);
+			$("#aceptarUsuario").prop('disabled', true);
+			$("#rechazarUsuario").prop('disabled', true);
+			$("#cancelarUsuario").prop('disabled', true);
+
+      $.ajax({
+        type: "post",
+        url: "positiveValidation",
+        dataType: "text",
+        data: {
+          idUser: idUser,
+          email: emailGlobal,
+          first: firstGlobal,
+          last: lastGlobal
+
+        },
+        success: function (data) {
+          table.ajax.reload();
+      	  $("#messageLogin").empty();
+      	$("#aceptarUsuario").prop('disabled', false);
+		$("#rechazarUsuario").prop('disabled', false);
+		$("#cancelarUsuario").prop('disabled', false);
+          closeModal();
+          alert(data);
+        }
+      });
+
+
+    });
+	  
+
+	  $("#aceptarCompra").click(function(){
+	
+		  criptoGlobal = $("#criptoEnviadoCompra").val();
+		  
+      $.ajax({
+        type: "post",
+        url: "positiveBuy",
+        dataType: "text",
+        data: {
+          idOrder: idOrder,
+          email: emailGlobal,
+          first: firstGlobal,
+          last: lastGlobal,
+          cripto: criptoGlobal,
+          monedaCripto: monedaCriptoGlobal
+
+        },
+        success: function (data) {
+          ordenCompra.ajax.reload();
+          closeModal();
+          alert(data);
+        }
+      });
+
+
+    });
+	  
+	  
+	  
+	  $("#aceptarVenta").click(function(){
+		  
+		  
+		 fiatGlobal= $("#fiatEnviadoVenta").val();
+
+	      $.ajax({
+	        type: "post",
+	        url: "positiveSell",
+	        dataType: "text",
+	        data: {
+	          idOrder: idOrder,
+	          email: emailGlobal,
+	          first: firstGlobal,
+	          last: lastGlobal,
+	          fiat: fiatGlobal,
+	          monedaFiat: monedaFiatGlobal
+
+	        },
+	        success: function (data) {
+	        	ordenVenta.ajax.reload();
+	          closeModal();
+	          alert(data);
+	        }
+	      });
+
+
+	    });
+	  
+	  $("#rechazarVenta").click(function(){
+		  
+			var message = "";
+			message = $("#messageVenta").val().trim();
+
+			if (message == null) {
+				message = "";
+			}
+
+			$.ajax({
+				type : "post",
+				url : "negativeSell",
+				dataType : "text",
+				data : {				
+					email : emailGlobal,
+					first : firstGlobal,
+					last : lastGlobal,
+					idOrder: idOrder,
+					message : message
+				},
+				success : function(data) {
+					
+					alert(data);
+					closeModal();	
+					ordenVenta.ajax.reload();
+
+				}
+			});
+
+
+		    });
+	  
+	  $("#rechazarCompra").click(function(){
+		  
+			var message = "";
+			message = $("#messageCompra").val().trim();
+
+			if (message == null) {
+				message = "";
+			}
+
+			$.ajax({
+				type : "post",
+				url : "negativeBuy",
+				dataType : "text",
+				data : {				
+					email : emailGlobal,
+					first : firstGlobal,
+					last : lastGlobal,
+					idOrder: idOrder,
+					message : message
+				},
+				success : function(data) {
+					alert(data);
+					closeModal();		
+					ordenCompra.ajax.reload();
+
+				}
+			});
+
+
+		    });
+ 
+    
+    
+
+
+
+
+
+
+
+
+
+
+			$("#rechazarUsuario").click(function() {
+				
+									var messageLoading = "<div class='alert alert-info alert-dismissible fade show'> <strong>Info!</strong> Enviando respuesta al correo, espere un momento.. <button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+									var messageSuccesful = "<div class='alert alert-success alert-dismissible fade show'><strong>Success!</strong>Finalizado.<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+
+									$("#messageLogin").append(messageLoading);
+									$("#aceptarUsuario").prop('disabled', true);
+									$("#rechazarUsuario").prop('disabled', true);
+									$("#cancelarUsuario").prop('disabled', true);
+
+									var message = "";
+									message = $("#message").val().trim();
+
+									if (message == null) {
+										message = "";
+									}
+
+									$.ajax({
+										type : "post",
+										url : "negativeValidation",
+										dataType : "text",
+										data : {
+											idUser : idUser,
+											email : emailGlobal,
+											first : firstGlobal,
+											last : lastGlobal,
+											message : message
+										},
+										success : function(data) {
+											  table.ajax.reload();
+									      	  $("#messageLogin").empty();
+									      	$("#aceptarUsuario").prop('disabled', false);
+											$("#rechazarUsuario").prop('disabled', false);
+											$("#cancelarUsuario").prop('disabled', false);
+											alert(data);
+											table.ajax.reload();
+											closeModal();									
+
+										}
+									});
+
+								});
+			
+			
+			
+
+								$("#rostro").click(
+										function() {
+											//console.log(urlImageRostro);
+											if (window.navigator.msSaveBlob) {
+												window.navigator.msSaveBlob(
+														urlImageRostro,
+														"rostro.png");
+
+											} else {
+												const a = document
+														.createElement("a");
+												document.body.appendChild(a);
+												a.href = urlImageRostro;
+												a.download = "rostro.jpg";
+												a.click();
+												document.body.removeChild(a);
+											}
+										});
+								
+								$("#voucherCompra").click(
+								
+										function() {								
+											if (window.navigator.msSaveBlob) {
+												window.navigator.msSaveBlob(
+														urlImageVoucher,
+														"voucher.png");
+
+											} else {
+												const a = document
+														.createElement("a");
+												document.body.appendChild(a);
+												a.href = urlImageVoucher;
+												a.download = "voucher.jpg";
+												a.click();
+												document.body.removeChild(a);
+											}
+										});
+
+								$("#dpiFrontal").click(
+										function() {
+											//console.log(urlImageRostro);
+											if (window.navigator.msSaveBlob) {
+												window.navigator.msSaveBlob(
+														urlImageDpiFrontal,
+														"dpiFrontal.png");
+
+											} else {
+												const a = document
+														.createElement("a");
+												document.body.appendChild(a);
+												a.href = urlImageDpiFrontal;
+												a.download = "dpiFrontal.jpg";
+												a.click();
+												document.body.removeChild(a);
+
+											}
+										});
+
+								$("#dpiReverso").click(
+										function() {
+											//console.log(urlImageRostro);
+											if (window.navigator.msSaveBlob) {
+												window.navigator.msSaveBlob(
+														urlImageDpiReverso,
+														"dpiReverso.png");
+
+											} else {
+												const a = document
+														.createElement("a");
+												document.body.appendChild(a);
+												a.href = urlImageDpiReverso;
+												a.download = "dpiReverso.jpg";
+												a.click();
+												document.body.removeChild(a);
+											}
+										});
+
+								
+								
+								var table = $('#usersTable')
+										.DataTable(
+												{
+													"ajax" : {
+														"url" : "listUserPrincipalAdmin",
+														"type" : "POST"
+													},
+													"dataType" : "json",
+													"responsive" : "true",
+													"columnDefs" : [
+															{
+																"targets" : [ 0 ],
+																"visible" : false
+															},
+															{
+																"targets" : [ 2 ],
+																"visible" : true,
+																"className" : "all"
+															},
+															{
+																"targets" : [ 1 ],
+																"visible" : true,
+																"className" : "all"
+															},
+															{
+																"targets" : 5,
+																"data" : null,
+																"defaultContent" : "<button type='button' id='btnValidacion' class='btn btn-warning'>Validación</button>"
+															},
+
+													],
+
+													"columns" : [ {
+														"title" : "Id"
+													}, {
+														"title" : "Nombre"
+													}, {
+														"title" : "Apellido"
+													}, {
+														"title" : "Estado"
+													}, {
+														"title" : "Date"
+													}, {
+														"title" : "Aprobacion"
+													}
+
+													]
+
+												});
+								
+
+								//APROBACION ORDENES DE VENTA Y COMPRA
+								
+								  var ordenCompra= $('#ordenCompra').DataTable( {	    	
+								      "ajax" : {
+								        "url": "listOrderSaleAdmin",
+								        "type": "POST"         
+								      },        
+								      "dataType" : "json", 
+								      "responsive": "true",
+								      "paging": false,
+								      "columnDefs": 
+								      [  								    	  
+								    	
+										{
+											"targets" : [ 0 ],
+											"visible" : true,
+											"className" : "all"
+									   },
+									   {
+											"targets" : [ 1 ],
+											"visible" : true,
+											"className" : "all"
+									   },
+							    
+										{
+												"targets" : [ 2 ],
+												"visible" : true,
+												"className" : "all"
+										},
+										{
+												"targets" : [ 3 ],
+												"visible" : true,
+												"className" : "all"
+									    },								       
+										{
+											"targets" : 8,
+											"data" : null,
+											"defaultContent" : "<button type='button' id='btnCompra' class='btn btn-warning'>Validación</button>"
+										},
+
+								],
+
+								     "columns" : [           
+								     {"title": "Orden" },
+								     {"title": "Estado" },
+								     {"title": "Recibido Fiat"},
+								     {"title": "Moneda Fiat"},
+								     {"title": "Enviado Cripto"},
+								     {"title": "Criptomoneda"},
+								     {"title": "Tipo Pago"},
+								     {"title": "Fecha"},
+								     {"title": "Atender"}
+								     ]
+
+								   });
+								
+
+								     var ordenVenta= $('#ordenVenta').DataTable( {	    	
+								      "ajax" : {
+								        "url": "listOrderBuyAdmin",
+								        "type": "POST"         
+								      },        
+								      "dataType" : "json", 
+								      "responsive": "true",
+								      "paging": false,
+								      "columnDefs": 
+								      [  
+								    	  {
+												"targets" : [ 0 ],
+												"visible" : true,
+												"className" : "all"
+										   },
+								    	  
+								    	  {
+												"targets" : [ 1 ],
+												"visible" : true,
+												"className" : "all"
+										   },	
+										{
+												"targets" : [ 4 ],
+												"visible" : true,
+												"className" : "all"
+										},
+										{
+												"targets" : [ 5 ],
+												"visible" : true,
+												"className" : "all"
+									    },	
+									    {	
+										    "targets" : 9,
+											"data" : null,
+											"defaultContent" : "<button type='button' id='btnVenta' class='btn btn-warning'>Aprobación</button>"
+										},
+
+								     ],
+
+								     "columns" : [          
+								     {"title": "Orden" },
+								     {"title": "Estado" },
+								     {"title": "Enviado Fiat"},
+								     {"title": "Moneda Fiat"},
+								     {"title": "Recibido Cripto"},
+								     {"title": "Criptomonedas"},
+								     {"title": "Cuenta Bancaria"},
+								     {"title": "Tipo Cuenta Bancaria"},
+								     {"title": "Fecha Solicitud"},
+								     {"title": "Atender"}
+								     ]
+
+								   });
+								
+								
+								
+								
+								     $('#ordenVenta tbody').on('click','#btnVenta',function(e) {
+											
+											$('#spinner').modal('show');
+											
+											var currentRow = $(this).closest("tr");
+
+											if (currentRow.hasClass('child')) {//Check if the current row is a child row
+												currentRow = currentRow.prev();//If it is, then point to the row before it (its 'parent')
+												console.log('child exist')
+											}
+											
+											var data = ordenVenta.row(currentRow).data();
+											
+											idOrder = data[0];
+											
+											
+											$.ajax({
+												type : "post",
+												url : "getOrderSell",
+												data : {
+													idOrder : idOrder
+												},
+												success : function(json) {
+
+													//oculta spinner y habilita el scroll
+													$('#spinner').modal('hide');
+													$('.modal').css('overflow-y','auto');
+													//*************************************													
+													
+														emailGlobal=json.correo;					
+														firstGlobal=json.nombre;
+														lastGlobal= json.apellido;											
+														monedaFiatGlobal = json.moneda_fiat;
+													
+												
+													$("#casoVenta").text(idOrder);											
+													$("#nombreVenta").text(json.nombre+" "+json.apellido);
+													$("#criptoVenta").text(json.cripto);
+													$("#monedaCriptoVenta").text(json.moneda_cripto);
+													$("#cuentaVenta").text(json.cuenta);
+													$("#tipoCuentaVenta").text(json.tipo_cuenta);			
+													$("#monedaFiatVenta").text(json.moneda_fiat);	
+													$("#bancoVenta").text(json.banco);	
+										
+
+													//remueve lo restante del modal oculto	
+													$('#spinner').removeClass('show');
+
+													//muestra el modal
+													$('#viewSellModal').modal('show');
+
+												}
+											});
+											
+											
+										});
+									
+								
+								
+								
+								
+								$('#ordenCompra tbody').on('click','#btnCompra',function(e) {
+									
+									$('#spinner').modal('show');
+									var valorCripto = $("#criptoEnviadoCompra").val(); 
+									
+									var currentRow = $(this).closest("tr");
+
+									if (currentRow.hasClass('child')) {//Check if the current row is a child row
+										currentRow = currentRow.prev();//If it is, then point to the row before it (its 'parent')
+										console.log('child exist')
+									}
+									
+									var data = ordenCompra.row(currentRow).data();
+									
+									idOrder = data[0];
+									
+									
+									$.ajax({
+										type : "post",
+										url : "getOrderBuy",
+										data : {
+											idOrder : idOrder
+										
+										},
+										success : function(json) {
+
+											//oculta spinner y habilita el scroll
+											$('#spinner').modal('hide');
+											$('.modal').css('overflow-y','auto');
+											//*************************************
+											
+											
+											var voucherCompra = document.getElementById("voucherCompra");
+										
+
+											voucherCompra.innerHTML = " <img class='thumbnail zoom' id='idVoucher' src='data:image/jpg;base64,"+json.voucher+"' width='180' height='225' /> ";
+											
+
+											urlImageVoucher = "data:image/jpg;base64,"+ json.voucher;
+											
+											emailGlobal=json.correo;					
+											firstGlobal=json.nombre;
+											lastGlobal= json.apellido;										
+											monedaCriptoGlobal = json.moneda_cripto;
+											
+									
+											$("#casoCompra").text(idOrder);											
+											$("#nombreCompra").text(json.nombre+" "+json.apellido);
+											$("#fiatCompra").text(json.fiat);
+											$("#correoCompra").text(json.correo);
+											$("#monedaCompra").text(json.moneda_fiat);
+											$("#billeteraCompra").text(json.billetera);
+											$("#criptoCompra").text(json.moneda_cripto);											
+								
+
+											//remueve lo restante del modal oculto	
+											$('#spinner').removeClass('show');
+
+											//muestra el modal
+											$('#viewBuyModal').modal('show');
+
+										}
+									});
+									
+									
+								});
+								
+								
+								
+								
+							
+						
+								$('#usersTable tbody').on('click','#btnValidacion',function(e) {
+
+													$('#spinner').modal('show');
+
+													var currentRow = $(this).closest("tr");
+
+													if (currentRow.hasClass('child')) {//Check if the current row is a child row
+														currentRow = currentRow.prev();//If it is, then point to the row before it (its 'parent')
+														console.log('child exist')
+													}
+													
+													var data = table.row(currentRow).data();
+
+													idUser = data[0];
+												
+
+													$.ajax({
+																type : "post",
+																url : "getUser",
+																data : {
+																	idUser : idUser
+																},
+																success : function(json) {
+
+																	//oculta spinner y habilita el scroll
+																	$('#spinner').modal('hide');
+																	$('.modal').css('overflow-y','auto');
+
+																	var rostro = document.getElementById("rostro");
+																	var dpiFrontal = document.getElementById("dpiFrontal");
+																	var dpiReverso = document.getElementById("dpiReverso");
+
+																	rostro.innerHTML = " <img class='thumbnail zoom' id='idRostro' src='data:image/jpg;base64,"+json.imgRostro+"' width='180' height='225' /> ";
+																	dpiFrontal.innerHTML = " <img class='thumbnail zoom' id='idDpiFrontal' src='data:image/jpg;base64,"+json.imgDpiFrontal+"' width='180' height='225' /> ";
+																	dpiReverso.innerHTML = " <img class='thumbnail zoom' id='idDpiReverso' src='data:image/jpg;base64,"+json.imgDpiReverso+"' width='180' height='225' /> ";
+
+																	urlImageRostro = "data:image/jpg;base64,"+ json.imgRostro;
+																	urlImageDpiFrontal = "data:image/jpg;base64,"+ json.imgDpiFrontal;
+																	urlImageDpiReverso = "data:image/jpg;base64,"+ json.imgDpiReverso;
+
+																	$("#nombre").text(json.nombre);
+																	$("#apellido").text(json.apellido);
+																	$("#nit").text(json.nit);
+																	$("#correo").text(json.correo);
+																	$("#dpi").text(json.dpi);
+																	$("#telefono").text(json.telefono);
+																	$("#genero").text(json.genero);
+																	emailGlobal = json.correo;
+																	firstGlobal = json.nombre;
+																	lastGlobal = json.apellido;
+
+																	//remueve lo restante del modal oculto	
+																	$('#spinner').removeClass('show');
+
+																	//muestra el modal
+																	$('#viewUserModal').modal('show');
+
+																}
+															});
+
+												});
+								
+								
+
+								$("#cancelarUsuario").click(function() {
+									closeModal();
+								});
+								
+								$("#cancelarCompra").click(function() {
+									closeModal();
+								});
+								
+								$("#cancelarVenta").click(function() {
+									closeModal();
+								});
+
+								function closeModal() {
+									$('.modal').modal('hide'); //oculta los modal
+									$('.modal').removeClass('show'); //oculta los modal con visualizacion 
+									$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+									$('.modal-backdrop').remove();//eliminamos el backdrop del modal    
+								}
+								
+
+								
+							
+								
+								
+								
+								     
+								
+
+								     
+								     
+								     
+								    // $('#pills-tab a[href="#pills-venta').on('click', function (e) {
+								    //	  e.preventDefault();	
+								    	  	
+								    	  							    	    
+								    	    //$('#pills-tab a[href="#pills-compra"]').tab('hide');
+								    	    
+								   // 	})
+								    	
+								    	
+								    	 $('.nav-tabs a').on('show.bs.tab', function(){
+								    	   // alert('The new tab is about to be shown.');
+								    		//ordenCompra.clear().draw();
+								    	   // ordenCompra.ajax.reload();	
+								    	  });
+								    	  
+								    	  $('.nav-tabs a').on('shown.bs.tab', function(){
+								    	   // alert('The new tab is now fully shown.');
+								    		//ordenCompra.clear().draw();
+								    	    ordenVenta.ajax.reload();										
+								    	  });
+								    	  
+								    	  $('.nav-tabs a').on('hide.bs.tab', function(e){
+								    	   // alert('The previous tab is about to be hidden.');
+								    		
+								    	  });
+								    	  $('.nav-tabs a').on('hidden.bs.tab', function(){
+								    	    //alert('The previous tab is now fully hidden.');
+								    	  });
+								    	
+							
+
+							});
+		</script>
+
+</body>
+
+</html>
