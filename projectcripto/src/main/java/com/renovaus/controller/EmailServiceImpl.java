@@ -52,6 +52,8 @@ public class EmailServiceImpl implements EmailService {
         }
     }
     
+    
+    
     public void sendSimpleMessage(String to, String subject, String text) {
         try {
         	

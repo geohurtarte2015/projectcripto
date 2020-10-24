@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -22,8 +22,8 @@
 	rel="stylesheet">
 
 <!-- Custom styles for this template-->
-<link th:href="@{/plantillaAdmin/css/sb-admin-2.min.css}"
-	rel="stylesheet" />
+<link th:href="@{/plantillaAdmin/css/sb-admin-2.min.css}" rel="stylesheet" />
+	
 
 
 </head>
@@ -43,15 +43,16 @@
 								<h1 class="h4 text-gray-900 mb-4">Solicitud de creación de
 									cuenta</h1>
 							</div>
+					
 							<form id="upload-file-form" class="user">
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="text" class="form-control form-control-user"
-											id="nombre" placeholder="Nombre">
+											id="nombre" placeholder="Nombre" required>
 									</div>
 									<div class="col-sm-6">
 										<input type="text" class="form-control form-control-user"
-											id="apellido" placeholder="Apellido">
+											id="apellido" placeholder="Apellido" required>
 									</div>
 								</div>
 
@@ -59,11 +60,11 @@
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="text" class="form-control form-control-user"
-											id="telefono" placeholder="Telefono">
+											id="telefono" placeholder="Telefono" required>
 									</div>
 									<div class="col-sm-6">
 										<input type="text" class="form-control form-control-user"
-											id="email" placeholder="Email">
+											id="email" placeholder="Email" required>
 									</div>
 								</div>
 
@@ -71,19 +72,19 @@
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="text" class="form-control form-control-user"
-											id="nit" placeholder="Nit">
+											id="nit" placeholder="Nit" required>
 									</div>
 									<div class="col-sm-6">
 										<input type="text" class="form-control form-control-user"
-											id="dpi" placeholder="Dpi">
+											id="dpi" placeholder="Dpi" required>
 									</div>
 								</div>
 
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<label for="sel1">Genero:</label> <select name="genero"
-											id="genero" class="custom-select mb-3">
-											<option value="0" selected>Seleccionar</option>
+											id="genero" class="custom-select mb-3" required>
+											<option value="" selected>Seleccionar</option>
 											<option value="1">Masculino</option>
 											<option value="2">Femenino</option>
 										</select>
@@ -94,8 +95,8 @@
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<p>Cargar fotografia personal del rostro:</p>
 										<div class="custom-file mb-3">
-											<input type="file" class="custom-file-input" id="rostro"
-												name="rostro"> <label class="custom-file-label"
+											<input style="font-size:10px;" type="file" class="custom-file-input" id="rostro"
+												name="rostro" required> <label id="lrostro" class="custom-file-label"
 												for="rostro">Cargar imagen</label>
 										</div>
 									</div>
@@ -103,8 +104,8 @@
 									<div class="col-sm-6">
 										<p>Cargar imagen del DPI, lado frontal:</p>
 										<div class="custom-file mb-3">
-											<input type="file" class="custom-file-input" id="dpifrontal"
-												name="dpifrontal"> <label class="custom-file-label"
+											<input style="font-size:10px;" type="file" class="custom-file-input" id="dpifrontal"
+												name="dpifrontal" required> <label id="ldpifrontal" class="custom-file-label"
 												for="dpifrontal">Cargar Imagen</label>
 										</div>
 									</div>
@@ -112,31 +113,51 @@
 									<div class="col-sm-6">
 										<p>Cargar imagen del DPI, lado reverso:</p>
 										<div class="custom-file mb-3">
-											<input type="file" class="custom-file-input" id="dpireverso"
-												name="dpireverso"> <label class="custom-file-label"
+											<input style="font-size:10px;" type="file" class="custom-file-input" id="dpireverso"
+												name="dpireverso" required> <label id="ldpireverso"  class="custom-file-label"
 												for="dpireverso">Cargar Imagen</label>
 										</div>
 									</div>
 									
-									
-								
-									
 								</div>
+								
+					
+							 
+							<div class="form-check">
+							    <input class="form-check-input" type="checkbox" value="" id="checkTerms" onclick="checkFunctionTerms()">
+							    <label class="form-check-label" for="checkTerms">Acepto los terminos y condiciones</label>
+							    <!-- Button to Open the Modal -->
+  							<a data-toggle="modal" href="#myModalTerms">Leer Terminos</a>
+							</div>
+							
+							<!-- Default unchecked -->
+							<div class="form-check">
+							    <input class="form-check-input" type="checkbox" value="" id="checkPolitics" onclick="checkFunctionPolitics()">
+							    <label class="form-check-label" for="checkPolitics">Acepto las reglas las politicas</label>
+							    <!-- Button to Open the Modal -->
+  							<a data-toggle="modal" href="#myModalPolitics">Leer Politicas de uso</a>
+							</div>
+						
+  							
+							</br>
 
-
-
-								<button id=uploadButton type="button" class="btn btn-primary btn-lg
-								">Solicitar</button>
+								<button id=uploadButton type="submit" class="btn btn-warning">Solicitar</button>
+							    <a href="/" id=cancelar type="button" class="btn btn-primary">Regresar</a>
+								
+							   
 								
 								
 							
 							</form>
-						
+			
+							</br>
+					
+							 <div id="messageLogin"></div>
 							<hr>
-							<div class="text-center">
+						<!-- <div class="text-center">
 								<a class="small" href="forgot-password.html">Forgot
-									Password?</a>
-							</div>
+									Password?</a> 
+							</div>-->
 							<div class="text-center">
 								<a class="small" href="login">Iniciar sesión con cuenta
 									existente</a>
@@ -146,8 +167,68 @@
 				</div>
 			</div>
 		</div>
+				
+	  	<!-- The Modal -->
+	  	<div class="modal" id="myModalTerms">
+    	<div class="modal-dialog">
+      	<div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h1 class="modal-title">Terminos y Condiciones</h1>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h3>Reglamento de uso</h3>
+          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 
+          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Ocultar</button>
+        </div>
+        
+      </div>
+    </div>
+		
 	</div>
+		
+		 <!-- The Modal -->
+	  	<div class="modal" id="myModalPolitics">
+    	<div class="modal-dialog">
+      	<div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h1 class="modal-title">Politicas</h1>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h3>Politicas de uso</h3>
+          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Ocultar</button>
+        </div>
+        
+      </div>
+    </div>
+		
+	</div>
+		
+		
 
 	<!-- Bootstrap core JavaScript-->
 	<script th:src="@{/plantillaAdmin/vendor/jquery/jquery.min.js}"></script>
@@ -161,9 +242,53 @@
 	<!-- Custom scripts for all pages-->
 	<script th:src="@{/plantillaAdmin/js/sb-admin-2.min.js}"></script>
 	
+	<script th:src="@{/Mask/jquery.mask.js}"></script>
+	<script th:src="@{/Mask/jquery.mask.min.js}"></script>
+	
+
 
 
 	<script>
+	var validTerms;
+	var validPolitics;
+	
+	
+	function checkFunctionTerms() {
+		  var checkBoxTerms = document.getElementById("checkTerms");
+		  if (checkBoxTerms.checked == true){
+			  validTerms=true;
+			  if(validPolitics==true){
+				  		$('#uploadButton').prop('disabled', false);	
+				  		validPolitics=false;
+						  validPolitics=false;
+			  		}		   
+			  } else {
+				  $('#uploadButton').prop('disabled', true);
+				  validPolitics=false;
+				  validTerms=false;
+			  }
+		}
+	
+	function checkFunctionPolitics() {
+		  var checkBoxPolitics = document.getElementById("checkPolitics");
+		  if (checkBoxPolitics.checked == true){
+			  validPolitics=true;
+			  if(validTerms==true){
+				  $('#uploadButton').prop('disabled', false);		
+				  validPolitics=false;
+				  validPolitics=false;
+			  		}		   
+			  } else {
+				  $('#uploadButton').prop('disabled', true);
+				  validPolitics=false;
+				  validTerms=false;
+			  }
+		  
+		}
+	
+	
+	
+	
   $(".custom-file-input").on("change", function() {
 	  var fileName = $(this).val().split("\\").pop();
 	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -171,19 +296,34 @@
   
  
 	  $(document).ready(function(){
+		  $("#uploadButton").prop('disabled', true);
+		  var validTerms=false;
+			var validPolitics=false;
+		  
+		  $("#telefono").mask('00000000');
 		
-		//$("#upload-file-input").on("change", uploadFile);
 
-			$("#uploadButton").click(function() {
 
-				uploadFile();
-			});
+		//	$("#uploadButton").click(function() {
+
+			//	uploadFile();
+		//	});
+			
+			 $('#upload-file-form').unbind().submit(function(e){
+				    e.preventDefault();
+				    uploadFile();
+				  });
+			
+			
+			
 		});
 
 		/**
 		 * Upload the file sending it via Ajax at the Spring Boot server.
 		 */
 		function uploadFile() {
+			
+
 			var form = $("#upload-file-form")[0];
 		
 			var data = new FormData(form);
@@ -193,7 +333,13 @@
 			data.append("email",$( "#email" ).val());
 			data.append("nit",$( "#nit" ).val());
 			data.append("dpi",$( "#dpi" ).val());
-			data.append("genero",$("#genero option:selected").text());
+			data.append("genero",$("#genero option:selected").text());		
+			var messageLoading = "<div class='alert alert-info alert-dismissible fade show'> <strong>Info!</strong> Enviando los datos, espere un momento.. <button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+			var messageSuccesful = "<div class='alert alert-success alert-dismissible fade show'><strong>Success!</strong> Solicitud de usuario. finalizado.<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+			
+			$("#messageLogin").append(messageLoading);
+			$("#uploadButton").prop('disabled', true);
+			
 			
 			$.ajax({
 				url : "/uploadFile",
@@ -203,13 +349,43 @@
 				processData : false,
 				contentType : false,
 				cache : false,
-				success : function(data) {
-					alert(data);
+				success : function(data) {				
+					$("#messageLogin").empty();
+					$("#messageLogin").append(messageSuccesful);
+					$( "#nombre" ).val("");
+					$( "#apellido" ).val("");
+					$( "#telefono" ).val("");
+					$( "#email" ).val("");
+					$( "#nit" ).val("");
+					$( "#dpi" ).val("");
+					
+					document.getElementById("rostro").value = "";
+					document.getElementById("dpifrontal").value = "";
+					document.getElementById("dpireverso").value = "";
+					$("#lrostro").text("Cargar Imagen");
+					$("#ldpifrontal").text("Cargar Imagen");
+					$("#ldpireverso").text("Cargar Imagen");
+					form=null;
+					
+					$( "#rostro" ).val(null);
+					$( "#dpifrontal" ).val(null);
+					$( "#dpireverso" ).val(null);
+					$("#genero").val("0");
+					$("#uploadButton").prop('disabled', false);
+
+		
+					$("#checkTerms").prop('checked', false);
+					$("#checkPolitics").prop('checked', false);
+					
+					
 				},
 				error : function() {
-					
+					alert('Error en el ingreso, intentar nuevamente');
+					$("#uploadButton").prop('disabled', false);
 				}
 			});
+		     
+			
 		}
 
 

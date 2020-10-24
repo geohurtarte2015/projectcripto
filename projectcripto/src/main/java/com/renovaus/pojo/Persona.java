@@ -59,6 +59,19 @@ public class Persona {
 	}
 	
 	public Persona(int id, String nombre, String apellido, String genero, int telefono, String usuario, String password,
+			Estado estado, String correo) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.genero = genero;
+		this.telefono = telefono;
+		this.usuario = usuario;
+		this.password = password;
+		this.estado = estado;
+		this.correo = correo;
+	}
+	
+	public Persona(int id, String nombre, String apellido, String genero, int telefono, String usuario, String password,
 			Estado estado, String correo, java.sql.Date fecha) {
 		this.id = id;
 		this.nombre = nombre;

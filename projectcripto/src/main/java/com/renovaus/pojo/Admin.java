@@ -13,10 +13,23 @@ public class Admin extends Persona {
 		super(id);
 	}
 	
+	public Admin() {
+		
+	}
+	
+	
 	public Admin(String nombre, String apellido, String genero, int telefono, String usuario,
 			String password, Estado estado, Blob imagenRostro, Rol rol,String correo) {
 		
 		super(nombre, apellido, genero, telefono, usuario, password, estado,correo);
+		this.imagenRostro = imagenRostro;
+		this.rol = rol;
+	}
+	
+	public Admin(int id,String nombre, String apellido, String genero, int telefono, String usuario,
+			String password, Estado estado, Rol rol,String correo) {
+		
+		super(id,nombre, apellido, genero, telefono, usuario, password, estado,correo);
 		this.imagenRostro = imagenRostro;
 		this.rol = rol;
 	}

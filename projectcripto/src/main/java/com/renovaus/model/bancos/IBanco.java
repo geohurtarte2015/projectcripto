@@ -9,4 +9,6 @@ public interface IBanco {
 	
 	List <Banco> findAll();
 	
+
+	
 }

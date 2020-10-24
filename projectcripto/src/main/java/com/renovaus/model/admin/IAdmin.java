@@ -7,5 +7,6 @@ import com.renovaus.pojo.User;
 public interface IAdmin {
 	
 	  int save(Admin admin);
+	  Admin findByAdmin(String user, String password);
 
 }

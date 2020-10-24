@@ -176,7 +176,7 @@ public class JdbcUser implements IUser{
 	@Override
 	public int updateEstado(int idUser, int idEstado) {
 	    return jdbcTemplate.update(
-                "update usuario set id_estado = ? where id =?",
+                "update user set id_estado = ? where id =?",
                 idEstado, idUser);	
 	}
 

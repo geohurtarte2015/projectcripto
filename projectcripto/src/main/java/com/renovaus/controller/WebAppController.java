@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -43,15 +44,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.renovaus.ProjectcriptoApplication;
+import com.renovaus.configuration.ConfigProperties;
+import com.renovaus.model.admin.IAdmin;
 import com.renovaus.model.bancos.IBanco;
 import com.renovaus.model.billetera.IBilletera;
 import com.renovaus.model.billetera_exchange.IBilleteraExchange;
+import com.renovaus.model.comision.IComision;
 import com.renovaus.model.orden.IOrden;
+import com.renovaus.model.report.IReport;
 import com.renovaus.model.user.IUser;
 import com.renovaus.pojo.Admin;
+import com.renovaus.pojo.AdminLogin;
 import com.renovaus.pojo.Banco;
 import com.renovaus.pojo.Billetera;
 import com.renovaus.pojo.BilleteraExchange;
+import com.renovaus.pojo.Comision;
 import com.renovaus.pojo.Estado;
 import com.renovaus.pojo.EstadoOrden;
 import com.renovaus.pojo.Orden;
@@ -72,6 +79,14 @@ public class WebAppController {
 	  
 	  private static final Logger log = LoggerFactory.getLogger(ProjectcriptoApplication.class);
 	  
+	  		private EmailToWebservice emailToWebservice = new EmailToWebservice();
+	  		
+	  		@Autowired
+	  		private IReport iReport;
+	  
+	  		@Autowired
+	  		private IComision icomision;
+	  		
 			@Autowired
 	  		private IBilletera iBilletera;
 			
@@ -86,6 +101,9 @@ public class WebAppController {
 	  		private IUser iUser;
 	  		
 	  		@Autowired
+	  		private IAdmin iAdmin;
+	  		
+	  		@Autowired
 	  		private IOrden iOrden;
 	  		
 	  	    @Autowired
@@ -96,7 +114,7 @@ public class WebAppController {
 		        this.appMode = environment.getProperty("app-mode");
 		    }
 
-		    @RequestMapping("/")
+		    @RequestMapping("/indexcoincaex")
 	    	public String index(Model model, HttpSession session){
 		    @SuppressWarnings("unchecked")
 		    String nombreCompleto = (String) session.getAttribute("nombre");
@@ -119,6 +137,10 @@ public class WebAppController {
 	    	public String indexLogin(Model model, HttpSession session){
 		    @SuppressWarnings("unchecked")
 		    String nombreCompleto = (String) session.getAttribute("nombre");
+		    String emailUser = (String) session.getAttribute("emailUser");
+		    String apellido = (String) session.getAttribute("apellido");
+		    
+		    
 				
 			
 			if (nombreCompleto == null) {
@@ -126,6 +148,7 @@ public class WebAppController {
 			}	
 			
 			model.addAttribute("nombre", nombreCompleto);		
+			model.addAttribute("emailUser", emailUser);		
 	        model.addAttribute("datetime", new Date());
 	        model.addAttribute("username", "Giovanni Hurtarte");
 	        model.addAttribute("mode", appMode);
@@ -134,11 +157,50 @@ public class WebAppController {
 		    }
 		    
 		    
+		    @RequestMapping("/loginAdmin")
+	    	public String indexLoginAdmin(Model model, HttpSession session){
+		    @SuppressWarnings("unchecked")
+		    String nombreCompletoAdmin = (String) session.getAttribute("nombreAdmin");
+				
+			
+			if (nombreCompletoAdmin == null) {
+			    nombreCompletoAdmin = new String();
+			}	
+			
+			model.addAttribute("nombreAdmin", nombreCompletoAdmin);		
+	        model.addAttribute("datetime", new Date());
+	        model.addAttribute("username", "Jose Guillen");
+	        model.addAttribute("mode", appMode);
+	        model.addAttribute("userLogin", new UserLogin());
+	        return "plantillaAdmin/loginAdmin";
+		    }
+		    
+		    @RequestMapping("/report")
+	    	public String report(Model model, HttpSession session){
+		    @SuppressWarnings("unchecked")
+		    String nombreCompletoAdmin = (String) session.getAttribute("nombreAdmin");
+				
+			
+			if (nombreCompletoAdmin == null) {
+			    nombreCompletoAdmin = new String();
+			}	
+			
+			model.addAttribute("nombreAdmin", nombreCompletoAdmin);		
+	        model.addAttribute("datetime", new Date());
+	        model.addAttribute("username", "Jose Guillen");
+	        model.addAttribute("mode", appMode);
+	        model.addAttribute("userLogin", new UserLogin());
+	        return "plantillaAdmin/report";
+		    }
+		    
+		    
+		    
 		    @RequestMapping("/buyCripto")
 	    	public String buyCripto(Model model, HttpSession session){
 		    @SuppressWarnings("unchecked")
 		    String nombreCompleto = (String) session.getAttribute("nombre");
 		    String idUserSession = (String) session.getAttribute("idUserSession");
+		    String emailUser = (String) session.getAttribute("emailUser");
 			
 				if (nombreCompleto == null) {
 					nombreCompleto = new String();
@@ -148,11 +210,22 @@ public class WebAppController {
 					idUserSession = new String();
 				}
 				
+				if (emailUser == null) {
+					emailUser = new String();
+				}
 				
-				List<Billetera> billeteras = iBilletera.findByUser(3);
-		
+				
+				Comision comision = icomision.findById(1);
+			 	String valComision=String.valueOf(comision.getComisionCompra());
+			 	
+				
+				List<Billetera> billeteras = iBilletera.findByUser(Integer.parseInt(idUserSession));
+				
+			
+				model.addAttribute("valComision", valComision);
 				model.addAttribute("nombre", nombreCompleto);
 				model.addAttribute("idUserSession", idUserSession);
+				model.addAttribute("emailUser", emailUser);
 				model.addAttribute("datetime", new Date());
 				model.addAttribute("username", "Giovanni Hurtarte");
 				model.addAttribute("billeteras",billeteras);
@@ -161,6 +234,7 @@ public class WebAppController {
 				return "plantillaAdmin/buyCripto";
 
 		    }
+	
 		    
 		    
 			@RequestMapping("/sellCripto")
@@ -168,6 +242,7 @@ public class WebAppController {
 			    @SuppressWarnings("unchecked")
 			    String nombreCompleto = (String) session.getAttribute("nombre");
 			    String idUserSession = (String) session.getAttribute("idUserSession");
+			    String emailUser = (String) session.getAttribute("emailUser");
 					
 				
 				if (nombreCompleto == null) {
@@ -178,12 +253,23 @@ public class WebAppController {
 					idUserSession = new String();
 				}
 				
+
+				if (emailUser == null) {
+					emailUser = new String();
+				}
+				
 				
 				List<Banco> bancos = iBanco.findAll();
 				
-			
+				Comision comision = icomision.findById(1);
+			 	String valComision=String.valueOf(comision.getComisionVenta());
+			 	
+				
+			 	
 				model.addAttribute("nombre", nombreCompleto);	
+				model.addAttribute("valComision", valComision);
 				model.addAttribute("idUserSession", idUserSession);
+				model.addAttribute("emailUser", emailUser);
 				model.addAttribute("datetime", new Date());
 				model.addAttribute("username", "Giovanni Hurtarte");
 				model.addAttribute("bancos",bancos);
@@ -204,6 +290,19 @@ public class WebAppController {
 			model.addAttribute("nombre", nombreCompleto);		
 
 	        return "plantillaAdmin/logout";
+		    }
+		    
+		    @RequestMapping("/logoutAdmin")
+	    	public String logoutAdmin(Model model, HttpSession session){
+		    @SuppressWarnings("unchecked")
+		    String nombreCompletoAdmin = (String) session.getAttribute("nombreAdmin");
+			if (nombreCompletoAdmin == null) {
+			    nombreCompletoAdmin = new String();
+			}	
+			
+			model.addAttribute("nombreAdmin", nombreCompletoAdmin);		
+
+	        return "plantillaAdmin/logoutAdmin";
 		    }
 
 		    
@@ -289,7 +388,11 @@ public class WebAppController {
 		        				 new Admin(1),
 		        				 email));
 		         
-		  
+		         emailToWebservice.sendToPhp(email, 
+		 		        "Solicitud enviada a Coincaex ", "Hola  "+nombre+" "+
+		 		    	"tu solicitud a sido enviada para calificar a la creación del usuario. "+
+		 		    	"\n\n\n");
+		         
 		      }
 		      catch (Exception e) {
 		        System.out.println(e.getMessage());
@@ -313,6 +416,8 @@ public class WebAppController {
 		    		@RequestParam String monedaCripto,	  
 		    		@RequestParam String tipoNegocio,	
 		    		@RequestParam String idUser,
+		    		@RequestParam String emailUser,
+		    		@RequestParam String nameUser,
 			        @RequestParam("voucher") MultipartFile voucher) 
 			    	{
 			    
@@ -340,7 +445,7 @@ public class WebAppController {
 			      try {
 			    	  
 			    	 System.out.println(valorFiat+" "+monedaFiat+" "+tipoPago+" "+numTarjetaCredito+" "+codigoCvv+" "+fechaVencimiento+" "
-			    			           +numBilletera+" "+voucher.getOriginalFilename());
+			    			           +numBilletera+" "+voucher.getOriginalFilename()+" "+emailUser);
 			    	 
 			    	  BigDecimal valorFiatBig = new BigDecimal(valorFiat); 
 			    	  BigDecimal valorCriptoBig = new BigDecimal("0"); 
@@ -359,9 +464,16 @@ public class WebAppController {
 			    					 datoTarjetaCredito,			    			
 			    					 Integer.valueOf(numBilletera),
 			    					 Integer.valueOf(monedaFiat),
-			    					 Integer.valueOf(monedaCripto)			    				
+			    					 Integer.valueOf(monedaCripto),
+			    					 1//Comision
 			    					 )
 			    					 );
+			    	 
+			    	 
+			    	 emailToWebservice.sendToPhp(emailUser, 
+					 	        "Solicitud de compra enviada a Coincaex ", "Hola  "+nameUser+" "+
+					 		    	"tu solicitud de compra a sido enviada, pronto tendras la respuesta de tu solicitud. "+
+					 	    	"\n\n\n");
 			    					 
 			    			 
 			    			 
@@ -388,7 +500,10 @@ public class WebAppController {
 	    			@RequestParam String tipoFiat,		  
 		    		@RequestParam String tipoNegocio,	
 		    		@RequestParam String nombreCuenta,
-		    		@RequestParam String idUser)		    
+		    		@RequestParam String idUser,
+		    		@RequestParam String nameUser,
+		    		@RequestParam String emailUser
+		    		)		    
 			    	{
 			    
 		    
@@ -415,12 +530,16 @@ public class WebAppController {
 			    					 Integer.valueOf(banco),			    				
 			    					 Integer.valueOf(tipoFiat),
 			    					 Integer.valueOf(tipoCripto),
-			    					 nombreCuenta
+			    					 nombreCuenta,
+			    					 1 //comision venta
 			    					 )
 			    					 );
-			    					 
-			    			 
-			    			 
+			    	 
+			    	 emailToWebservice.sendToPhp(emailUser, "Solicitud de venta enviada a Coincaex ", "Hola  "+nameUser+" "+
+				 		    	"tu solicitud de venta a sido enviada, pronto tendras la respuesta de tu solicitud. "+
+				 	    	"\n\n\n");
+			    	 
+
 			    
 			  
 			      }
@@ -453,15 +572,20 @@ public class WebAppController {
 			
 				    String nombreCompleto = (String) session.getAttribute("nombre");
 		    	   String idUserSession = (String) session.getAttribute("idUserSession");
+		    	   String emailUser = (String) session.getAttribute("emailUser");
+		    	   
+		    	   System.out.println("Email Inicio "+emailUser+"\nNombre inicio "+nombreCompleto);
 		    	   
 				    if (nombreCompleto == null) {
 				    	nombreCompleto = new String();
 				    	idUserSession = new String();
+				    	emailUser = new String();
 					}	
 		    	
 		    	   
 				    model.addAttribute("nombre", nombreCompleto);
-				    model.addAttribute("idUserSession", idUserSession);				
+				    model.addAttribute("idUserSession", idUserSession);		
+				    model.addAttribute("emailUser", emailUser);		
 			        model.addAttribute("datetime", new Date());
 			        model.addAttribute("username", "Giovanni Hurtarte");
 			        model.addAttribute("mode", appMode);
@@ -472,25 +596,30 @@ public class WebAppController {
 		    
 		    
 		    @RequestMapping("/inicioAdmin")
-	    	public String adminAdmin(Model model, HttpSession session){
+	    	public String adminAdmin(Model model, HttpSession session,HttpServletRequest request){
 		    	   @SuppressWarnings("unchecked")
 			
-				    String nombreCompleto = (String) session.getAttribute("nombre");
+		    	 	String nombreCompletoAdmin = (String) request.getSession().getAttribute("nombreAdmin");
+			    	String idAdminSession = (String) request.getSession().getAttribute("idAdminSession");
 				    
-				    if (nombreCompleto == null) {
-				    	nombreCompleto = new String();
+				    if (nombreCompletoAdmin == null) {
+				    	nombreCompletoAdmin = new String();
 					}	
-		    	
+				    
+				    request.getSession().setAttribute("nombre", nombreCompletoAdmin);
+		            request.getSession().setAttribute("idAdminSession", idAdminSession);
 		    	   
-				    model.addAttribute("nombre", nombreCompleto);				
+		            model.addAttribute("nombre", nombreCompletoAdmin);
+				    model.addAttribute("idAdminSession", idAdminSession);	
 			        model.addAttribute("datetime", new Date());
-			        model.addAttribute("username", "Giovanni Hurtarte");
+			        model.addAttribute("username", "Jose Guillen");
 			        model.addAttribute("mode", appMode);
-			        model.addAttribute("userLogin", new UserLogin());
+			        model.addAttribute("userLogin", new AdminLogin());
 			       // return "plantillaAdmin/index";
 			        return "plantillaAdmin/index";
 		    }
 	    	
+		    
 	    	
 		    
 		    @PostMapping("/request") 
@@ -516,18 +645,27 @@ public class WebAppController {
 		    	@SuppressWarnings("unchecked")		
 		    	String nombreCompleto = (String) request.getSession().getAttribute("nombre");
 		    	String idUserSession = (String) request.getSession().getAttribute("idUserSession");
+		    	String emailUser = (String) request.getSession().getAttribute("emailUser");
+		    	
+		    	
 			
 				
 			   User userResult = new User();	
 		   	   userResult = iUser.findByUser(user, password);	   	    
-		   	    
+		   	
+		   	   
 		       if (!(userResult==null)) {	        	 
-		             System.out.printf(userResult.getNombre().toString() + " "+userResult.getApellido().toString());
+		    	   
+				   	  System.out.println("Nombre completo: "+userResult.getNombre()+"\nEmail: "+userResult.getCorreo());
+				   	  
 		             nombreCompleto = userResult.getNombre()+" "+userResult.getApellido();
 		             idUserSession = String.valueOf(userResult.getId());
+		             emailUser=String.valueOf(userResult.getCorreo());
 		             
 		             request.getSession().setAttribute("nombre", nombreCompleto);
 		             request.getSession().setAttribute("idUserSession", idUserSession);
+		             request.getSession().setAttribute("emailUser", emailUser);
+		             
 		             return "ok";
 		        } else {
 		        	System.out.println("No encontrado");
@@ -536,6 +674,38 @@ public class WebAppController {
 		        
 		 
 		    }
+		    
+		    
+		    @RequestMapping(value = "/validateAdmin", method = RequestMethod.POST,produces = MediaType.TEXT_HTML_VALUE)
+		    @ResponseBody
+		    public String validateLoginAdmin(@RequestParam String user,@RequestParam String password,HttpServletRequest request) {
+		    	
+		    	@SuppressWarnings("unchecked")		
+		    	String nombreCompletoAdmin = (String) request.getSession().getAttribute("nombreAdmin");
+		    	String idAdminSession = (String) request.getSession().getAttribute("idAdminSession");
+			
+			
+		       
+			   Admin adminResult = new Admin();	
+			   adminResult = iAdmin.findByAdmin(user, password);	   	    
+		   	    
+		       if (!(adminResult==null)) {	        	 
+		             System.out.printf(adminResult.getNombre().toString() + " "+adminResult.getApellido().toString());
+		             nombreCompletoAdmin = adminResult.getNombre()+" "+adminResult.getApellido();
+		             
+		             idAdminSession = String.valueOf(adminResult.getId());
+		             
+		             request.getSession().setAttribute("nombreAdmin", nombreCompletoAdmin);
+		             request.getSession().setAttribute("idAdminSession", idAdminSession);
+		             return "ok";
+		        } else {
+		        	System.out.println("No encontrado");
+		        	return "errorusuario";
+		        }
+		        
+		 
+		    }
+		    
 		    
 		    @RequestMapping(value = "/getUser", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 		    @ResponseBody
@@ -552,12 +722,25 @@ public class WebAppController {
 		        map.put("apellido", userResult.getApellido());
 		        map.put("correo", userResult.getCorreo());
 		        map.put("dpi", String.valueOf(userResult.getDpi()));
-		        map.put("nit", String.valueOf(userResult.getDpi()));
+		        map.put("nit", String.valueOf(userResult.getNit()));
 		        map.put("genero",userResult.getGenero());		      
 		        map.put("telefono",String.valueOf(userResult.getTelefono()));
 		        map.put("imgRostro",imgRostro);
 		        map.put("imgDpiFrontal",imgDpiFrontal);
 		        map.put("imgDpiReverso",imgDpiReverso);
+		        return map;
+		    }
+		    
+		    
+
+		    @RequestMapping(value = "/getUpdateOrder", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+		    @ResponseBody
+		    public Map<String, String> getUpdateStateOrder(@RequestParam int idOrden,HttpServletRequest request) {		    	
+		    	  User userResult = new User();	
+		    	HashMap<String, String> map = new HashMap<>();		    	
+		 	   	int respUpdate= iOrden.updateEstado(6, idOrden);	
+		        map.put("response", String.valueOf(respUpdate));
+		 
 		        return map;
 		    }
 		    
@@ -724,6 +907,24 @@ public class WebAppController {
 		    	return response;
 		    }
 		    
+		    @RequestMapping(value = "/listAllReport", method = RequestMethod.POST)
+		    @ResponseBody
+		    public String listAllReport(@RequestParam String initTime,@RequestParam String finishTime,HttpSession session) {
+		    	
+		  
+				String idUserSession = (String) session.getAttribute("idUserSession");
+				System.out.println("initTime----->   "+initTime+" finishTime----->   "+finishTime);
+				
+				if (idUserSession == null) {
+					idUserSession = new String();
+				}
+		    	
+		    	String response = null;
+		    	GetJson getJson= new GetJson();		   
+		    	response = getJson.getJsonDataTable(iReport.dataTableAll(initTime,finishTime));
+		    	return response;
+		    }
+		    
 		    
 		    @RequestMapping(value = "/saveWallet", method = RequestMethod.POST)
 		    @ResponseBody
@@ -747,15 +948,16 @@ public class WebAppController {
 		    	int resp = iUser.updateUser(idUser);
 		    	String password = PasswordGenerator.getPassword(5);
 		    	String username = UserGenerator.getUser(first, last);
-		    	iUser.updateUserNameAndPassword(username, password, idUser);		    	
-		    	emailService.sendSimpleMessage(email, 
+		    	iUser.updateUserNameAndPassword(username, password, idUser);	
+		    	
+		    	 emailToWebservice.sendToPhp(email, 
 		        "Respuesta sobre la solicitud de usuario de Coincaex ", "Bienvenido a Coincaex  "+first+" "+
 		    	"comienza a transformar tus finanzas, he invierte en criptomonedas. "+
 		    	"\n\n\n"+
 		        " Tu usuario es:  "+username+
 		        "\n"+
 		    	" y tu contraseña es:  "+password);
-		    	return "Enviando respuesta";
+		    	return "Respuesta Enviada";
 		    }
 		    
 		    @RequestMapping(value = "/positiveBuy", method = RequestMethod.POST)
@@ -768,7 +970,7 @@ public class WebAppController {
 		    	int respEstado = iOrden.updateEstado(3, idOrder);		    	
 		    	int respFiat = iOrden.updateCripto(new BigDecimal(cripto), idOrder);
 		    		    	
-		    	emailService.sendSimpleMessage(email, 
+		    	 emailToWebservice.sendToPhp(email, 
 		        "Respuesta sobre la solicitud de compra en Coincaex ", "Hola  "+first+" "+
 		    	"tu compra fue aprobada, recibiste . "+
 		    	"\n\n"+
@@ -784,7 +986,7 @@ public class WebAppController {
 		    	int respEstado = iOrden.updateEstado(3, idOrder);		    	
 		    	int respFiat = iOrden.updateFiat(new BigDecimal(fiat), idOrder);
 		    		    	
-		    	emailService.sendSimpleMessage(email, 
+		    	 emailToWebservice.sendToPhp(email, 
 		        "Respuesta sobre la solicitud de venta en Coincaex ", "Hola  "+first+" "+
 		    	"tu solicitud de venta fue aprobada, recibiste . "+
 		    	"\n\n"+
@@ -800,8 +1002,8 @@ public class WebAppController {
 		    @ResponseBody
 		    public String negativeValidation(@RequestParam int idUser,@RequestParam String email,@RequestParam String first,@RequestParam String last,@RequestParam String message) {
 		    	System.out.println("Rechazado");
-		    	iUser.updateEstado(idUser, 2);
-		    	emailService.sendSimpleMessage(email, 
+		    	iUser.updateEstado(idUser, 3);//Estado 3 es rechazado
+		    	 emailToWebservice.sendToPhp(email, 
 		        "Respuesta sobre la solicitud de usuario de Coincaex ", "Estimado  "+first+" :"+"\n\n"+
 		    	"El administrador le ha denegado la solicitud de la creación de usuario, "
 		    	+ "debido a que no cumple con los requisitos de los documentos solicitados o "
@@ -816,7 +1018,7 @@ public class WebAppController {
 		    public String negativeBuy(@RequestParam String idOrder,@RequestParam String email,@RequestParam String first,@RequestParam String last,@RequestParam String message) {
 		    	System.out.println("Rechazado");
 		    	iOrden.updateEstado(3, Integer.parseInt(idOrder));
-		    	emailService.sendSimpleMessage(email, 
+		    	 emailToWebservice.sendToPhp(email, 
 		        "Respuesta sobre la solicitud de compra de criptoactivos en Coincaex ", "Estimado/a  "+first+" :"+"\n\n"+
 		    	"El administrador le ha denegado la solicitud de la compra de criptoactivos, "
 		    	+ "debido a que no cumple con los requisitos de la información solicitada o "
@@ -831,7 +1033,7 @@ public class WebAppController {
 		    public String negativeSell(@RequestParam String idOrder,@RequestParam String email,@RequestParam String first,@RequestParam String last,@RequestParam String message) {
 		    	System.out.println("Rechazado");
 		    	iOrden.updateEstado(3, Integer.parseInt(idOrder));
-		    	emailService.sendSimpleMessage(email, 
+		    	 emailToWebservice.sendToPhp(email, 
 		    	"Respuesta sobre la solicitud de venta de criptoactivos en Coincaex ", "Estimado/a  "+first+" :"+"\n\n"+
 		    	"El administrador le ha denegado la solicitud de venta de criptoactivos, "
 		    	+ "debido a que no cumple con los requisitos de la información solicitada o "

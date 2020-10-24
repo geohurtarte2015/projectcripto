@@ -26,8 +26,19 @@ public class Orden {
 	private MonedaFiat monedaFiatObject;
 	private Banco banco;
 	private Billetera billeteraDireccion;
+	private int comision;
 	
 	
+	public int getComision() {
+		return comision;
+	}
+
+
+	public void setComision(int comision) {
+		this.comision = comision;
+	}
+
+
 	public Billetera getBilleteraDireccion() {
 		return billeteraDireccion;
 	}
@@ -62,7 +73,7 @@ public class Orden {
 	
 	public Orden(TipoNegocio tipoNegocio, BigDecimal fiat,
 			BigDecimal cripto, User user, EstadoOrden estadoOrden,String tipoCuentaBancaria, 
-			String cuentaBancaria, int nombreBanco, int monedaFiat, int monedaCripto, String nombreCuentaBancaria) {
+			String cuentaBancaria, int nombreBanco, int monedaFiat, int monedaCripto, String nombreCuentaBancaria,int comision) {
 		super();	
 		this.tipoNegocio = tipoNegocio;	
 		this.fiat = fiat;
@@ -75,6 +86,7 @@ public class Orden {
 		this.monedaFiat = monedaFiat;
 		this.monedaCripto = monedaCripto;		
 		this.nombreCuentaBancaria = nombreCuentaBancaria;
+		this.comision=comision;
 	}
 	
 	
@@ -142,7 +154,7 @@ public class Orden {
 	
 	public Orden(TipoPago tipoPago, TipoNegocio tipoNegocio, byte[] imagenVoucher, BigDecimal fiat,
 			BigDecimal cripto, User user, EstadoOrden estadoOrden,String tipoCuentaBancaria, 
-			String cuentaBancaria, int billetera, int monedaFiat, int monedaCripto) {
+			String cuentaBancaria, int billetera, int monedaFiat, int monedaCripto,int comision) {
 		super();
 		this.tipoPago = tipoPago;
 		this.tipoNegocio = tipoNegocio;
@@ -156,6 +168,7 @@ public class Orden {
 		this.billetera = billetera;
 		this.monedaFiat = monedaFiat;
 		this.monedaCripto = monedaCripto;	
+		this.comision=comision;
 	}
 	
 	public Orden(int id,TipoPago tipoPago, TipoNegocio tipoNegocio, byte[] imagenVoucher, BigDecimal fiat,

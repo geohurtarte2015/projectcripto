@@ -41,7 +41,8 @@ public class JdbcOrden implements IOrden {
 				+ "cuenta_bancaria, "
 				+ "tipo_cuenta_bancaria, "	
 				+ "id_user, "
-				+  "id_billetera) values (?,?,?,?,?,?,?,?,?,?,?,?)",
+				+  "comision, "	
+				+  "id_billetera) values (?,?,?,?,?,?,?,?,?,?,?,?,?)",
 				orden.getTipoPago().getId(),
 				orden.getTipoNegocio().getId(),
 				orden.getImagenVoucher(),
@@ -53,6 +54,7 @@ public class JdbcOrden implements IOrden {
 				orden.getCuentaBancaria(),
 				orden.getTipoCuentaBancaria(),			
 				orden.getUser().getId(),
+				orden.getComision(),
 				orden.getBilletera()
 				);
 	}
@@ -70,7 +72,8 @@ public class JdbcOrden implements IOrden {
 				+ "tipo_cuenta_bancaria, "
 				+ "id_banco, "
 				+ "id_user, "
-				+ "nombre_cuenta_bancaria) values (?,?,?,?,?,?,?,?,?,?,?)",	
+				+ "comision, "
+				+ "nombre_cuenta_bancaria) values (?,?,?,?,?,?,?,?,?,?,?,?)",	
 				orden.getTipoNegocio().getId(),	
 				orden.getEstadoOrden().getId(),
 				orden.getFiat(),
@@ -81,6 +84,7 @@ public class JdbcOrden implements IOrden {
 				orden.getTipoCuentaBancaria(),
 				orden.getNombreBanco(),
 				orden.getUser().getId(),
+				orden.getComision(),
 				orden.getNombreCuentaBancaria()
 				);
 	}

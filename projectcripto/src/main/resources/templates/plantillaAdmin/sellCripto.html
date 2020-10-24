@@ -50,7 +50,12 @@
                                                     <option value="0" selected>Seleccionar</option>
                                                     <option value="1">Bitcoin</option>
                                                     <option value="2">Etherum</option>
+                                                    <option value="3">Usdt</option>
                                                 </select>
+                                            </div>
+                                              <div class="col-sm-4">
+                                                <label for="sel1">Valor en Dolares:</label>
+                                                <input type="text" class="form-control" id="valorUsdt" placeholder="Valor" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -98,6 +103,15 @@
                                                 <label for="sel1">Nombre de la cuenta :</label>
                                                 <input type="text" class="form-control" id="nombreCuenta" placeholder="Nombre de Cuenta Bancaria">
                                             </div>
+                                             <div class="col-sm-8">
+                                                <label for="sel1">Tipo de cambio de criptomoneda al dia en dolares:</label>
+                                                <input type="text" class="form-control" id="montoRecibir" disabled>
+                                            </div>
+                                         
+                                          
+                                             <div class="col-sm-8">
+                                                <label for="sel1">* El valor a recibir en dolares será cuando se atienda la venta, este puede variar segun el tipo de cambio en el momento.</label>                                     
+                                            </div>
                                             
                                             
                                         </div>
@@ -107,15 +121,18 @@
                                 <div class="text-center">
                                     <div class="col-sm-12">
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button id="uploadButton" type="button" class="btn btn-primary btn-lg">Solicitar</button>
+                                        	 <button id="calcButton" type="button" class="btn btn-warning btn-lg">Monto a recibir</button>	
+                                            <button id="uploadButton" type="button" class="btn btn-primary btn-lg" disabled>Solicitar</button>
                                             <a href="inicio" class="btn btn-secondary btn-lg">Cancelar</a>
                                         </div>
                                     </div>
                                 </div>
                             </form>
+                            </br>
+							 <div id="messageLogin"></div>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">¿Necesita ayuda?</a>
+                                <a class="small" href="/sellCripto">¿Necesita ayuda?</a>
                             </div>
                             <div class="text-center">
                                 <a class="small" href="login">Cerrar sesión</a>
@@ -139,10 +156,64 @@
 
 
     var nameUser ="[[${nombre}]]";
+    var emailUser ="[[${emailUser}]]";
     var idUser = [[${idUserSession}]];
+    var valComision="[[${valComision}]]";
 
   
  	/*]]>*/
+ 	
+ 	
+ 	//function exchangeBinance(value){
+ 	//	var valMarketPrice;
+	 		 //exchange binance
+	 //		  var burl = "https://fapi.binance.com";
+// 	 		  var query = '/fapi/v1/premiumIndex';	 		 	  
+// 	 		  query += '?symbol='+value;	 
+// 	 		  var url = burl+query;
+// 	 		  var ourRequest = new XMLHttpRequest();	 		  
+// 	 		  ourRequest.open('GET',url,true);
+// 	 		  ourRequest.onload = function(){
+// 	 			  //console.log(ourRequest.responseText);
+// 	 			  var market = JSON.parse(this.responseText);
+// 	 			 valMarketPrice =  market.markPrice;	 			
+// 	 		  }
+// 	 		  ourRequest.send();
+// 	 		  return valMarketPrice
+//  		}
+ 	
+ 	
+ 	
+
+ 	
+ 	function loadDoc(value, cFunction) {
+ 		  var burl = "https://fapi.binance.com";
+		  var query = '/fapi/v1/premiumIndex';	 		 	  
+		  query += '?symbol='+value;	 
+		  var url = burl+query;
+ 		  var xhttp;
+ 		  xhttp=new XMLHttpRequest();
+ 		  xhttp.onreadystatechange = function() {
+ 		    if (this.readyState == 4 && this.status == 200) {
+ 		      cFunction(this);
+ 		    }
+ 		  };
+ 		  xhttp.open("GET", url, true);
+ 		  xhttp.send();
+ 		}
+ 	
+		
+
+ 		function convertExchange(xhttp) { 	
+ 		  console.log(xhttp.responseText); 	
+ 		 var market = JSON.parse(xhttp.responseText);
+ 		 var valCripto = $("#valorCripto").val();
+ 		 var valDolarDecimal = parseFloat(market.markPrice);
+ 		 var valCriptoDecimal = parseFloat(valCripto);
+ 		 var total=valDolarDecimal*valCriptoDecimal;
+ 		  $("#valorUsdt").val(total.toFixed(2));
+ 		}	  
+
     
         $(".custom-file-input").on("change", function() {
             var fileName = $(this).val().split("\\").pop();
@@ -150,6 +221,63 @@
         });
         
         $(document).ready(function() {
+        	
+        	$("#valorCripto").val('0');
+        	$("#valorUsdt").val('0');
+        	
+        	
+        	 $("#valorFiat").keypress(function(){        		 
+         		
+        		 $("#uploadButton").prop("disabled", true);
+        		 
+        	  }); 	
+        	
+        	
+        	
+        	
+        	 $("#calcButton").click(function() {      		
+        		 var valCripto = $("#valorCripto").val();
+        		 var valFiat = $("#valorUsdt").val();
+        		 
+        		 var totalCritpoComision = (valCripto*valComision);
+        		 var totalFiatComision = (valFiat*valComision);
+        		 
+        		 $("#uploadButton").prop("disabled", false);
+        		 
+        		 var totalDecimalCritpo=parseFloat(valCripto)-parseFloat(totalCritpoComision);
+        		 var totalDecimalFiat=parseFloat(valFiat)-parseFloat(totalFiatComision);
+        		 
+        		 
+        		 $("#montoRecibir").val(totalDecimalFiat);     
+        		// $("#montoCriptoRecibir").val(totalDecimalCritpo); 
+        		 
+            });
+        	
+        	
+        	
+        	
+        	
+        	$("#valorCripto").keypress(function(){
+        		 var idCripto = document.getElementById("tipoCripto").value;
+        		 if(idCripto!=0){ 
+        	        	
+	               	  if(idCripto==1) {
+	               		  loadDoc("BTCUSDT", convertExchange);
+	               	  }
+	               	  if(idCripto==2) {
+	               		  loadDoc("ETHUSDT", convertExchange);
+	               	  }
+	               	if(idCripto==3) {
+		               	  var valCripto = $("#valorCripto").val();		       
+		               	$("#valorUsdt").val(valCripto);
+	               	  }
+        		 }
+        		 
+        		 
+        	  }); 	
+        	
+         
+    
       
        
         $("#uploadButton").click(function() {
@@ -173,8 +301,15 @@
             data.append("tipoCuenta", $("#tipoCuenta option:selected").text());
             data.append("banco", $("#banco").val());
             data.append("tipoFiat", $("#tipoFiat").val());
-            data.append("tipoNegocio", 2);
+            data.append("tipoNegocio", 2);//tipo negocio 2 es Venta
             data.append("idUser", idUser);
+            data.append("nameUser", nameUser);
+            data.append("emailUser", emailUser);
+            
+            var messageLoading = "<div class='alert alert-info alert-dismissible fade show'> <strong>Info!</strong> Enviando los datos, espere un momento.. <button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+          	var messageSuccesful = "<div class='alert alert-success alert-dismissible fade show'><strong>Success!</strong> Solicitud de venta. finalizado.<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+          	$("#messageLogin").empty();			
+          	$("#messageLogin").append(messageLoading);
             
             $.ajax({
                 url: "/uploadFileSell",
@@ -185,16 +320,22 @@
                 contentType: false,
                 cache: false,
                 success: function(data) {
-                    alert(data);
-                    $("#valorCripto").val('');
+                	$("#messageLogin").empty();
+					$("#messageLogin").append(messageSuccesful);	                 
+                    $("#valorCripto").val('0');
+                    $("#valorUsdt").val('0');
                     $("#nombreCuenta").val('');
                     $("#tipoCripto").val(0);            
-                    $("#numeroCuenta").val('');              
+                    $("#numeroCuenta").val('');   
+                    $("#montoRecibir").val('');  
+                    //$("#montoCriptoRecibir").val(''); 
                     $("#tipoCuenta").val(0);
                     $("#banco").val(0);
                     $("#tipoFiat").val(0);              
                 },
-                error: function() {}
+                error: function() {
+                	alert('Error al enviar la información');
+                }
             });            
             
         }
@@ -203,7 +344,21 @@
         	addressWallet.innerHTML = "";
            var idCripto = 	document.getElementById("tipoCripto").value;
            
-           if(idCripto!=0){            
+           if(idCripto!=0){ 
+        	
+        	  if(idCripto==1) {
+        		  loadDoc("BTCUSDT", convertExchange);
+        	  }
+        	  if(idCripto==2) {
+        		  loadDoc("ETHUSDT", convertExchange);
+        	  }
+        	  if(idCripto==3) {
+              	  var valCripto = $("#valorCripto").val();		       
+        	 	  $("#valorUsdt").val(valCripto);
+        	  }
+        	   
+        	   
+        	   
             $.ajax({
 				type : "post",
 				url : "getAddressQr",

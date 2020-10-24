@@ -7,17 +7,32 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
+import com.renovaus.configuration.ConfigProperties;
 import com.renovaus.controller.EmailService;
 import com.renovaus.controller.EmailServiceImpl;
 import com.renovaus.controller.SendMail;
@@ -36,6 +51,7 @@ public class ProjectcriptoApplication extends SpringBootServletInitializer imple
 	
     private static final Logger log = LoggerFactory.getLogger(ProjectcriptoApplication.class);
     
+   
   
     @Autowired
     public EmailService emailService;
@@ -62,14 +78,19 @@ public class ProjectcriptoApplication extends SpringBootServletInitializer imple
 	@Override
 	public void run(String... args)  {
 		
+
+
+	
 		
-		//System.out.println("Sending Email...");	
-		//emailService.sendSimpleMessage("luisguillenr@gmail.com", "Bienvenido a Coincaex", "Transforma tus finanzas, he invierte en criptomonodeas.");
+	//log.info("[ENVIANDO EMAIL PRUEBA]");		
+	//	System.out.println("Sending Email...");	
+	//	emailService.sendSimpleMessage("edgar.hurtarte@gmail.com", "Bienvenido a Coincaex", "Transforma tus finanzas, he invierte en criptomonodeas.");
+	 //  log.info("[TERMINADO  EMAIL]");
 		
     
 		
-		String msg= "CARGANDO LISTA DE ";
-		String msgsave = "GUARDANDO....";
+		//String msg= "CARGANDO LISTA DE ";
+		//String msgsave = "GUARDANDO....";
 
 		//SendMail sendMail = new SendMail();
 		//sendMail.sendSimpleText();
