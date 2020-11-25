@@ -35,6 +35,7 @@ import org.springframework.web.client.RestTemplate;
 import com.renovaus.configuration.ConfigProperties;
 import com.renovaus.controller.EmailService;
 import com.renovaus.controller.EmailServiceImpl;
+import com.renovaus.controller.EmailToWebservice;
 import com.renovaus.controller.SendMail;
 import com.renovaus.model.admin.IAdmin;
 import com.renovaus.model.orden.IOrden;
@@ -51,7 +52,7 @@ public class ProjectcriptoApplication extends SpringBootServletInitializer imple
 	
     private static final Logger log = LoggerFactory.getLogger(ProjectcriptoApplication.class);
     
-   
+    private EmailToWebservice emailToWebservice = new EmailToWebservice();
   
     @Autowired
     public EmailService emailService;
@@ -82,10 +83,11 @@ public class ProjectcriptoApplication extends SpringBootServletInitializer imple
 
 	
 		
-	//log.info("[ENVIANDO EMAIL PRUEBA]");		
-	//	System.out.println("Sending Email...");	
-	//	emailService.sendSimpleMessage("edgar.hurtarte@gmail.com", "Bienvenido a Coincaex", "Transforma tus finanzas, he invierte en criptomonodeas.");
-	 //  log.info("[TERMINADO  EMAIL]");
+	log.info("[ENVIANDO EMAIL PRUEBA]");		
+		System.out.println("Sending Email...");	
+		//emailService.sendSimpleMessage("edgar.hurtarte@gmail.com", "Bienvenido a Coincaex", "Transforma tus finanzas, he invierte en criptomonodeas.");
+		emailToWebservice.sendToPhp("edgar.hurtarte@gmail.com","Solicitud enviada a Coincaex ","Esta es una prueba, email enviado desde PHP");
+		log.info("[TERMINADO  EMAIL]");
 		
     
 		

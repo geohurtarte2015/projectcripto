@@ -6,19 +6,29 @@ public class Billetera {
 	private String direccion;
 	private int usuario;
 	private String descripcion;
+	private int crypto;
 	
-	public Billetera(String direccion,String descripcion, int idUser) {
+	
+	public Billetera(String direccion,String descripcion, int idUser,int crypto) {
 		
 		this.descripcion = descripcion;
 		this.usuario = idUser;
 		this.direccion = direccion;
+		this.crypto=crypto;
+		
 	}
 	
-	public Billetera(int id ,String direccion,String descripcion, int idUser) {
+	public Billetera(int id ,String direccion,String descripcion, int idUser,int crypto) {
 		this.id = id;
 		this.descripcion = descripcion;
 		this.usuario = idUser;
 		this.direccion = direccion;
+		this.crypto=crypto;
+	}
+	
+	public Billetera(int id ,String descripcion) {
+		this.id = id;
+		this.descripcion = descripcion;
 	}
 	
 	public Billetera(String direccion) {
@@ -50,6 +60,15 @@ public class Billetera {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public int getCrypto() {
+		return crypto;
+	}
+
+	public void setCrypto(int crypto) {
+		this.crypto = crypto;
+	}
+
 
 	
 

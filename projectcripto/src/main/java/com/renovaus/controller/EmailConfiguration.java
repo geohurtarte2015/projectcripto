@@ -24,29 +24,25 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 	        
 	        mailSender.setHost("smtp.gmail.com");
 	        mailSender.setPort(587);
-	        mailSender.setUsername("coincaexinfo@gmail.com");
-	        mailSender.setPassword("#Prueba2020");
+	        mailSender.setUsername("edgar.hurtarte@gmail.com");
+	        mailSender.setPassword("Hurtarte2020");
+
 	        
 	        
-	        
-	       // mailSender.setHost("mail.coincaex.com");
-	      //  mailSender.setPort(26);
-	        	       
-	       // mailSender.setUsername("administrator@coincaex.com");
-	      //  mailSender.setPassword("#Admin2020#");
+	   
 	        
 	        
 	        Properties props = mailSender.getJavaMailProperties();
 	     // Get the default Session object.
 	    	
-	        props.put("mail.smtp.host", "localhost");
+	        //props.put("mail.smtp.host", "localhost");
 	        props.put("mail.transport.protocol", "smtp");
 	        props.put("mail.smtp.auth", "true");
 	        props.put("mail.smtp.starttls.enable", "true");
-	        props.put("mail.smtp.ssl.enable", "false");
+	        //props.put("mail.smtp.ssl.enable", "false");
 	        props.put("mail.debug", "true");
-	        props.put("mail.smtp.socketFactory.class", 
-	                "javax.net.ssl.SSLSocketFactory");
+	        //props.put("mail.smtp.socketFactory.class", 
+	             //   "javax.net.ssl.SSLSocketFactory");
 	    
 	        
 	        return mailSender;

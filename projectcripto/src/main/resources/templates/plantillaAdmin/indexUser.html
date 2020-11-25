@@ -374,6 +374,16 @@
 															type="text" class="form-control" id="direccionInput"
 															placeholder="Direccion">
 													</div>
+													<div class="form-group col-md-3">
+														<label for="direccionInput">Tipo Criptomoneda</label> 
+														<select class="form-control" id="idTypeCrypto">
+													      <option value="1">BTC</option>
+													      <option value="2">ETH</option>
+													      <option value="3">USDT</option>										
+													    </select>
+																											
+												
+													</div>
 												</div>
 
 												<button type="button" id="registrar" class="btn btn-primary">Registrar</button>
@@ -915,6 +925,7 @@
     		
     		var descripcion = $("#billeteraInput").val();
     		var direccion = $("#direccionInput").val();
+    		var idCrypto = $( "#idTypeCrypto" ).val();
     		
     
     		    		
@@ -925,7 +936,8 @@
 				dataType : "text",
 				data : {				
 					descripcion : descripcion,
-					direccion : direccion
+					direccion : direccion,
+					idCrypto: idCrypto
 				},
 				success : function(data) {
 					alert(data);
@@ -1115,6 +1127,8 @@
 					});
 
 		});
+     
+   
      
      $('#ordenVenta tbody').on('click','#btnCancelVenta',function(e) {
 

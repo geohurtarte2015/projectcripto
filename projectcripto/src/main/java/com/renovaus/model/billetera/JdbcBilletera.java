@@ -42,16 +42,32 @@ public class JdbcBilletera implements IBilletera {
 							rs.getInt("id"),
 							rs.getString("direccion"),
 							rs.getString("descripcion"),			
-							rs.getInt("id_usuario"))			
+							rs.getInt("id_usuario"),
+							rs.getInt("id_tipo_cripto"))			
 							);
 	}
 
 	@Override	
 	public int save(Billetera billetera) {
-		 return jdbcTemplate.update("insert into billetera (direccion,id_usuario,descripcion) values (?,?,?)",
+		 return jdbcTemplate.update("insert into billetera (direccion,id_usuario,descripcion,id_tipo_cripto) values (?,?,?,?)",
 				billetera.getDireccion(),
 				billetera.getUsuario(),
-				billetera.getDescripcion());
+				billetera.getDescripcion(),
+				billetera.getCrypto());
 	}
+
+	@Override
+	public List<String[]> findByUserType(int id, int idCrypto) {
+		return jdbcTemplate.query("SELECT id,descripcion FROM  billetera where id_usuario=? and id_tipo_cripto=?",
+				new Object[]{id,idCrypto},
+				(rs, rowum) ->
+						new String[] {
+								String.valueOf(rs.getInt("id")),						
+								String.valueOf(rs.getString("descripcion"))			
+						}
+				);	
+	
+	};
+
 
 }

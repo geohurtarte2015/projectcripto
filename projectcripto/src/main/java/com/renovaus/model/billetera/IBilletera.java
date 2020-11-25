@@ -11,6 +11,8 @@ public interface IBilletera {
 	   int save(Billetera billetera);
 	
 	   List <Billetera> findByUser(int id);
+	   
+	   List<String[]> findByUserType(int id,int idCrypto);
 	
 	   List<String[]> dataTableFindByUser(int id);
 

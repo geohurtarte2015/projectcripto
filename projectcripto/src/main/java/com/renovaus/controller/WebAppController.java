@@ -26,6 +26,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -114,7 +117,7 @@ public class WebAppController {
 		        this.appMode = environment.getProperty("app-mode");
 		    }
 
-		    @RequestMapping("/indexcoincaex")
+		    @RequestMapping("/")
 	    	public String index(Model model, HttpSession session){
 		    @SuppressWarnings("unchecked")
 		    String nombreCompleto = (String) session.getAttribute("nombre");
@@ -767,12 +770,39 @@ public class WebAppController {
 		    }
 		    
 		    
+		    @RequestMapping(value = "/getWalletType", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+		    @ResponseBody
+		    public  String  getWalletType(@RequestParam String idUser,@RequestParam String idCrypto, HttpServletRequest request) throws JSONException {		
+		    	
+		    	
+		    	JSONArray jsonArray = new JSONArray();
+		    	
+		    	HashMap<String, String> map = new HashMap<>();		
+		    	
+		    	List<String[]> list  = iBilletera.findByUserType(Integer.parseInt(idUser), Integer.parseInt(idCrypto));
+		    	int size = list.size();
+		    	
+		    	for (int x = 0; x < size; x++) {
+		    	      JSONObject json = new JSONObject();
+		    	      String[] mainPack = (String[])list.get(x);
+		    	      json.put(mainPack[0], mainPack[1]);
+		    	      jsonArray.put(json);
+		    	    }
+		    	
+		    
+		        return jsonArray.toString();
+		    }
+		    
+		    
+		    
+		    
 		    @RequestMapping(value = "/getOrderSell", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 		    @ResponseBody
 		    public Map<String, String> getOrderSell(@RequestParam int idOrder,HttpServletRequest request) {	
 		    	Orden orderResult = new Orden();	
 		    	HashMap<String, String> map = new HashMap<>();		    	
 		    	orderResult = iOrden.findByOrderSell(idOrder);	
+		    	
 		 	    map.put("nombre", orderResult.getUser().getNombre());
 		        map.put("apellido", orderResult.getUser().getApellido());
 		        map.put("correo", orderResult.getUser().getCorreo());
@@ -928,7 +958,7 @@ public class WebAppController {
 		    
 		    @RequestMapping(value = "/saveWallet", method = RequestMethod.POST)
 		    @ResponseBody
-		    public String saveWallet(HttpSession session,@RequestParam String descripcion,@RequestParam String direccion ) {
+		    public String saveWallet(HttpSession session,@RequestParam String descripcion,@RequestParam String direccion,String idCrypto ) {
 		    	String idUserSession = (String) session.getAttribute("idUserSession");
 				
 				if (idUserSession == null) {
@@ -936,7 +966,7 @@ public class WebAppController {
 				}
 		    	
 		    	
-		    	int res = iBilletera.save(new Billetera(direccion,descripcion,Integer.parseInt(idUserSession)));
+		    	int res = iBilletera.save(new Billetera(direccion,descripcion,Integer.parseInt(idUserSession),Integer.parseInt(idCrypto)));
 		    	
 		    	return "Registrado";
 		    }
