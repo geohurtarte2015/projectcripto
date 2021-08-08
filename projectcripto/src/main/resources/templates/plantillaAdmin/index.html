@@ -830,7 +830,7 @@ style>.modal-header, h4, .close {
 											<label style="font-weight: bold"
 												class="col-sm-8 control-label">Nombre cuenta</label>
 											<div class="col-sm-8">
-												<p id="nombreCuentaVenta" class="form-control-static">Edgar Giovanni Hurtarte</p>
+												<p id="nombreCuentaVenta" class="form-control-static"></p>
 											</div>
 										</div>
 									
@@ -922,8 +922,7 @@ style>.modal-header, h4, .close {
 	<script
 		th:src="@{/plantillaAdmin/vendor/datatables/responsive.bootstrap4.min.js}"></script>
 
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
 	<!-- Page level custom scripts -->
 	<script th:src="@{/plantillaAdmin/js/demo/datatables-demo.js}"></script>
@@ -1460,6 +1459,7 @@ style>.modal-header, h4, .close {
 													$("#tipoCuentaVenta").text(json.tipo_cuenta);			
 													$("#monedaFiatVenta").text(json.moneda_fiat);	
 													$("#bancoVenta").text(json.banco);	
+													$("#nombreCuentaVenta").text(json.nombre_cuenta);
 										
 
 													//remueve lo restante del modal oculto	

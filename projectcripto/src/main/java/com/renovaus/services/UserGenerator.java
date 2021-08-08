@@ -12,7 +12,7 @@ public class UserGenerator {
         int randomNumber = generator.nextInt(90) + 10;
         
         // Generate username
-        username = first.charAt(0) + last.substring(0, 5) + randomNumber;
+        username = first.charAt(0) + last.substring(0, 3) + randomNumber;
         System.out.println(username);
 		
 		return username;

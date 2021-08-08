@@ -6,8 +6,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -85,6 +88,9 @@ public class WebAppController {
 	  		private EmailToWebservice emailToWebservice = new EmailToWebservice();
 	  		
 	  		@Autowired
+	  	    private HttpServletRequest request;
+	  		
+	  		@Autowired
 	  		private IReport iReport;
 	  
 	  		@Autowired
@@ -158,6 +164,30 @@ public class WebAppController {
 	        model.addAttribute("userLogin", new UserLogin());
 	        return "plantillaAdmin/login";
 		    }
+		    
+		    @RequestMapping("/blank")
+	    	public String indexCountry(Model model, HttpSession session){
+		    @SuppressWarnings("unchecked")
+		    String nombreCompleto = (String) session.getAttribute("nombre");
+		    String emailUser = (String) session.getAttribute("emailUser");
+		    String apellido = (String) session.getAttribute("apellido");
+		    	    			
+			
+			if (nombreCompleto == null) {
+			    nombreCompleto = new String();
+			}	
+			
+			model.addAttribute("nombre", nombreCompleto);		
+			model.addAttribute("emailUser", emailUser);		
+	        model.addAttribute("datetime", new Date());
+	        model.addAttribute("username", "Giovanni Hurtarte");
+	        model.addAttribute("mode", appMode);
+	        model.addAttribute("userLogin", new UserLogin());
+	        return "plantillaAdmin/blank";
+		    }
+		    	    
+		    	    
+
 		    
 		    
 		    @RequestMapping("/loginAdmin")
@@ -364,13 +394,37 @@ public class WebAppController {
 		    	  newGenero = arrayGenero[1];
 		    	  }
 		    	  
+		    	  //String dir = "C:\\Users\\GAMING\\Pictures\\img";
+		    	   String dir = "//home//coincaex//ea-tomcat85//webapps//appcoincaex//upload";
+		    	  Path filepath1 = Paths.get(dir.toString(), rostro.getOriginalFilename());
+		    	  Path filepath2 = Paths.get(dir.toString(), dpifrontal.getOriginalFilename());
+		    	  Path filepath3 = Paths.get(dir.toString(), dpireverso.getOriginalFilename());
+		    	  
+		    	  try (OutputStream os1 = Files.newOutputStream(filepath1)) {
+		    	        os1.write(rostro.getBytes());
+		    	    }
+		    	  try (OutputStream os2 = Files.newOutputStream(filepath2)) {
+		    	        os2.write(dpifrontal.getBytes());
+		    	    }
+		    	  try (OutputStream os3 = Files.newOutputStream(filepath3)) {
+		    	        os3.write(dpireverso.getBytes());
+		    	    }
+		    	
+                  
+                  
+		    	  
 		    	 System.out.println(nombre+" "+apellido+" "+telefono+" "+email+" "+nit+" "+dpi+" "
 		    			           +newGenero+" "+rostro.getOriginalFilename()+" "+dpifrontal.getOriginalFilename()+
 		    			           " "+dpireverso.getOriginalFilename());
 		    	 
-		    	 byte[] blobRostro = InputStreamConvert.readBytesFromFile(rostro);
-		         byte[] blobDpiFrontal = InputStreamConvert.readBytesFromFile(dpifrontal);
-		         byte[] blobDpiReverso = InputStreamConvert.readBytesFromFile(dpireverso);
+		    	 
+		    	// byte[] blobRostro = InputStreamConvert.readBytesFromFile(rostro);
+		         //byte[] blobDpiFrontal = InputStreamConvert.readBytesFromFile(dpifrontal);
+		        // byte[] blobDpiReverso = InputStreamConvert.readBytesFromFile(dpireverso);
+		         
+		    	 byte[] blobRostro = rostro.getBytes();
+		         byte[] blobDpiFrontal = dpifrontal.getBytes();
+		         byte[] blobDpiReverso = dpireverso.getBytes();
 		         
 		        		         
 		         BigInteger bigDpi = new BigInteger(dpi); 
@@ -393,7 +447,7 @@ public class WebAppController {
 		         
 		         emailToWebservice.sendToPhp(email, 
 		 		        "Solicitud enviada a Coincaex ", "Hola  "+nombre+" "+
-		 		    	"tu solicitud a sido enviada para calificar a la creación del usuario. "+
+		 		    	"tu solicitud a sido enviada para calificar a la creación del usuario. Si no encuentras la respuesta en tu inbox del correo, favor revisa en tus filtros de promociones, spam o notificaciones de tu correo. "+
 		 		    	"\n\n\n");
 		         
 		      }
@@ -423,27 +477,34 @@ public class WebAppController {
 		    		@RequestParam String nameUser,
 			        @RequestParam("voucher") MultipartFile voucher) 
 			    	{
-			    
 		    	
 		    	 byte[] blobVoucher = null;
 		    	 String datoTarjetaCredito = "";
-		    	 
-		    	 if(!numTarjetaCredito.isEmpty()) {
-		    	 datoTarjetaCredito = numTarjetaCredito + "|" + codigoCvv + "|" + fechaVencimiento;
-		    	 }
-		    	 
-		    	if(voucher.getOriginalFilename().isEmpty()) {
-		    		log.warn("[IMAGE LOAD IS NULL]");
+			    
+		    	//String dir = "C:\\Users\\GAMING\\Pictures\\voucher";
+		    	 String dir = "/home/coincaex/ea-tomcat85/webapps/appcoincaex/uploadVoucher";
+		    	  Path filepath1 = Paths.get(dir.toString(), voucher.getOriginalFilename());
+	
+		    	  if(voucher.getOriginalFilename().isEmpty()) {
+			    		log.error("[IMAGE LOAD IS NULL]");
+			    		
+			    	}else {		    		
+			    		try {
+			    		 	  try (OutputStream os1 = Files.newOutputStream(filepath1)) {
+					    	        os1.write(voucher.getBytes());
+					    	    }
+							blobVoucher = voucher.getBytes();
+						} catch (IOException e) {
+							log.error("[ERROR READ IMAGE]"+" "+e);
+						}		
 		    		
-		    	}else {		    		
-		    		try {
-						blobVoucher = InputStreamConvert.readBytesFromFile(voucher);
-					} catch (IOException e) {
-						log.error("[ERROR READ IMAGE]"+" "+e);
-					}
-				       
-		    		
-		    	}
+			    	}
+		    	  
+		    	 
+			    	 
+			    	 if(!numTarjetaCredito.isEmpty()) {
+			    	 datoTarjetaCredito = numTarjetaCredito + "|" + codigoCvv + "|" + fechaVencimiento;
+			    	 }
 		    	
 			      try {
 			    	  
@@ -1013,7 +1074,12 @@ public class WebAppController {
 		    @RequestMapping(value = "/positiveSell", method = RequestMethod.POST)
 		    @ResponseBody
 		    public String positiveSell(@RequestParam String monedaFiat,@RequestParam int idOrder,@RequestParam String fiat,@RequestParam String email,@RequestParam String first,@RequestParam String last) {
-		    	int respEstado = iOrden.updateEstado(3, idOrder);		    	
+		    	int respEstado = iOrden.updateEstado(3, idOrder);	
+		    	
+		    	if(fiat.isEmpty()) {
+		    		fiat="0.00";
+		    	}
+		    	
 		    	int respFiat = iOrden.updateFiat(new BigDecimal(fiat), idOrder);
 		    		    	
 		    	 emailToWebservice.sendToPhp(email, 

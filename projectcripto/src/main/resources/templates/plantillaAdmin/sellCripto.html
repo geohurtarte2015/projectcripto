@@ -42,7 +42,7 @@
                                         <div class="form-group row">
                                             <div class="col-sm-4">
                                                 <label for="sel1">Valor en criptomoneda:</label>
-                                                <input type="text" class="form-control" id="valorCripto" placeholder="Valor">
+                                                <input type="text" class="form-control"  id="valorCripto" placeholder="Valor">
                                             </div>
                                             <div class="col-sm-4">
                                                 <label for="sel1">Tipo de Criptomoneda:</label>
@@ -105,13 +105,31 @@
                                             </div>
                                              <div class="col-sm-8">
                                                 <label for="sel1">Tipo de cambio de criptomoneda al dia en dolares:</label>
-                                                <input type="text" class="form-control" id="montoRecibir" disabled>
-                                            </div>
+                                                
+                                                 </div>
+                                                
+                                             	<div class="container">
+												  <div class="row">
+												    <div class="col-2">
+												       <input type="text" style="text-align:right;" class="form-control" id="moneda"  disabled>
+												    </div>
+												    <div class="col-4">
+												         <input type="text" class="form-control" id="montoRecibir" disabled>
+												    </div>											
+												  </div>
+												</div>   
+                                                
+                                       
+                                           
                                          
-                                          
-                                             <div class="col-sm-8">
-                                                <label for="sel1">* El valor a recibir en dolares será cuando se atienda la venta, este puede variar segun el tipo de cambio en el momento.</label>                                     
+                                      
+                                             <div class="col-sm-6">
+                                                <label for="sel1">* El valor a recibir  será cuando se atienda la venta, este puede variar segun el tipo de cambio en el momento.</label>                                     
                                             </div>
+                                              <div class="col-sm-6">
+                                                <label for="sel1">* Si la cuenta de deposito es en quetzales, se depositará al tipo del cambio del dia del monto en dolares.</label>                                     
+                                            </div>
+                                            
                                             
                                             
                                         </div>
@@ -119,11 +137,11 @@
                                 </div>
                                 <br>
                                 <div class="text-center">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-16">
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                        	 <button id="calcButton" type="button" class="btn btn-warning btn-lg">Monto a recibir</button>	
-                                            <button id="uploadButton" type="button" class="btn btn-primary btn-lg" disabled>Solicitar</button>
-                                            <a href="inicio" class="btn btn-secondary btn-lg">Cancelar</a>
+                                        	 <button id="calcButton" type="button" class="btn btn-warning">Monto</button>	
+                                            <button id="uploadButton" type="button" class="btn btn-primary" disabled>Solicitar</button>
+                                            <a href="inicio" class="btn btn-secondary">Cancelar</a>
                                         </div>
                                     </div>
                                 </div>
@@ -202,6 +220,15 @@
  		  xhttp.send();
  		}
  	
+ 	
+ 		 $("#valorCripto").keypress(function(){ 
+ 			 $("#uploadButton").prop("disabled", true);
+ 		  }); 	
+ 		 
+ 		 $("#tipoCripto").keypress(function(){ 
+ 			 $("#uploadButton").prop("disabled", true);
+ 		  }); 	
+ 	
 		
 
  		function convertExchange(xhttp) { 	
@@ -237,19 +264,30 @@
         	
         	 $("#calcButton").click(function() {      		
         		 var valCripto = $("#valorCripto").val();
-        		 var valFiat = $("#valorUsdt").val();
+        		 var valFiat = $("#valorUsdt").val();        	
+           		        	
+           			$("#moneda").val("$")      
+           		 
         		 
-        		 var totalCritpoComision = (valCripto*valComision);
-        		 var totalFiatComision = (valFiat*valComision);
+        		 if(valFiat<30){
+        			 alert("La transacción minima es de $30.00")
+        		 }else{
+        			 var totalCritpoComision = (valCripto*valComision);
+            		 var totalFiatComision = (valFiat*valComision);
+            		 
+            		 $("#uploadButton").prop("disabled", false);
+            		 
+            		 var totalDecimalCritpo=parseFloat(valCripto)-parseFloat(totalCritpoComision);
+            		 var totalDecimalFiat=parseFloat(valFiat)-parseFloat(totalFiatComision);
+            		 
+            		 
+            		 $("#montoRecibir").val(totalDecimalFiat.toFixed(2));     
+            		// $("#montoCriptoRecibir").val(totalDecimalCritpo);         			 
+        		 }
         		 
-        		 $("#uploadButton").prop("disabled", false);
+       
         		 
-        		 var totalDecimalCritpo=parseFloat(valCripto)-parseFloat(totalCritpoComision);
-        		 var totalDecimalFiat=parseFloat(valFiat)-parseFloat(totalFiatComision);
-        		 
-        		 
-        		 $("#montoRecibir").val(totalDecimalFiat);     
-        		// $("#montoCriptoRecibir").val(totalDecimalCritpo); 
+        		
         		 
             });
         	
@@ -328,6 +366,7 @@
                     $("#tipoCripto").val(0);            
                     $("#numeroCuenta").val('');   
                     $("#montoRecibir").val('');  
+                	$("#moneda").val('')
                     //$("#montoCriptoRecibir").val(''); 
                     $("#tipoCuenta").val(0);
                     $("#banco").val(0);
@@ -341,6 +380,7 @@
         }
         
         function getQr(){  
+        	 $("#uploadButton").prop("disabled", true);
         	addressWallet.innerHTML = "";
            var idCripto = 	document.getElementById("tipoCripto").value;
            

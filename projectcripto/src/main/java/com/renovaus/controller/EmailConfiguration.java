@@ -24,7 +24,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 	        
 	        mailSender.setHost("smtp.gmail.com");
 	        mailSender.setPort(587);
-	        mailSender.setUsername("edgar.hurtarte@gmail.com");
+	        mailSender.setUsername("admin@coincaex.net");
 	        mailSender.setPassword("Hurtarte2020");
 
 	        
