@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Solicitud de criptomonedas</title>
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/plantillaAdmin/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link th:href="@{/plantillaAdmin/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Solicitud de compra de criptomonedas</h1>
+                            </div>
+                            <form id="upload-voucher-form" class="user">
+                                <div class="form-group row">
+                                	<div class="col-sm-5">
+                                        <label for="sel1">Valor fiat:</label>
+                                        <input type="text" class="form-control form-control-user" id="valorFiat" placeholder="Valor">
+                                    </div>
+                                         <div class="col-sm-3">
+                                        <label for="sel1">Moneda:</label>
+                                        <select onchange="tipoFiat()"  id="monedaFiat" class="custom-select mb-3">
+                                            <option value="0" selected>Seleccionar</option>
+                                            <option value="1">Quetzales</option>
+                                            <option value="2">Dolares</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="sel1">Tipo de Pago:</label>
+                                        <select onchange="showPay()"  id="tipoPago" class="custom-select mb-3">
+                                            <option value="0" selected>Seleccionar</option>                                      
+                                            <option value="2">Banco Industrial</option>       
+                                            <option value="3">Bac Credomatic</option>                                
+                                        </select>
+                                    </div>
+                                 
+                               
+                                </div>
+                                
+                               <div id="bank">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <div class="card">
+                                            <h5 class="card-header">Información para deposito bancario</h5>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Banco Industrial</h5>
+                                                <p class="card-text">A nombre de: Coincaex S.A. <br> Deposito Monetario Quetzales: 333-008515-4 <br> Deposito Monetario Dolares: 030-006994-5 </p>                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                
+                                 <div id="bank2">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <div class="card">
+                                            <h5 class="card-header">Información para deposito bancario</h5>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Banco BAC Credomatic</h5>
+                                                <p class="card-text">A nombre de: Coincaex S.A. <br> Deposito Monetario Quetzales: 903-77998-1 <br> Deposito Monetario Dolares: 903-78002-1 </p>                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                     
+                                
+                                <div id="voucherImage">
+                                    <div class="form-group row">
+                                        <div class="col-sm-10">
+                                            <p>Cargar imagen del voucher del deposito bancario:</p>
+                                            <div class="custom-file mb-3">
+                                                <input type="file" class="custom-file-input" id="voucher" name="voucher" accept="image/*" onChange="validateAndUpload(this);"/> <label class="custom-file-label" for="voucher">Cargar imagen</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                       
+                                
+                                <div class="form-group row">
+                                	 <div class="col-sm-6">
+                                        <label for="sel1">Criptomoneda a comprar:</label>
+                                        <select onchange="showTotal()"  id="monedaCripto" class="custom-select mb-3" data-toggle="tooltip" data-placement="top" title="Listado de tipos de criptomonedas que desea solicitar, seleccione una y a continuación una 'Dirección de billetera'">
+                                            <option value="0" selected>Seleccionar</option>
+                                            <option value="1">Bitcoin</option>
+                                            <option value="2">Etherum</option>
+                                            <option value="3">Usdt</option>
+                                        </select>                                      
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="sel1">Dirección de billetera a depositar:</label>
+                                          <select  id="numBilletera"  class="custom-select mb-3" data-toggle="tooltip" data-placement="top" title="Dirección billetera de la criptomoneda a depoistar, si no tiene ninguna hay que crearla en el menu principal, en la pestaña billeteras" disabled>
+                                            <option  value="0" selected>Seleccionar</option>
+                                        </select>
+                                        
+                                    </div>
+                               
+                                    
+                                </div>
+                                
+                                <div id="comision">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <h5 class="card-header">Total de compra</h5>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Valor a recibir en criptomonedas: </h5>                                                 
+												 <div class="container">
+												  <div class="row row-cols-auto">
+												    <div class="col-2">
+												       <input type="text" style="text-align:right;" class="form-control" id="moneda"  disabled>
+												    </div>
+												    <div class="col-3">
+												          <input type="text" class="form-control" id="valorRecibir" disabled>
+												    </div>											
+												  </div>
+												</div>                                                 
+                                                 <br>
+                                                 <h6 class="card-title">*El valor mostrado es en la moneda con la que genera la compra </h5>                                          
+                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                
+                           
+                                
+                                <div id="creditCard">
+                                    <div class="form-group row">
+                                   
+                                            <div class="col-sm-4">
+                                        <label for="sel1">Numero tarjeta de credito:</label>
+                                        <input type="text" class="form-control form-control-user" id="numTarjetaCredito"  placeholder="xxxx xxxx xxxx xxxx">
+                                   			 </div>
+                                  
+                                   
+                                            <div class="col-sm-3">
+                                        <label for="sel1">Codigo CVV:</label>
+                                        <input type="text" class="form-control form-control-user" id="codigoCvv"  placeholder="CVV">
+                                   			 </div>
+                                
+                                   
+                                            <div class="col-sm-4">
+                                        <label for="sel1">Fecha de vencimiento:</label>
+                                        <input type="text" class="form-control form-control-user" id="fechaVencimiento"  placeholder="mes/año">
+                                   			 </div>
+                                 
+                                    </div>
+                                </div>
+                                
+                                <div id="address">
+                                    <div class="form-group row">
+                                        <div class="col-sm-8">
+                                            <label for="sel1">Dirección seleccionada:</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                       
+                                
+                                <br>
+
+
+								<div class="text-center">
+
+									<div class="col-sm-16">
+										<div class="btn-group" role="group" aria-label="Basic example">				
+											  <button id="calcButton" type="button" class="btn btn-warning">Monto</button>				
+											  <button id="uploadButton" type="button" class="btn btn-primary" disabled>Solicitar</button>
+											  <a href="inicio"  class="btn btn-secondary">Cancelar</a>
+											   
+										</div>
+									</div>
+						
+								
+								</div>
+
+
+
+							</form>
+							</br>
+							 <div id="messageLogin"></div>
+                       
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="/buyCripto">¿Necesita ayuda?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="login">Cerrar sesión</a>
+                            </div>
+                            
+                    
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script th:src="@{/plantillaAdmin/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/plantillaAdmin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <!-- Core plugin JavaScript-->
+    <script th:src="@{/plantillaAdmin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+    <!-- Custom scripts for all pages-->
+    <script th:src="@{/plantillaAdmin/js/sb-admin-2.min.js}"></script>
+    <script>
+    
+    /*<![CDATA[*/
+
+
+    var nameUser ="[[${nombre}]]";
+    var emailUser ="[[${emailUser}]]";
+    var idUser = [[${idUserSession}]];
+    var valComision="[[${valComision}]]";
+    var valImage=0;
+    
+
+  
+ 	/*]]>*/
+    
+    
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+ 	
+ 	
+ 		function validateAndUpload(input){
+ 			var URL = window.URL || window.webkitURL;
+ 		    var file = input.files[0];
+ 		   if (file) {
+ 		        var image = new Image();
+
+ 		        image.onload = function() {
+ 		            if (this.width) {
+ 		                 console.log('Se cargo la imagen');
+ 		                 valImage=1;
+ 		                 //TODO: upload to backend
+ 		            }else{
+ 		            	console.log('No se a cargado ninguna imagen');
+ 		            	valImage=0;
+ 		            }
+ 		        };
+
+ 		        image.src = URL.createObjectURL(file);
+ 		    }
+ 		
+ 		}
+ 	
+ 	
+        $(document).ready(function() {
+        	
+        	$("#valorFiat").val(0.00)
+        	
+        	 $("#creditCard").hide();
+        	 $("#voucherImage").hide();
+        	 $("#address").hide();
+        	 $("#bank").hide();
+        	 $("#bank2").hide();
+        	 
+        	 
+        	 
+        	 $("#valorFiat").keypress(function(){        		 
+        		
+        		 $("#uploadButton").prop("disabled", true);
+        		 
+        	  }); 	
+        	
+        	 
+        	 
+        	
+        	
+            //$("#upload-file-input").on("change", uploadFile);
+            $("#uploadButton").click(function() {
+                uploadFile();
+            });
+            
+            $("#calcButton").click(function() {    
+             var minimoCompra = 0;
+             var validacionCompra=true
+        		 
+       		 if($("#monedaFiat").val()==1){       	
+       			 if( $("#valorFiat").val()<200){
+       				validacionCompra=false
+       			 }
+       			$("#moneda").val("Q")
+       		 }
+       		 if($("#monedaFiat").val()==2){
+       			 if( $("#valorFiat").val()<30){
+        				validacionCompra=false
+        			 }
+       			$("#moneda").val("$")
+       		 }
+       		 
+       		 
+       		if($("#monedaFiat").val()==0){
+       			alert("Escoga un tipo de moneda")
+       		}else{
+       			if(validacionCompra){
+       			 var valFiat = $("#valorFiat").val();
+           		 var totalComision = (valFiat*valComision);
+           		 $("#uploadButton").prop("disabled", false);
+           		 var totalDecimal=parseFloat(valFiat)-parseFloat(totalComision);
+           		 $("#valorRecibir").val(totalDecimal);   
+       				
+       			}else{
+       				alert("La compra minima en dolares son $30.00 o Q200.00")
+       			}       			
+       			
+       		}
+        		      		 
+            });
+            
+            
+            
+ 
+            
+        });
+        /**
+         * Upload the file sending it via Ajax at the Spring Boot server.
+         */
+         
+        function showPay(){
+          var option = 	document.getElementById("tipoPago").value;
+         	
+          if(option==2){
+        	  $("#bank").show();
+        	  $("#bank2").hide();
+        	  $("#voucherImage").show();
+        	  $("#creditCard").hide();
+          }
+          
+          if(option==3){
+        	  $("#bank2").show();
+        	  $("#voucherImage").show();
+        	  $("#creditCard").hide();
+        	  $("#bank").hide();
+          }
+          
+          if(option==1){
+        	  $("#creditCard").show();
+        	  $("#bank").hide();        
+        	  $("#bank2").hide();
+              $("#voucherImage").hide();	  
+          }
+          
+          if(option==0){
+        	  $("#creditCard").hide();
+        	  $("#bank").hide();  
+        	  $("#bank2").hide();
+        	  $("#voucherImage").hide();
+          }
+        	
+         }
+        
+        function showTotal(){
+        	document.getElementById("uploadButton").disabled = true; 
+        	loadContentList();
+        	
+           }
+        
+        function loadContentList(){
+       	 
+       	 $('#numBilletera').empty();
+       	 var idCrypto = $('#monedaCripto').val();
+       	 
+       	 $.ajax({
+       			    type : "post",
+   					url : "getWalletType",
+   					data : {
+   						idUser : idUser,
+   						idCrypto : idCrypto
+   					},
+   			success : function(json) {
+   			   	document.getElementById("numBilletera").disabled = false; 
+   				 $("#numBilletera").append('<option value="-1">Seleccionar...</option>');
+   	    	        $.each(json, function (key, value) {
+   	    	            $.each(value, function (id, description) {
+   	    	                	$("#numBilletera").append('<option value="' + id + '">' + description + '</option>');
+   	    	            	});
+   	    	        	});
+   					}
+       	      });
+       	 
+       	 
+        }
+   
+        function tipoFiat(){
+   		 $("#uploadButton").prop("disabled", true);   	
+             }
+         
+        function uploadFile() {
+        	
+        	var valBilletera=$("#numBilletera option:selected").val();
+        	var valTipoPago=$("#tipoPago option:selected").val();
+        	var valMonedaFiat=$("#monedaFiat option:selected").val();
+        	
+        	
+        	
+        
+        	if(valTipoPago==0){
+        		alert('Debe seleccionar tipo de pago');
+        	}else{        		
+        	
+	        	if(valBilletera<=0){
+	        		
+	        		alert('Debe seleccionar una "Dirección de billetera" para hacer el deposito de la criptomoneda');
+	        		
+	        	}else{	        		
+	        		
+	        		if(valMonedaFiat==0){
+	        			alert('Debe seleccionar el tipo de moneda Fiat que va utilizar para comprar, Ejemplo: Quetzales o Dolares');
+	        		}else{
+	        		
+		        		if(valImage==0){
+		        			alert('Debe cargar bien la imagen del voucher');
+		        		}else{
+		        	
+					            var form = $("#upload-voucher-form")[0];
+					            var data = new FormData(form);
+					            
+					            data.append("valorFiat", $("#valorFiat").val());
+					            data.append("monedaFiat", $("#monedaFiat").val());
+					            data.append("tipoPago", $("#tipoPago option:selected").val());
+					            data.append("numTarjetaCredito", $("#numTarjetaCredito").val());
+					            data.append("codigoCvv", $("#codigoCvv").val());
+					            data.append("fechaVencimiento", $("#fechaVencimiento").val());            
+					            data.append("numBilletera", $("#numBilletera option:selected").val());
+					            data.append("monedaCripto", $("#monedaCripto option:selected").val());
+					            data.append("tipoNegocio", 1);
+					            data.append("idUser", idUser);
+					            data.append("emailUser", emailUser);
+					            data.append("nameUser", nameUser);
+					            
+					            var messageLoading = "<div class='alert alert-info alert-dismissible fade show'> <strong>Info!</strong> Enviando los datos, espere un momento.. <button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+					          	var messageSuccesful = "<div class='alert alert-success alert-dismissible fade show'><strong>Success!</strong> Solicitud de compra. finalizado.<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+					          	$("#messageLogin").empty();			
+					          	$("#messageLogin").append(messageLoading);
+					 
+					            
+							            $.ajax({
+							                url: "/uploadFileBuy",
+							                type: "POST",
+							                data: data,
+							                enctype: 'multipart/form-data',
+							                processData: false,
+							                contentType: false,
+							                cache: false,
+							                success: function(data) {
+							                	$("#messageLogin").empty();
+												$("#messageLogin").append(messageSuccesful);					
+							                    $("#valorFiat").val('');
+							                    $("#monedaFiat").val(0);
+							                    $("#tipoPago").val(0);
+							                    $("#numTarjetaCredito").val('');
+							                    $("#codigoCvv").val('');
+							                    $("#valorRecibir").val('');
+							                    $("#fechaVencimiento").val('');
+							                    $("#numBilletera").val(-1);
+							                    $("#monedaCripto").val(0);                    
+							                    $("#creditCard").hide();
+							              	    $("#bank").hide();  
+							              	    $("#voucherImage").hide();
+							              	    $("#moneda").val('')
+							              	    valImage=0
+							              	  document.getElementById("numBilletera").disabled = true; 
+							              	    
+							                },
+							                error: function() {
+							                	alert('Error al enviar la solicitud');
+							                }
+							             });	
+		        			 		}
+	        			
+	        			}
+	        		
+	        		}
+         	}
+            
+        }
+    </script>
+</body>
+
+</html>

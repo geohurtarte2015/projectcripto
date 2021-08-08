@@ -1,0 +1,571 @@
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Registro de Cuenta</title>
+
+
+
+<!-- Componente Stepper-->
+<link href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css" rel="stylesheet" />
+	
+
+
+<!-- Custom fonts for this template-->
+<link
+	th:href="@{/plantillaAdmin/vendor/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" type="text/css" />
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link th:href="@{/plantillaAdmin/css/sb-admin-2.min.css}" rel="stylesheet" />
+	
+
+
+</head>
+
+<body class="bg-gradient-primary">
+
+	<div class="container">
+	
+
+
+		<div class="card o-hidden border-0 shadow-lg my-5">
+			<div class="card-body p-0">
+      
+				<!-- Nested Row within Card Body -->
+				<div class="row">			
+					<div class="col-lg-12">
+					<div class="p-5">
+							<div class="text-center">
+								<h2 class="h4 text-gray-900 mb-4">Solicitud de creación de
+									cuenta</h2>
+							</div>
+					</div>		
+					
+		<div class="mb-5 p-4 bg-white shadow-sm">    
+        <div id="stepperForm" class="bs-stepper">
+          <div class="bs-stepper-header" role="tablist">
+            <div class="step" data-target="#test-l-1">
+              <button type="button" class="step-trigger" role="tab" id="stepper1trigger1" aria-controls="test-l-1">
+                <span class="bs-stepper-circle">1</span>
+                <span class="bs-stepper-label">Registro</span>
+              </button>
+            </div>
+            <div class="bs-stepper-line"></div>
+            <div class="step" data-target="#test-l-2">
+              <button type="button" class="step-trigger" role="tab" id="stepper1trigger2" aria-controls="test-l-2">
+                <span class="bs-stepper-circle">2</span>
+                <span class="bs-stepper-label">Carga</span>
+              </button>
+            </div>
+            <div class="bs-stepper-line"></div>
+            <div class="step" data-target="#test-l-3">
+              <button type="button" class="step-trigger" role="tab" id="stepper1trigger3" aria-controls="test-l-3">
+                <span class="bs-stepper-circle">3</span>
+                <span class="bs-stepper-label">Validación</span>
+              </button>
+            </div>
+          </div>
+          <div class="bs-stepper-content">
+            <form id="upload-file-form" class="user">
+              <div id="test-l-1" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger1">
+              <br>
+                  <h5>Registro de datos</h5>
+                  		<hr>
+                		<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="text" class="form-control form-control-user"
+											id="nombre" placeholder="Nombre" required>
+									</div>
+									<div class="col-sm-6">
+										<input type="text" class="form-control form-control-user"
+											id="apellido" placeholder="Apellido" required>
+									</div>
+								</div>
+
+
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="text" class="form-control form-control-user"
+											id="telefono" placeholder="Telefono" required>
+									</div>
+									<div class="col-sm-6">
+										<input type="text" class="form-control form-control-user"
+											id="email" placeholder="Email" required>
+									</div>
+								</div>
+
+
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="text" class="form-control form-control-user"
+											id="nit" placeholder="Nit" required>
+									</div>
+									<div class="col-sm-6">
+										<input type="text" class="form-control form-control-user"
+											id="dpi" placeholder="Dpi" required>
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<label for="sel1">Genero:</label> <select name="genero"
+											id="genero" class="custom-select mb-3" required>
+											<option value="" selected>Seleccionar</option>
+											<option value="1">Masculino</option>
+											<option value="2">Femenino</option>
+										</select>
+									</div>
+								</div>
+                <button class="btn btn-primary  btn-next-form">Siguiente</button>
+              </div>
+              <div id="test-l-2" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger2">
+              <br>
+                     <h5>Carga de documentos de identificación</h5>
+                     		<hr>
+                				<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<p>Cargar fotografia personal del rostro:</p>
+										<div class="custom-file mb-3">
+											<input style="font-size:10px;" type="file" class="custom-file-input" id="rostro"
+												name="rostro"  required> <label id="lrostro" class="custom-file-label"
+												for="rostro">Cargar imagen</label>
+										</div>
+									</div>
+									
+									<div class="col-sm-6">
+										<p>Cargar imagen del DPI, lado frontal:</p>
+										<div class="custom-file mb-3">
+											<input style="font-size:10px;" type="file" class="custom-file-input" id="dpifrontal"
+												name="dpifrontal" required> <label id="ldpifrontal" class="custom-file-label"
+												for="dpifrontal">Cargar Imagen</label>
+										</div>
+									</div>
+									
+									<div class="col-sm-6">
+										<p>Cargar imagen del DPI, lado reverso:</p>
+										<div class="custom-file mb-3">
+											<input style="font-size:10px;" type="file" class="custom-file-input" id="dpireverso"
+												name="dpireverso" required> <label id="ldpireverso"  class="custom-file-label"
+												for="dpireverso">Cargar Imagen</label>
+										</div>
+									</div>
+									
+								</div>
+								
+								     <div class="form-group row">
+               <div class="col-sm-6 mb-3 mb-sm-0">
+							<div class="form-check">
+							    <input class="form-check-input" type="checkbox" value="" id="checkTerms" onclick="checkFunctionTerms()">
+							    <label class="form-check-label" for="checkTerms">Acepto los terminos y condiciones</label>
+							    <!-- Button to Open the Modal -->
+  							<a data-toggle="modal" href="#myModalTerms">Leer Terminos</a>  							
+							</div>
+				</div>
+					<div class="col-sm-6 mb-3 mb-sm-0">
+							<!-- Default unchecked -->
+							<div class="form-check">
+							    <input class="form-check-input" type="checkbox" value="" id="checkPolitics" onclick="checkFunctionPolitics()">
+							    <label class="form-check-label" for="checkPolitics">Acepto las reglas las politicas</label>
+							    <!-- Button to Open the Modal -->
+  							<a data-toggle="modal" href="#myModalPolitics">Leer Politicas de uso</a>
+							</div>
+				</div>
+				</div>	
+		
+						
+					<br>	
+               	    <a href="/" id=cancelar type="button" class="btn btn-danger">Cancelar Solicitud</a>
+                    <button id=uploadButtonNext class="btn btn-primary btn-next-form">Solicitar</button>
+                
+              </div>
+               <div id="test-l-3" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger3">
+               <br>
+       
+               
+            
+               	  <div class="text-center">
+               <img src="/images/User/img/uximages/upload_images.png"  width="450" height="500" class="img-fluid">
+         		 </div>
+        
+      <!--
+						
+					<br>	
+               	    <a href="/register" id=cancelar type="button" class="btn btn-danger">Crear otro usuario</a>
+               	   
+       -->        	   
+						<!-- <div class="text-center">
+								<a class="small" href="forgot-password.html">Forgot
+									Password?</a> 
+							</div>-->
+							<div id="home">
+								<div class="text-center">
+									<div class="col-sm-12 mb-3 mb-sm-1">		
+									<a class="btn btn-outline-warning" type="button"  href="/register">
+									<h4>Crear otro usuario</h1></a>
+						          	</div>		
+									
+									<div class="col-sm-12 mb-3 mb-sm-1">					
+									<a class="btn btn-outline-primary" type="button" href="/">
+									<h4>Regresar a pantalla principal</h1></a>
+									</div>
+					
+							   </div>
+						   </div>
+           
+                	
+              </div>
+            </form>
+            
+							 <div id="messageLogin"></div>
+							<hr>
+          </div>
+        </div>
+      </div>					
+
+				
+	
+					
+					
+					</div>
+				</div>
+			</div>
+		</div>
+				
+	  	<!-- The Modal -->
+	  	<div class="modal" id="myModalTerms">
+    	<div class="modal-dialog">
+      	<div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h1 class="modal-title">Terminos y Condiciones</h1>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h3>Reglamento de uso</h3>
+          <p>•	El horario de atención es en horas hábiles de 9am a 5pm , Lunes a Viernes.</p>
+          <p>•	Depósitos hechos hasta las 4pm se despacha el mimo día, después de las 5pm entra en compensación hasta el día siguiente hábil.</p>
+          <p>•	En la descripción de transferencia bancaria en la justificación escribir "Compra de activos digitales", si se agrega en la descripción por ejemplo "Compra de BTC, ETH o cualquier criptomoneda se tendrá una penalidad del 10% de comisión.</p>
+          <p>•	Los activos intangibles son enviados hasta que la transacción esté disponible en las cuentas de coincaex, es decir una vez la transacción ha compensado.</p>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Ocultar</button>
+        </div>
+        
+      </div>
+    </div>
+		
+	</div>
+		
+		 <!-- The Modal -->
+	  	<div class="modal" id="myModalPolitics">
+    	<div class="modal-dialog">
+      	<div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h1 class="modal-title">Políticas de uso</h1>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p>•	No se aceptan imágenes borrosas.</p>
+          <p>•	Las devoluciones o cancelaciones seran hasta el siguiente día habil.</p>
+          <p>•	La cuenta bancaria a depositar, debe ser la misma de la imagen del DPI cuando se creó el registro de la cuenta en COINCAEX.</p>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Ocultar</button>
+        </div>
+        
+      </div>
+    </div>
+		
+	</div>
+		
+		
+
+	<!-- Bootstrap core JavaScript-->
+	<script th:src="@{/plantillaAdmin/vendor/jquery/jquery.min.js}"></script>
+	<script
+		th:src="@{/plantillaAdmin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script
+		th:src="@{/plantillaAdmin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/plantillaAdmin/js/sb-admin-2.min.js}"></script>
+	
+	
+	
+	<!-- Componente Stepper js-->	
+	<script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
+	
+	
+		<!-- Componente Stepper js-->	
+
+	
+	
+	<script th:src="@{/Mask/jquery.mask.js}"></script>
+	<script th:src="@{/Mask/jquery.mask.min.js}"></script>
+	
+
+
+
+	<script>
+
+	var stepperForm
+	
+
+	document.addEventListener('DOMContentLoaded', function () {
+	
+
+
+
+	  var stepperFormEl = document.querySelector('#stepperForm')
+	  stepperForm = new Stepper(stepperFormEl, {
+	    animation: true
+	  })
+
+	  var btnNextList = [].slice.call(document.querySelectorAll('.btn-next-form'))
+	  var stepperPanList = [].slice.call(stepperFormEl.querySelectorAll('.bs-stepper-pane'))
+	  
+		var nombre = document.getElementById('nombre')
+		var apellido = document.getElementById('apellido')
+		var telefono = document.getElementById('telefono')
+		var email = document.getElementById('email')
+		var nit = document.getElementById('nit')
+		var dpi = document.getElementById('dpi')
+		var genero = document.getElementById('genero')
+
+
+
+	    var form = stepperFormEl.querySelector('.bs-stepper-content form')
+
+	  btnNextList.forEach(function (btn) {
+	    btn.addEventListener('click', function () {
+	      stepperForm.next()
+	    })
+	  })
+
+	  stepperFormEl.addEventListener('show.bs-stepper', function (event) {
+	    form.classList.remove('was-validated')
+	    var nextStep = event.detail.indexStep
+	    var currentStep = nextStep
+
+	    if (currentStep > 0) {
+	      currentStep--
+	    }
+
+	    var stepperPan = stepperPanList[currentStep]
+	    
+	    if ((stepperPan.getAttribute('id') === 'test-l-1' && !nombre.value.length)
+	    	|| (stepperPan.getAttribute('id') === 'test-l-1' && !apellido.value.length)
+		     || (stepperPan.getAttribute('id') === 'test-l-1' && !telefono.value.length)
+		      || (stepperPan.getAttribute('id') === 'test-l-1' && !email.value.length)
+		       || (stepperPan.getAttribute('id') === 'test-l-1' && !dpi.value.length)
+		        || (stepperPan.getAttribute('id') === 'test-l-1' && !genero.value.length)   
+	    ) {
+	    	      event.preventDefault()
+	    	      form.classList.add('was-validated')
+	    	    }
+
+	  })
+	})
+	
+	
+	
+	
+	/******************************************************************************************************/
+	var validTerms;
+	var validPolitics;
+	
+	
+
+		
+		$('input[type=file]').change(function(e){
+			$("#messageLogin").empty();
+			var num=1;
+		
+		  var pdrs = e.target.files[0].name;
+		  var ext = name.split('.').pop();
+		  
+		  const allowedExtensions = /(.jpg|.JPG|.png|.PNG|.jpeg|.JPEG)$/i
+		  
+		  if(num==1){
+		  if(!allowedExtensions.exec(pdrs)){
+			  var messageDanger = "<div class='alert alert-danger alert-dismissible fade show'><strong>Success!</strong> Ingrese solo documentos de imagenes jpg, png, jpeg . <button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+			  $("#messageLogin").append(messageDanger);
+			  //alert('Ingrese solo documentos de imagenes jpg, png, jpeg '+'su tipo de documento es: '+ext)
+		  }
+		  num=2;
+		}
+		 
+	
+		});
+
+	
+	function checkFunctionTerms() {
+		  var checkBoxTerms = document.getElementById("checkTerms");
+		  if (checkBoxTerms.checked == true){
+			  validTerms=true;
+			  if(validPolitics==true){
+				  		$('#uploadButtonNext').prop('disabled', false);	
+				  		validPolitics=false;
+						  validPolitics=false;
+			  		}		   
+			  } else {
+				  $('#uploadButtonNext').prop('disabled', true);
+				  validPolitics=false;
+				  validTerms=false;
+			  }
+		}
+	
+	function checkFunctionPolitics() {
+		  var checkBoxPolitics = document.getElementById("checkPolitics");
+		  if (checkBoxPolitics.checked == true){
+			  validPolitics=true;
+			  if(validTerms==true){
+				  $('#uploadButtonNext').prop('disabled', false);		
+				  validPolitics=false;
+				  validPolitics=false;
+			  		}		   
+			  } else {
+				  $('#uploadButtonNext').prop('disabled', true);
+				  validPolitics=false;
+				  validTerms=false;
+			  }
+		  
+		}
+	
+	
+	
+	
+  $(".custom-file-input").on("change", function() {
+	  var fileName = $(this).val().split("\\").pop();
+	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	});
+  
+ 
+	  $(document).ready(function(){
+		  
+			 $('#upload-file-form').unbind().submit(function(e){
+				    e.preventDefault();
+				    uploadFile();
+				  });
+			
+		  
+		  $("#uploadButtonNext").prop('disabled', true);
+		  var validTerms=false;
+			var validPolitics=false;
+		  
+		  $("#telefono").mask('00000000');
+		
+
+
+		//	$("#uploadButton").click(function() {
+
+			//	uploadFile();
+		//	});
+			
+
+			
+		});
+
+		/**
+		 * Upload the file sending it via Ajax at the Spring Boot server.
+		 */
+		function uploadFile() {
+			$('#home').hide();
+
+			var form = $("#upload-file-form")[0];
+		
+			var data = new FormData(form);
+			data.append("nombre",$( "#nombre" ).val());
+			data.append("apellido",$( "#apellido" ).val());
+			data.append("telefono",$( "#telefono" ).val());
+			data.append("email",$( "#email" ).val());
+			data.append("nit",$( "#nit" ).val());
+			data.append("dpi",$( "#dpi" ).val());
+			data.append("genero",$("#genero option:selected").text());		
+			var messageLoading = "<div class='alert alert-info alert-dismissible fade show'> <strong>Info!</strong> Enviando los datos, espere un momento.. <button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+			var messageSuccesful = "<div class='alert alert-success alert-dismissible fade show'><strong>Success!</strong> Solicitud de usuario finalizado. Espera tu respuesta en el inbox de tu correo, revisa tambien en spam, filtros de promociones y notificaciones de tu email.<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+			var spinner="<button class='btn btn-primary' type='button' disabled>  <span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span>   Loading... </button>";
+			
+			$("#messageLogin").append(messageLoading);
+			$("#uploadButtonNext").prop('disabled', true);
+			
+			
+			$.ajax({
+				url : "/uploadFile",
+				type : "POST",
+				data : data,
+				enctype : 'multipart/form-data',
+				processData : false,
+				contentType : false,
+				cache : false,
+				success : function(data) {				
+					$("#messageLogin").empty();
+					$("#messageLogin").append(messageSuccesful);
+					$( "#nombre" ).val("");
+					$( "#apellido" ).val("");
+					$( "#telefono" ).val("");
+					$( "#email" ).val("");
+					$( "#nit" ).val("");
+					$( "#dpi" ).val("");
+					
+					document.getElementById("rostro").value = "";
+					document.getElementById("dpifrontal").value = "";
+					document.getElementById("dpireverso").value = "";
+					$("#lrostro").text("Cargar Imagen");
+					$("#ldpifrontal").text("Cargar Imagen");
+					$("#ldpireverso").text("Cargar Imagen");
+					form=null;
+					
+					$( "#rostro" ).val(null);
+					$( "#dpifrontal" ).val(null);
+					$( "#dpireverso" ).val(null);
+					$("#genero").val("0");
+					$("#uploadButtonNext").prop('disabled', false);
+
+		
+					$("#checkTerms").prop('checked', false);
+					$("#checkPolitics").prop('checked', false);
+					$('#home').show();
+
+					
+					
+				},
+				error : function() {
+					alert('Error en el ingreso, intentar nuevamente');
+					$("#uploadButtonNext").prop('disabled', false);
+				}
+			});
+		     
+			
+		}
+
+
+	</script>
+
+</body>
+
+</html>

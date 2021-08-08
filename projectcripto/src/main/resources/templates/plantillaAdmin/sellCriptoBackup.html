@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<style>
+.card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+}
+
+</style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Solicitud de criptomonedas</title>
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/plantillaAdmin/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link th:href="@{/plantillaAdmin/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Solicitud venta de criptomonedas</h1>
+                            </div>
+                            <form id="upload-sell-form" class="user">
+                                <div class="card">
+                                    <div class="card-header"> Datos del criptoactivo </div>
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <div class="col-sm-4">
+                                                <label for="sel1">Valor en criptomoneda:</label>
+                                                <input type="text" class="form-control" id="valorCripto" placeholder="Valor">
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="sel1">Tipo de Criptomoneda:</label>
+                                                <select onchange="getQr()"  id="tipoCripto" class="custom-select mb-3">
+                                                    <option value="0" selected>Seleccionar</option>
+                                                    <option value="1">Bitcoin</option>
+                                                    <option value="2">Etherum</option>
+                                                    <option value="3">Usdt</option>
+                                                </select>
+                                            </div>
+                                              <div class="col-sm-4">
+                                                <label for="sel1">Valor en Dolares:</label>
+                                                <input type="text" class="form-control" id="valorUsdt" placeholder="Valor" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div id="addressWallet">
+                             
+									
+								</div>
+                                <br>
+                                <div class="card">
+                                    <div class="card-header"> Datos de cuenta bancaria </div>
+                                    <div class="card-body">
+                                    
+                                    
+                                        <div class="form-group row">
+                                            <div class="col-sm-4">
+                                                <label for="sel1">No.Cuenta:</label>
+                                                <input type="text" class="form-control" id="numeroCuenta" placeholder="Cuenta Bancaria">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label for="sel1">Tipo:</label>
+                                                <select id="tipoCuenta" class="custom-select mb-3">
+                                                    <option value="0" selected>Seleccionar</option>
+                                                    <option value="1">Monetario</option>
+                                                    <option value="2">Ahorro</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="sel1">Banco:</label>
+                                                <select id="banco" class="custom-select mb-3">
+                                                    <option value="0" selected>Seleccionar</option>
+                                                     <option th:each="banco : ${bancos}" th:value="${banco.id}" th:text="${banco.descripcion}"></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label for="sel1">Moneda :</label>
+                                                <select id="tipoFiat" class="custom-select mb-3">
+                                                    <option value="0" selected>Seleccionar</option>
+                                                    <option value="1">Quetzales</option>
+                                                    <option value="2">Dolares</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <label for="sel1">Nombre de la cuenta :</label>
+                                                <input type="text" class="form-control" id="nombreCuenta" placeholder="Nombre de Cuenta Bancaria">
+                                            </div>
+                                             <div class="col-sm-8">
+                                                <label for="sel1">Tipo de cambio de criptomoneda al dia en dolares:</label>
+                                                <input type="text" class="form-control" id="montoRecibir" disabled>
+                                            </div>
+                                         
+                                          
+                                             <div class="col-sm-8">
+                                                <label for="sel1">* El valor a recibir en dolares será cuando se atienda la venta, este puede variar segun el tipo de cambio en el momento.</label>                                     
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="text-center">
+                                    <div class="col-sm-16">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                        	 <button id="calcButton" type="button" class="btn btn-warning">Monto</button>	
+                                            <button id="uploadButton" type="button" class="btn btn-primary" disabled>Solicitar</button>
+                                            <a href="inicio" class="btn btn-secondary">Cancelar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            </br>
+							 <div id="messageLogin"></div>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="/sellCripto">¿Necesita ayuda?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="login">Cerrar sesión</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script th:src="@{/plantillaAdmin/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/plantillaAdmin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <!-- Core plugin JavaScript-->
+    <script th:src="@{/plantillaAdmin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+    <!-- Custom scripts for all pages-->
+    <script th:src="@{/plantillaAdmin/js/sb-admin-2.min.js}"></script>
+    <script>
+    
+    /*<![CDATA[*/
+
+
+    var nameUser ="[[${nombre}]]";
+    var emailUser ="[[${emailUser}]]";
+    var idUser = [[${idUserSession}]];
+    var valComision="[[${valComision}]]";
+
+  
+ 	/*]]>*/
+ 	
+ 	
+ 	//function exchangeBinance(value){
+ 	//	var valMarketPrice;
+	 		 //exchange binance
+	 //		  var burl = "https://fapi.binance.com";
+// 	 		  var query = '/fapi/v1/premiumIndex';	 		 	  
+// 	 		  query += '?symbol='+value;	 
+// 	 		  var url = burl+query;
+// 	 		  var ourRequest = new XMLHttpRequest();	 		  
+// 	 		  ourRequest.open('GET',url,true);
+// 	 		  ourRequest.onload = function(){
+// 	 			  //console.log(ourRequest.responseText);
+// 	 			  var market = JSON.parse(this.responseText);
+// 	 			 valMarketPrice =  market.markPrice;	 			
+// 	 		  }
+// 	 		  ourRequest.send();
+// 	 		  return valMarketPrice
+//  		}
+ 	
+ 	
+ 	
+
+ 	
+ 	function loadDoc(value, cFunction) {
+ 		  var burl = "https://fapi.binance.com";
+		  var query = '/fapi/v1/premiumIndex';	 		 	  
+		  query += '?symbol='+value;	 
+		  var url = burl+query;
+ 		  var xhttp;
+ 		  xhttp=new XMLHttpRequest();
+ 		  xhttp.onreadystatechange = function() {
+ 		    if (this.readyState == 4 && this.status == 200) {
+ 		      cFunction(this);
+ 		    }
+ 		  };
+ 		  xhttp.open("GET", url, true);
+ 		  xhttp.send();
+ 		}
+ 	
+		
+
+ 		function convertExchange(xhttp) { 	
+ 		  console.log(xhttp.responseText); 	
+ 		 var market = JSON.parse(xhttp.responseText);
+ 		 var valCripto = $("#valorCripto").val();
+ 		 var valDolarDecimal = parseFloat(market.markPrice);
+ 		 var valCriptoDecimal = parseFloat(valCripto);
+ 		 var total=valDolarDecimal*valCriptoDecimal;
+ 		  $("#valorUsdt").val(total.toFixed(2));
+ 		}	  
+
+    
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+        
+        $(document).ready(function() {
+        	
+        	$("#valorCripto").val('0');
+        	$("#valorUsdt").val('0');
+        	
+        	
+        	 $("#valorFiat").keypress(function(){        		 
+         		
+        		 $("#uploadButton").prop("disabled", true);
+        		 
+        	  }); 	
+        	
+        	
+        	
+        	
+        	 $("#calcButton").click(function() {      		
+        		 var valCripto = $("#valorCripto").val();
+        		 var valFiat = $("#valorUsdt").val();
+        		 
+        		 var totalCritpoComision = (valCripto*valComision);
+        		 var totalFiatComision = (valFiat*valComision);
+        		 
+        		 $("#uploadButton").prop("disabled", false);
+        		 
+        		 var totalDecimalCritpo=parseFloat(valCripto)-parseFloat(totalCritpoComision);
+        		 var totalDecimalFiat=parseFloat(valFiat)-parseFloat(totalFiatComision);
+        		 
+        		 
+        		 $("#montoRecibir").val(totalDecimalFiat);     
+        		// $("#montoCriptoRecibir").val(totalDecimalCritpo); 
+        		 
+            });
+        	
+        	
+        	
+        	
+        	
+        	$("#valorCripto").keypress(function(){
+        		 var idCripto = document.getElementById("tipoCripto").value;
+        		 if(idCripto!=0){ 
+        	        	
+	               	  if(idCripto==1) {
+	               		  loadDoc("BTCUSDT", convertExchange);
+	               	  }
+	               	  if(idCripto==2) {
+	               		  loadDoc("ETHUSDT", convertExchange);
+	               	  }
+	               	if(idCripto==3) {
+		               	  var valCripto = $("#valorCripto").val();		       
+		               	$("#valorUsdt").val(valCripto);
+	               	  }
+        		 }
+        		 
+        		 
+        	  }); 	
+        	
+         
+    
+      
+       
+        $("#uploadButton").click(function() {
+                uploadFile();
+                addressWallet.innerHTML = "";
+            });
+        });
+        
+        
+        /**
+         * Upload the file sending it via Ajax at the Spring Boot server.
+         */
+
+        function uploadFile() {
+            var form = $("#upload-sell-form")[0];
+            var data = new FormData(form);
+            data.append("valorCripto", $("#valorCripto").val());
+            data.append("tipoCripto", $("#tipoCripto").val());
+            data.append("numeroCuenta", $("#numeroCuenta").val());
+            data.append("nombreCuenta", $("#nombreCuenta").val());
+            data.append("tipoCuenta", $("#tipoCuenta option:selected").text());
+            data.append("banco", $("#banco").val());
+            data.append("tipoFiat", $("#tipoFiat").val());
+            data.append("tipoNegocio", 2);//tipo negocio 2 es Venta
+            data.append("idUser", idUser);
+            data.append("nameUser", nameUser);
+            data.append("emailUser", emailUser);
+            
+            var messageLoading = "<div class='alert alert-info alert-dismissible fade show'> <strong>Info!</strong> Enviando los datos, espere un momento.. <button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+          	var messageSuccesful = "<div class='alert alert-success alert-dismissible fade show'><strong>Success!</strong> Solicitud de venta. finalizado.<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+          	$("#messageLogin").empty();			
+          	$("#messageLogin").append(messageLoading);
+            
+            $.ajax({
+                url: "/uploadFileSell",
+                type: "POST",
+                data: data,
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(data) {
+                	$("#messageLogin").empty();
+					$("#messageLogin").append(messageSuccesful);	                 
+                    $("#valorCripto").val('0');
+                    $("#valorUsdt").val('0');
+                    $("#nombreCuenta").val('');
+                    $("#tipoCripto").val(0);            
+                    $("#numeroCuenta").val('');   
+                    $("#montoRecibir").val('');  
+                    //$("#montoCriptoRecibir").val(''); 
+                    $("#tipoCuenta").val(0);
+                    $("#banco").val(0);
+                    $("#tipoFiat").val(0);              
+                },
+                error: function() {
+                	alert('Error al enviar la información');
+                }
+            });            
+            
+        }
+        
+        function getQr(){  
+        	addressWallet.innerHTML = "";
+           var idCripto = 	document.getElementById("tipoCripto").value;
+           
+           if(idCripto!=0){ 
+        	
+        	  if(idCripto==1) {
+        		  loadDoc("BTCUSDT", convertExchange);
+        	  }
+        	  if(idCripto==2) {
+        		  loadDoc("ETHUSDT", convertExchange);
+        	  }
+        	  if(idCripto==3) {
+              	  var valCripto = $("#valorCripto").val();		       
+        	 	  $("#valorUsdt").val(valCripto);
+        	  }
+        	   
+        	   
+        	   
+            $.ajax({
+				type : "post",
+				url : "getAddressQr",
+				data : {
+					idCripto : idCripto
+				},
+				success : function(json) {					
+					addressWallet.innerHTML = "<div class='card text-center'>  <div class='card-header'>   Billetera para deposito	  </div>   <img src="+json.imagen+" class='card-img-top' alt='Card image cap'/>  <div class='card-body'>   <h5 class='card-title'>Dirección de deposito</h5>  <p id='addressInput' class='card-text'>"+json.direccion+"</p> <button type='button' onclick='copyText()' class='btn btn-primary'>Copiar dirección</button> </div>  <div class='card-footer text-muted'> Coincaex </div></div>";
+					
+				}
+			});
+           }
+        	
+        }
+        
+        function copyText() {
+        	 
+    
+        	  var copy = document.getElementById("addressInput").innerText;
+        	  var elem = document.createElement("textarea");
+        	  document.body.appendChild(elem);
+        	  elem.value = copy;
+        	  elem.select();
+        	  document.execCommand("copy");    
+        	  document.body.removeChild(elem);
+        	  
+        	}
+        
+        
+    </script>
+</body>
+
+</html>
